@@ -10,7 +10,7 @@
 	  <li><a href="#">Houses</a></li>
 	  
 	</ul>
-    <form class="form-inline pull-right">
+    <form class="navbar-form pull-right">
       <input type="text" class="input-medium" placeholder="Email">
       <input type="password" class="input-medium" placeholder="Password">
       <button type="submit" class="btn">Sign in</button>
