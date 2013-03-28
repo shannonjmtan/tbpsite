@@ -5,11 +5,12 @@
 <!-- Bootstrap -->
 <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
 
-<?php include('navbar.php'); ?>
+<?php include('php/navbar.php'); ?>
 <div class="container">
-<?php include('carousel.php'); ?>
+<?php include('php/carousel.php'); ?>
 	
   <h1>Hello, world!</h1>
+<?php include('php/calendar.php'); ?>
 </div>
 <script src="http://code.jquery.com/jquery.js"></script>
 <script src="js/bootstrap.min.js"></script>
