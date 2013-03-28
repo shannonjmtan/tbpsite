@@ -11,8 +11,8 @@
 	  
 	</ul>
     <form class="form-inline pull-right">
-      <input type="text" class="input-small" placeholder="Email">
-      <input type="password" class="input-small" placeholder="Password">
+      <input type="text" class="input-medium" placeholder="Email">
+      <input type="password" class="input-medium" placeholder="Password">
       <button type="submit" class="btn">Sign in</button>
     </form>
   </div>
