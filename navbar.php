@@ -9,11 +9,11 @@
 	  <li><a href="#">About Us</a></li>
 	  <li><a href="#">Houses</a></li>
 	  
-      <form class="form-inline">
-        <input type="text" class="input-small" placeholder="Email">
-        <input type="password" class="input-small" placeholder="Password">
-        <button type="submit" class="btn">Sign in</button>
-      </form>
 	</ul>
+    <form class="form-inline pull-right">
+      <input type="text" class="input-small" placeholder="Email">
+      <input type="password" class="input-small" placeholder="Password">
+      <button type="submit" class="btn">Sign in</button>
+    </form>
   </div>
 </div>
