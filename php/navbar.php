@@ -11,8 +11,8 @@
 	  
 	</ul>
     <form class="navbar-form pull-right">
-      <input type="text" class="input-medium" placeholder="Email">
-      <input type="password" class="input-medium" placeholder="Password">
+      <input type="text" class="input-medium" placeholder="Email" name="email">
+      <input type="password" class="input-medium" placeholder="Password" name="password">
       <button type="submit" class="btn">Sign in</button>
     </form>
   </div>
