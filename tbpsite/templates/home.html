@@ -3,51 +3,37 @@
 {% block title %}UCLA Tau Beta Pi{% endblock %}
 
 {% block content %}
-<div id="this-carousel-id" class="carousel slide">
-  <div class="carousel-inner">
-	<div class="item active">
-	  <img src="static/img/about.jpg" alt="" />
-	  <div class="carousel-caption">
-		<a href="#">About Us</a>
+
+<div class="row">
+  <div class="span8">
+	<div id="this-carousel-id" class="carousel slide">
+	  <div class="carousel-inner">
+		<div class="item active">
+		  <img src="static/img/about.jpg" alt="" />
+		  <div class="carousel-caption">
+			<a href="#">About Us</a>
+		  </div>
+		</div>
+		<div class="item">
+		  <img src="static/img/tutoring.jpg" alt="" />
+		  <div class="carousel-caption">
+			<a href="{% url 'tbpsite.views.tutoring' %}">Tutoring</a>
+		  </div>
+		</div>
+		<div class="item">
+		  <img src="static/img/events.jpg" alt="" />
+		  <div class="carousel-caption">
+			<a href="#">Events</a>
+		  </div>
+		</div>
 	  </div>
-	</div>
-	<div class="item">
-	  <img src="static/img/tutoring.jpg" alt="" />
-	  <div class="carousel-caption">
-		<a href="{% url 'tbpsite.views.tutoring' %}">Tutoring</a>
-	  </div>
-	</div>
-	<div class="item">
-	  <img src="static/img/events.jpg" alt="" />
-	  <div class="carousel-caption">
-		<a href="#">Events</a>
-	  </div>
+	  <a class="carousel-control left" href="#this-carousel-id" data-slide="prev">&lsaquo;</a>
+	  <a class="carousel-control right" href="#this-carousel-id" data-slide="next">&rsaquo;</a>
 	</div>
   </div>
-  <a class="carousel-control left" href="#this-carousel-id" data-slide="prev">&lsaquo;</a>
-  <a class="carousel-control right" href="#this-carousel-id" data-slide="next">&rsaquo;</a>
+  <div class="span4">
+	<h2>UCLA Tau Beta Pi</h2>
+  </div>
 </div>
-<h1>About Us</h1>
-
-<p>Tau Beta Pi is the only engineering honor society representing the entire engineering profession. It is the nation's second-oldest honor society, founded at Lehigh University in 1885 to mark in a fitting manner those who have conferred honor upon their Alma Mater by distinguished scholarship and exemplary character as students in engineering, or by their attainments as alumni in the field of engineering, and to foster a spirit of liberal culture in engineering colleges.
-
-<h4>Joining Tau Beta Pi</h4>
-
-<p>Being part of Tau Beta Pi - California Epsilon requires you to be in the top 1/5 of engineering seniors and top 1/8 of engineering juniors at the University of California Los Angeles (UCLA). This honor is recognized across the country in both academic and professional institutions.
-
-<h4>Scholarships and Fellowships</h4>
-
-<p>Tau Beta Pi offers many merit-based awards for members including a $10,000 graduate fellowship and a $2,000 senior-year scholarship to encourage technical excellence in engineering.
-
-<h4>Engineering Community</h4>
-
-<p>Tau Beta Pi is the only organization on campus that is privileged to have a distinguished community of scholars from multiple engineering disciplines. We focus our community by putting members in touch with high-profile members of the industry who are interested in intelligent students with a technical background. It is a great way to meet and network with high-caliber and high-profile people.
-
-<h4>Contact Us</h4>
-
-<p>Have Facebook? "Like" us on Facebook here to stay informed on all the club activities!
-
-<p>For any questions, comments, or concerns, please contact us at 
-<a href="mailto:taubetapi@seas.ucla.edu">taubetapi@seas.ucla.edu</a>.
 
 {% endblock %}
