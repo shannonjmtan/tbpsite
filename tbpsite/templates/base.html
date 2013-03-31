@@ -5,36 +5,32 @@
 <!-- Bootstrap -->
 <link href="static/css/bootstrap.min.css" rel="stylesheet" media="screen">
 
-<div class="navbar">
-  <div class="navbar-inner">
-	<a class="brand" href="#">UCLA Tau Beta Pi</a>
-	<ul class="nav">
-	  {% comment %}<li class="active"><a href="#">Home</a></li>{% endcomment %}
-	  <li><a href="{% url 'tbpsite.views.home' %}">Home</a></li>
-	  <li class="dropdown">
-		<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-		  Events
-		</a>
-	    <ul class="dropdown-menu">
+<body style="background-color:#FBFBFB;">
+  <div class="navbar">
+	<div class="navbar-inner">
+	  <a class="brand" href="{% url 'tbpsite.views.home' %}">UCLA Tau Beta Pi</a>
+	  <ul class="nav">
+		{% comment %}<li class="active"><a href="#">Home</a></li>{% endcomment %}
+		<li class="dropdown">
+		<a href="#" class="dropdown-toggle" data-toggle="dropdown">Events</a>
+		<ul class="dropdown-menu">
 		  <li><a href="{% url 'tbpsite.views.poker_tournament' %}">Poker Tournament</a></li>
 		  <li><a href="{% url 'tbpsite.views.rube_goldberg' %}">Rube Goldberg</a></li>
 		</ul>
-	  </li>
-	  <li><a href="{% url 'tbpsite.views.requirements' %}">Requirements</a></li>
-		  {% comment %}<li class="dropdown">
-	    <a href="{% url 'tbpsite.views.requirements' %}" class="dropdown-toggle" data-toggle="dropdown">
+		</li>
+		<li><a href="{% url 'tbpsite.views.requirements' %}">Requirements</a></li>
+		{% comment %}<li class="dropdown">
+		<a href="{% url 'tbpsite.views.requirements' %}" class="dropdown-toggle" data-toggle="dropdown">
 		  Requirements
 		</a>
-	    <ul class="dropdown-menu">
+		<ul class="dropdown-menu">
 		  <li><a href="{% url 'tbpsite.views.candidates' %}">Candidates</a></li>
 		  <li><a href="{% url 'tbpsite.views.distinguishedactive' %}">Distinguished Active</a></li>
 		</ul>
 		</li>{% endcomment %}
-	  <li><a href="{% url 'tbpsite.views.tutoring' %}">Tutoring</a></li>
-	  <li class="dropdown">
-		<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-		  About Us
-		</a>
+		<li><a href="{% url 'tbpsite.views.tutoring' %}">Tutoring</a></li>
+		<li class="dropdown">
+		<a href="#" class="dropdown-toggle" data-toggle="dropdown">About Us</a>
 		<ul class="dropdown-menu">
 		  <li><a href="https://www.facebook.com/tbp.epsilon.ucla?v=photos&ref=ts">Photos</a></li>
 		  <li><a href="{% url 'tbpsite.views.awards' %}">Awards</a></li>
@@ -43,19 +39,18 @@
 		  <li><a href="{% url 'tbpsite.views.contact' %}">Contact</a></li>
 		  <li><a href="{% url 'tbpsite.views.eligibility_list' %}">Eligibility List</a></li>
 		</ul>
-	  </li>
-	  <li><a href="{% url 'tbpsite.views.houses' %}">Houses</a></li>
-	  
-	</ul>
-    <form class="form-inline pull-right">
-      <input type="text" class="input-medium" placeholder="Email">
-      <input type="password" class="input-medium" placeholder="Password">
-      <button type="submit" class="btn">Sign in</button>
-    </form>
+		</li>
+	  </ul>
+	  <form class="form-inline pull-right">
+		<input type="text" class="input-medium" placeholder="Email">
+		<input type="password" class="input-medium" placeholder="Password">
+		<button type="submit" class="btn">Sign in</button>
+	  </form>
+	</div>
   </div>
-</div>
-<div class="container">
-  {% block content %}{% endblock %}
-</div>
-<script src="http://code.jquery.com/jquery.js"></script>
-<script src="static/js/bootstrap.min.js"></script>
+  <div class="container">
+	{% block content %}{% endblock %}
+  </div>
+  <script src="http://code.jquery.com/jquery.js"></script>
+  <script src="static/js/bootstrap.min.js"></script>
+</body>
