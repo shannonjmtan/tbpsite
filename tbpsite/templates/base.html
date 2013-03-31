@@ -9,17 +9,47 @@
   <div class="navbar-inner">
 	<a class="brand" href="#">UCLA Tau Beta Pi</a>
 	<ul class="nav">
-	  <li class="active"><a href="#">Home</a></li>
-	  <li><a href="#">Events</a></li>
-	  <li><a href="#">Requirements</a></li>
-	  <li><a href="#">Tutoring</a></li>
-	  <li><a href="#">About Us</a></li>
-	  <li><a href="#">Houses</a></li>
+	  {% comment %}<li class="active"><a href="#">Home</a></li>{% endcomment %}
+	  <li><a href="{% url 'tbpsite.views.home' %}">Home</a></li>
+	  <li class="dropdown">
+		<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+		  Events
+		</a>
+	    <ul class="dropdown-menu">
+		  <li><a href="{% url 'tbpsite.views.poker_tournament' %}">Poker Tournament</a></li>
+		  <li><a href="{% url 'tbpsite.views.rube_goldberg' %}">Rube Goldberg</a></li>
+		</ul>
+	  </li>
+	  <li><a href="{% url 'tbpsite.views.requirements' %}">Requirements</a></li>
+		  {% comment %}<li class="dropdown">
+	    <a href="{% url 'tbpsite.views.requirements' %}" class="dropdown-toggle" data-toggle="dropdown">
+		  Requirements
+		</a>
+	    <ul class="dropdown-menu">
+		  <li><a href="{% url 'tbpsite.views.candidates' %}">Candidates</a></li>
+		  <li><a href="{% url 'tbpsite.views.distinguishedactive' %}">Distinguished Active</a></li>
+		</ul>
+		</li>{% endcomment %}
+	  <li><a href="{% url 'tbpsite.views.tutoring' %}">Tutoring</a></li>
+	  <li class="dropdown">
+		<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+		  About Us
+		</a>
+		<ul class="dropdown-menu">
+		  <li><a href="https://www.facebook.com/tbp.epsilon.ucla?v=photos&ref=ts">Photos</a></li>
+		  <li><a href="{% url 'tbpsite.views.awards' %}">Awards</a></li>
+		  <li><a href="{% url 'tbpsite.views.officers' %}">Officers</a></li>
+		  <li><a href="{% url 'tbpsite.views.faculty' %}">Faculty</a></li>
+		  <li><a href="{% url 'tbpsite.views.contact' %}">Contact</a></li>
+		  <li><a href="{% url 'tbpsite.views.eligibility_list' %}">Eligibility List</a></li>
+		</ul>
+	  </li>
+	  <li><a href="{% url 'tbpsite.views.houses' %}">Houses</a></li>
 	  
 	</ul>
     <form class="form-inline pull-right">
-      <input type="text" class="input-small" placeholder="Email">
-      <input type="password" class="input-small" placeholder="Password">
+      <input type="text" class="input-medium" placeholder="Email">
+      <input type="password" class="input-medium" placeholder="Password">
       <button type="submit" class="btn">Sign in</button>
     </form>
   </div>
