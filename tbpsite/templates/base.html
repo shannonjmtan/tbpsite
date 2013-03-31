@@ -5,52 +5,97 @@
 <!-- Bootstrap -->
 <link href="static/css/bootstrap.min.css" rel="stylesheet" media="screen">
 
-<body style="background-color:#FBFBFB;">
-  <div class="navbar">
-	<div class="navbar-inner">
-	  <a class="brand" href="{% url 'tbpsite.views.home' %}">UCLA Tau Beta Pi</a>
-	  <ul class="nav">
-		{% comment %}<li class="active"><a href="#">Home</a></li>{% endcomment %}
-		<li class="dropdown">
-		<a href="#" class="dropdown-toggle" data-toggle="dropdown">Events</a>
-		<ul class="dropdown-menu">
-		  <li><a href="{% url 'tbpsite.views.poker_tournament' %}">Poker Tournament</a></li>
-		  <li><a href="{% url 'tbpsite.views.rube_goldberg' %}">Rube Goldberg</a></li>
-		</ul>
-		</li>
-		<li><a href="{% url 'tbpsite.views.requirements' %}">Requirements</a></li>
-		{% comment %}<li class="dropdown">
-		<a href="{% url 'tbpsite.views.requirements' %}" class="dropdown-toggle" data-toggle="dropdown">
-		  Requirements
-		</a>
-		<ul class="dropdown-menu">
-		  <li><a href="{% url 'tbpsite.views.candidates' %}">Candidates</a></li>
-		  <li><a href="{% url 'tbpsite.views.distinguishedactive' %}">Distinguished Active</a></li>
-		</ul>
-		</li>{% endcomment %}
-		<li><a href="{% url 'tbpsite.views.tutoring' %}">Tutoring</a></li>
-		<li class="dropdown">
-		<a href="#" class="dropdown-toggle" data-toggle="dropdown">About Us</a>
-		<ul class="dropdown-menu">
-		  <li><a href="https://www.facebook.com/tbp.epsilon.ucla/photos_stream">Photos</a></li>
-		  <li><a href="{% url 'tbpsite.views.awards' %}">Awards</a></li>
-		  <li><a href="{% url 'tbpsite.views.officers' %}">Officers</a></li>
-		  <li><a href="{% url 'tbpsite.views.faculty' %}">Faculty</a></li>
-		  <li><a href="{% url 'tbpsite.views.contact' %}">Contact</a></li>
-		  <li><a href="{% url 'tbpsite.views.eligibility_list' %}">Eligibility List</a></li>
-		</ul>
-		</li>
+<style>
+  body
+  {
+	background-color:#FBFBFB;
+  }
+  /* http://stackoverflow.com/questions/8878033/how-to-make-twitter-bootstrap-menu-dropdown-on-hover-rather-than-click */
+  ul.nav li.dropdown:hover > ul.dropdown-menu{
+	display:
+	block;    
+  }
+  a.menu:after, .dropdown-toggle:after
+  {
+	content:
+	none;
+  }
+  .navbar .dropdown-menu
+  {
+	margin-top:
+	0px;
+  }
+  /* http://matthewjamestaylor.com/blog/keeping-footers-at-the-bottom-of-the-page */
+  html,
+  body
+  {
+	height:90%;
+  }
+  .container
+  {
+	min-height:100%;
+	position:relative;
+	padding-bottom:60px;
+	/* Height of the footer */
+  }
+  footer
+  {
+	position:absolute;
+	bottom:0;
+	width:100%;
+	height:60px;
+	/* Height of the footer */
+  }
+</style> 
+
+<div class="navbar">
+  <div class="navbar-inner">
+	<a class="brand" href="{% url 'tbpsite.views.home' %}">UCLA Tau Beta Pi</a>
+	<ul class="nav">
+	  {% comment %}<li class="active"><a href="#">Home</a></li>{% endcomment %}
+	  <li class="dropdown">
+      <a href="{% url 'tbpsite.views.events' %}">Events</a>
+	  <ul class="dropdown-menu">
+		<li><a href="{% url 'tbpsite.views.poker_tournament' %}">Poker Tournament</a></li>
+		<li><a href="{% url 'tbpsite.views.rube_goldberg' %}">Rube Goldberg</a></li>
 	  </ul>
-	  <form class="form-inline pull-right">
-		<input type="text" class="input-medium" placeholder="Email">
-		<input type="password" class="input-medium" placeholder="Password">
-		<button type="submit" class="btn">Sign in</button>
-	  </form>
-	</div>
+	  </li>
+	  <li><a href="{% url 'tbpsite.views.tutoring' %}">Tutoring</a></li>
+      <li class="dropdown">
+      <a href="{% url 'tbpsite.views.programs' %}" class="dropdown-toggle">Programs</a>
+      <ul class="dropdown-menu">
+          <li><a href="{% url 'tbpsite.views.emcc' %}">EMCC</a></li>
+          <li><a href="{% url 'tbpsite.views.fe' %}">FE Test Prepartion Materials</a></li>
+      </ul>
+      </li>
+      <li class="dropdown">
+      <a href="{% url 'tbpsite.views.about' %}" class="dropdown-toggle">About Us</a>
+      <ul class="dropdown-menu">
+          <li><a href="https://www.facebook.com/tbp.epsilon.ucla/photos_stream">Photos</a></li>
+          <li><a href="{% url 'tbpsite.views.awards' %}">Awards</a></li>
+          <li><a href="{% url 'tbpsite.views.officers' %}">Officers</a></li>
+          <li><a href="{% url 'tbpsite.views.faculty' %}">Faculty</a></li>
+          <li><a href="{% url 'tbpsite.views.contact' %}">Contact</a></li>
+          <li><a href="{% url 'tbpsite.views.eligibility_list' %}">Eligibility List</a></li>
+          <li><a href="{% url 'tbpsite.views.requirements' %}">Requirements</a></li>
+      </ul>
+      </li>
+	</ul>
+	<form class="form-inline pull-right">
+	  <input type="text" class="input-medium" placeholder="Email">
+	  <input type="password" class="input-medium" placeholder="Password">
+	  <button type="submit" class="btn">Sign in</button>
+	</form>
   </div>
-  <div class="container">
-	{% block content %}{% endblock %}
-  </div>
-  <script src="http://code.jquery.com/jquery.js"></script>
-  <script src="static/js/bootstrap.min.js"></script>
-</body>
+</div>
+<div class="container">
+  {% block content %}{% endblock %}
+  <footer>
+    <hr />
+	UCLA Tau Beta Pi
+    <a href="{% url 'tbpsite.views.home' %}">Home</a>
+	<a href="{% url 'tbpsite.views.contact' %}">Contact</a>
+  </footer>
+</div>
+<script src="http://code.jquery.com/jquery.js"></script>
+<script src="static/js/bootstrap.min.js"></script>

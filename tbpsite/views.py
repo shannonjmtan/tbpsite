@@ -3,6 +3,9 @@ from django.shortcuts import render
 def home(request):
     return render(request, 'home.html')
 
+def events(request): 
+    return render(request, 'events.html')
+
 def poker_tournament(request):
     return render(request, 'poker_tournament.html')
 
@@ -14,6 +17,18 @@ def requirements(request):
 
 def tutoring(request):
     return render(request, 'tutoring.html')
+
+def programs(request):
+    return render(request, 'programs.html')
+
+def emcc(request):
+    return render(request, 'emcc.html')
+
+def fe(request):
+    return render(request, 'fe.html')
+
+def about(request):
+    return render(request, 'about.html')
 
 def awards(request):
     return render(request, 'awards.html')
