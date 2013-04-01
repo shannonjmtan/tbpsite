@@ -87,7 +87,7 @@
 		<li class="pull-right"><a href="{% url 'app.views.logout' %}?next={{ next }}">Logout</a></li>
 	</ul>
 	{% else %}
-	<form class="form-inline pull-right" method="post" action="{% url 'app.views.login' %}?next={{ next }}">
+	<form class="navbar-form pull-right" method="post" action="{% url 'app.views.login' %}?next={{ next }}">
 		{% csrf_token %}
 	  <input type="text" class="input-medium" placeholder="Username" name="username">
 	  <input type="password" class="input-medium" placeholder="Password" name="password">
