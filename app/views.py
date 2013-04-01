@@ -3,6 +3,17 @@ from django.contrib import auth
 from app.models import Profile
 from django.core.exceptions import ObjectDoesNotExist
 
+def get_next(request):
+    """ Return the next parameter from get.
+    If it does not exist or it is the empty string,
+    return the path to the root.
+    """
+
+    next = request.GET.get('next', '/')
+    if not next:
+        next = '/'
+    return next
+
 def render_next(request, template_name):
     return render(request, template_name, 
             {'user': request.user, 
@@ -57,9 +68,7 @@ def houses(request):
     return render_next(request, 'houses.html')
 
 def login(request):
-    next = request.GET.get('next', False)
-    if not next:
-        next = '/'
+    next = get_next(request)
     username = request.POST.get('username', False)
     password = request.POST.get('password', False)
     if username and password:
@@ -69,16 +78,12 @@ def login(request):
     return redirect(next)
 
 def logout(request):
-    next = request.GET.get('next', False)
-    if not next:
-        next = '/'
+    next = get_next(request)
     auth.logout(request)
     return redirect(next)
 
 def profile(request):
-    next = request.GET.get('next', False)
-    if not next:
-        next = '/'
+    next = get_next(request)
     if not request.user.is_authenticated():
         return redirect(next)
 
@@ -93,9 +98,7 @@ def profile(request):
                 'profile': profile})
 
 def update(request):
-    next = request.GET.get('next', False)
-    if not next:
-        next = '/'
+    next = get_next(request)
     if request.user.is_authenticated():
         user = request.user
         user.username = request.POST.get('username')
