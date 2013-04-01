@@ -71,21 +71,29 @@
       <li class="dropdown">
       <a href="{% url 'tbpsite.views.about' %}" class="dropdown-toggle">About Us</a>
       <ul class="dropdown-menu">
-          <li><a href="https://www.facebook.com/tbp.epsilon.ucla/photos_stream">Photos</a></li>
-          <li><a href="{% url 'tbpsite.views.awards' %}">Awards</a></li>
-          <li><a href="{% url 'tbpsite.views.officers' %}">Officers</a></li>
-          <li><a href="{% url 'tbpsite.views.faculty' %}">Faculty</a></li>
-          <li><a href="{% url 'tbpsite.views.contact' %}">Contact</a></li>
-          <li><a href="{% url 'tbpsite.views.eligibility_list' %}">Eligibility List</a></li>
-          <li><a href="{% url 'tbpsite.views.requirements' %}">Requirements</a></li>
+				<li><a href="https://www.facebook.com/tbp.epsilon.ucla/photos_stream">Photos</a></li>
+				<li><a href="{% url 'tbpsite.views.awards' %}">Awards</a></li>
+				<li><a href="{% url 'tbpsite.views.officers' %}">Officers</a></li>
+				<li><a href="{% url 'tbpsite.views.faculty' %}">Faculty</a></li>
+				<li><a href="{% url 'tbpsite.views.contact' %}">Contact</a></li>
+				<li><a href="{% url 'tbpsite.views.eligibility_list' %}">Eligibility List</a></li>
+				<li><a href="{% url 'tbpsite.views.requirements' %}">Requirements</a></li>
       </ul>
       </li>
 	</ul>
-	<form class="form-inline pull-right">
-	  <input type="text" class="input-medium" placeholder="Email">
-	  <input type="password" class="input-medium" placeholder="Password">
+	{% if user.is_authenticated %}
+	<ul class="nav pull-right">
+		<li class="pull-right"><a href="#">{{ user.username }}</a></li>
+		<li class="pull-right"><a href="{% url 'tbpsite.views.logout' %}?next={{ next }}">Logout</a></li>
+	</ul>
+	{% else %}
+	<form class="form-inline pull-right" method="post" action="{% url 'tbpsite.views.login' %}?next={{ next }}">
+		{% csrf_token %}
+	  <input type="text" class="input-medium" placeholder="Username" name="username">
+	  <input type="password" class="input-medium" placeholder="Password" name="password">
 	  <button type="submit" class="btn">Sign in</button>
 	</form>
+    {% endif %}
   </div>
 </div>
 <div class="container">
