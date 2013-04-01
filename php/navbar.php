@@ -10,9 +10,9 @@
 	  <li><a href="#">Houses</a></li>
 	  
 	</ul>
-    <form class="form-inline pull-right">
-      <input type="text" class="input-small" placeholder="Email">
-      <input type="password" class="input-small" placeholder="Password">
+    <form class="navbar-form pull-right" action="user.php" method="post">
+      <input type="text" class="input-medium" placeholder="Email" name="email">
+      <input type="password" class="input-medium" placeholder="Password" name="password">
       <button type="submit" class="btn">Sign in</button>
     </form>
   </div>
