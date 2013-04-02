@@ -34,5 +34,4 @@ urlpatterns = patterns('',
     url(r'^logout$', 'app.views.logout'),
     url(r'^login$', 'app.views.login'),
     url(r'^profile$', 'app.views.profile'),
-    url(r'^update$', 'app.views.update'),
 )

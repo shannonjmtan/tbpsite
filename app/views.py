@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib import auth
+from django.contrib.auth.models import User
 from app.models import Profile
 from django.core.exceptions import ObjectDoesNotExist
 
@@ -92,25 +93,46 @@ def profile(request):
         profile = Profile.objects.get(user=user)
     except ObjectDoesNotExist:
         profile = Profile(user=user)
-        profile.save()
-    return render(request, 'profile.html', 
-            {'user': user,
-                'profile': profile})
 
-def update(request):
-    next = get_next(request)
-    if request.user.is_authenticated():
-        user = request.user
-        user.username = request.POST.get('username')
+    incorrect_password = False
+    username_taken = False
+    non_matching_password = False
+    if request.method == "POST":
+        current_password = request.POST.get('current_password')
+        username = request.POST.get('username')
+        if user.username != username:
+            if not user.check_password(current_password):
+                incorrect_password = True
+            try:
+                User.objects.get(username=username)
+                username_taken = True
+            except ObjectDoesNotExist:
+                pass
+            user.username = username
+
+        new_password = request.POST.get('new_password')
+        confirm_password = request.POST.get('confirm_password')
+        if new_password or confirm_password:
+            if not user.check_password(current_password):
+                incorrect_password = True
+            if new_password != confirm_password:
+                non_matching_password = True
+            user.set_password(new_password)
+            
         user.email = request.POST.get('email')
         user.first_name = request.POST.get('first_name')
         user.last_name = request.POST.get('last_name')
-        user.major = request.POST.get('major')
-        user.save()
-        try:
-            profile = Profile.objects.get(user=user)
-        except ObjectDoesNotExist:
-            profile = Profile(user=user)
+
+        profile.major = request.POST.get('major')
         profile.graduation_year = request.POST.get('graduation_year')
+
+    if not incorrect_password and not username_taken and not non_matching_password:
+        user.save()
         profile.save()
-    return redirect(next)
+
+    return render(request, 'profile.html', 
+            {'user': user,
+                'profile': profile,
+                'incorrect_password': incorrect_password,
+                'username_taken': username_taken,
+                'non_matching_password': non_matching_password})

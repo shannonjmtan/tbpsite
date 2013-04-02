@@ -32,3 +32,6 @@ class Profile(models.Model):
     resume = models.FileField(upload_to='resumes', blank=True, null=True)
     professor_interview = models.FileField(upload_to='interviews', blank=True, null=True)
     house = models.ForeignKey('House', blank=True, null=True)
+
+    def __unicode__(self):
+        return self.user.get_full_name()
