@@ -29,8 +29,8 @@ class Profile(models.Model):
     user = models.ForeignKey(User)
     major = models.CharField(max_length=40, choices=MAJOR_CHOICES, blank=True, null=True)
     graduation_year = models.IntegerField(blank=True, null=True)
-    resume = models.FileField(upload_to='resumes', blank=True, null=True)
-    professor_interview = models.FileField(upload_to='interviews', blank=True, null=True)
+    resume = models.DateTimeField(blank=True, null=True)
+    professor_interview = models.DateTimeField(blank=True, null=True)
     house = models.ForeignKey('House', blank=True, null=True)
 
     def __unicode__(self):

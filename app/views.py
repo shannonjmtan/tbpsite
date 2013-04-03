@@ -3,6 +3,24 @@ from django.contrib import auth
 from django.contrib.auth.models import User
 from app.models import Profile
 from django.core.exceptions import ObjectDoesNotExist
+import tbpsite
+import datetime
+
+class Error:
+    def __init__(self):
+        self.incorrect_password = False
+        self.username_taken = False
+        self.non_matching_password = False
+        self.resume_too_big = False
+        self.wrong_resume_type = False
+        self.interview_too_big = False
+        self.wrong_interview_type = False
+
+    def error(self):
+        return (self.incorrect_password or self.username_taken or 
+                self.non_matching_password or self.resume_too_big or
+                self.wrong_resume_type or self.interview_too_big or
+                self.wrong_interview_type)
 
 def get_next(request):
     """ Return the next parameter from get.
@@ -94,18 +112,19 @@ def profile(request):
     except ObjectDoesNotExist:
         profile = Profile(user=user)
 
-    incorrect_password = False
-    username_taken = False
-    non_matching_password = False
+    error = Error()
     if request.method == "POST":
+        resume = None
+        professor_interview = None
+
         current_password = request.POST.get('current_password')
         username = request.POST.get('username')
         if user.username != username:
             if not user.check_password(current_password):
-                incorrect_password = True
+                error.incorrect_password = True
             try:
                 User.objects.get(username=username)
-                username_taken = True
+                error.username_taken = True
             except ObjectDoesNotExist:
                 pass
             user.username = username
@@ -114,9 +133,9 @@ def profile(request):
         confirm_password = request.POST.get('confirm_password')
         if new_password or confirm_password:
             if not user.check_password(current_password):
-                incorrect_password = True
+                error.incorrect_password = True
             if new_password != confirm_password:
-                non_matching_password = True
+                error.non_matching_password = True
             user.set_password(new_password)
             
         user.email = request.POST.get('email')
@@ -126,13 +145,36 @@ def profile(request):
         profile.major = request.POST.get('major')
         profile.graduation_year = request.POST.get('graduation_year')
 
-    if not incorrect_password and not username_taken and not non_matching_password:
-        user.save()
-        profile.save()
+        if 'resume' in request.FILES:
+            resume = request.FILES['resume']
+            if resume.size > 2621440: # 2.5 MB
+                error.resume_too_big = True
+            if resume.content_type != 'application/pdf':
+                error.wrong_resume_type = True
+        if 'professor_interview' in request.FILES:
+            professor_interview = request.FILES['professor_interview']
+            if professor_interview.size > 2621440: # 2.5 MB
+                error.interview_too_big = True
+            if professor_interview.content_type != 'application/pdf':
+                error.wrong_interview_type = True
+
+        if not error.error():
+            if resume is not None:
+                with open(tbpsite.settings.BASE_DIR + '/resumes/' + str(user.id), 'wb+') as f:
+                    for chunk in resume.chunks():
+                        f.write(chunk)
+                    profile.resume = datetime.datetime.today()
+
+            if professor_interview is not None:
+                with open(tbpsite.settings.BASE_DIR + '/interviews/' + str(user.id), 'wb+') as f:
+                    for chunk in professor_interview.chunks():
+                        f.write(chunk)
+                    profile.professor_interview = datetime.datetime.today()
+
+            user.save()
+            profile.save()
 
     return render(request, 'profile.html', 
             {'user': user,
                 'profile': profile,
-                'incorrect_password': incorrect_password,
-                'username_taken': username_taken,
-                'non_matching_password': non_matching_password})
+                'error': error})

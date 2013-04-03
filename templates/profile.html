@@ -4,7 +4,7 @@
 
 {% block content %}
 
-<form method="post">
+<form method="post" enctype="multipart/form-data">
   {% csrf_token %}
   <fieldset>  
     <legend>Profile</legend>
@@ -48,6 +48,7 @@
     <label>New Password</label>
     <input type="password" name="new_password">
     {% endif %}
+
     <label>Confirm Password</label>
     <input type="password">
     <label>Email</label>
@@ -56,6 +57,7 @@
     <input type="text" name="first_name" value="{{ user.first_name }}" required>
     <label>Last Name</label>
     <input type="text" name="last_name" value="{{ user.last_name }}" required>
+
     <label>Major</label>
     <select>
       <option>Aerospace Engineering</option>
@@ -69,15 +71,18 @@
       <option>Mechanical Engineering</option>
     </select>
     <label>Graduation Year</label>
-    <input type="text" name="graduation_year" value="{{ profile.graduation_year }}" required>
+	<input type="text" name="graduation_year" 
+	{% if profile.graduation_year %}value="{{ profile.graduation_year }}"{% endif %} required>
     <label>Resume</label>
     <input type="file" name="resume">
+    <span class="help-inline">Last upload: {{ profile.resume }}</span>
     <label>Professor Interview</label>
     <input type="file" name="professor_interview">
-		<div class="form-actions">
-			<button type="submit" class="btn btn-primary">Save changes</button>
-			<button type="button" class="btn">Cancel</button>
-		</div>
+    <span class="help-inline">Last upload: {{ profile.professor_interview }}</span>
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary">Save changes</button>
+      <button type="button" class="btn">Cancel</button>
+    </div>
   </fieldset>
 </form>
 
