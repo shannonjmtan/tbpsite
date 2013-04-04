@@ -34,4 +34,6 @@ urlpatterns = patterns('',
     url(r'^logout$', 'app.views.logout'),
     url(r'^login$', 'app.views.login'),
     url(r'^profile$', 'app.views.profile'),
+    url(r'^resume$', 'app.views.resume'),
+    url(r'^interview$', 'app.views.interview'),
 )

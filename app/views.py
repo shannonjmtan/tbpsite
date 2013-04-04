@@ -5,6 +5,8 @@ from app.models import Profile
 from django.core.exceptions import ObjectDoesNotExist
 import tbpsite
 import datetime
+from django.http import HttpResponse
+from django.core.servers.basehttp import FileWrapper
 
 class Error:
     def __init__(self):
@@ -178,3 +180,34 @@ def profile(request):
             {'user': user,
                 'profile': profile,
                 'error': error})
+
+def resume(request):
+    next = get_next(request)
+    if not request.user.is_authenticated():
+        return redirect(next)
+
+    user = request.user
+    response = None
+    try:
+        f = open(tbpsite.settings.BASE_DIR + '/resumes/' + str(user.id))
+        response = HttpResponse(FileWrapper(f), content_type='application/pdf')
+        response['Content-Disposition'] = 'attachment; filename=resume.pdf'
+        return response
+    except IOError:
+        return redirect(next)
+
+def interview(request):
+    next = get_next(request)
+    if not request.user.is_authenticated():
+        return redirect(next)
+
+    user = request.user
+    response = None
+    try:
+        f = open(tbpsite.settings.BASE_DIR + '/interviews/' + str(user.id))
+        response = HttpResponse(FileWrapper(f), content_type='application/pdf')
+        response['Content-Disposition'] = 'attachment; filename=interview.pdf'
+        return response
+    except IOError:
+        return redirect(next)
+

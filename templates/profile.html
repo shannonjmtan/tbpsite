@@ -75,10 +75,23 @@
 	{% if profile.graduation_year %}value="{{ profile.graduation_year }}"{% endif %} required>
     <label>Resume</label>
     <input type="file" name="resume">
+    <br />
+    <span class="help-inline">
+    {% if profile.resume %}
+    <a href="{% url 'app.views.resume' %}">Last upload: {{ profile.resume }}</a>
+    {% else %}
     <span class="help-inline">Last upload: {{ profile.resume }}</span>
+    {% endif %}
     <label>Professor Interview</label>
     <input type="file" name="professor_interview">
+    <br />
+    {% if profile.professor_interview %}
+    <a href="{% url 'app.views.interview' %}">Last upload: {{ profile.professor_interview }}</a>
+    {% else %}
     <span class="help-inline">Last upload: {{ profile.professor_interview }}</span>
+    {% endif %}
+    {% if profile.resume %}
+    {% endif %}
     <div class="form-actions">
       <button type="submit" class="btn btn-primary">Save changes</button>
       <button type="button" class="btn">Cancel</button>
