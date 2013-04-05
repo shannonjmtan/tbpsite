@@ -59,16 +59,16 @@
     <input type="text" name="last_name" value="{{ user.last_name }}" required>
 
     <label>Major</label>
-    <select>
-      <option>Aerospace Engineering</option>
-      <option>Bioengineering</option>
-      <option>Chemical Engineering</option>
-      <option>Civil Engineering</option>
-      <option>Computer Science</option>
-      <option>Computer Science and Engineering</option>
-      <option>Electrical Engineering</option>
-      <option>Materials Engineering</option>
-      <option>Mechanical Engineering</option>
+    <select name="major">
+      <option value="0"{{ major.0 }}>Aerospace Engineering</option>
+      <option value="1"{{ major.1 }}>Bioengineering</option>
+      <option value="2"{{ major.2 }}>Chemical Engineering</option>
+      <option value="3"{{ major.3 }}>Civil Engineering</option>
+      <option value="4"{{ major.4 }}>Computer Science</option>
+      <option value="5"{{ major.5 }}>Computer Science and Engineering</option>
+      <option value="6"{{ major.6 }}>Electrical Engineering</option>
+      <option value="7"{{ major.7 }}>Materials Engineering</option>
+      <option value="8"{{ major.8 }}>Mechanical Engineering</option>
     </select>
     <label>Graduation Year</label>
 	<input type="text" name="graduation_year" 
@@ -76,7 +76,6 @@
     <label>Resume</label>
     <input type="file" name="resume">
     <br />
-    <span class="help-inline">
     {% if profile.resume %}
     <a href="{% url 'app.views.resume' %}">Last upload: {{ profile.resume }}</a>
     {% else %}

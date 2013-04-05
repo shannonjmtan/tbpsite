@@ -3,31 +3,31 @@ from django.contrib.auth.models import User
 
 class House(models.Model):
     HOUSE_CHOICES = (
-            ('Tau', 'Tau'),
-            ('Beta', 'Beta'),
-            ('Pi', 'Pi'),
-            ('Epsilon', 'Epsilon'),
+            (0, 'Tau'),
+            (1, 'Beta'),
+            (2, 'Pi'),
+            (3, 'Epsilon'),
             )
 
-    name = models.CharField(max_length=10, choices=HOUSE_CHOICES)
+    name = models.IntegerField(choices=HOUSE_CHOICES)
                      
     def __unicode__(self):
         return self.name
 
 class Profile(models.Model):
     MAJOR_CHOICES = (
-            ('Aerospace Engineering', 'Aerospace Engineering'),
-            ('Bioengineering', 'Bioengineering'),
-            ('Chemical Engineering', 'Chemical Engineering'),
-            ('Civil Engineering', 'Civil Engineering'),
-            ('Computer Science', 'Computer Science'),
-            ('Computer Science and Engineering', 'Computer Science and Engineering'),
-            ('Electrical Engineering', 'Electrical Engineering'),
-            ('Materials Engineering', 'Materials Engineering'),
-            ('Mechanical Engineering', 'Mechanical Engineering'),
+            (0, 'Aerospace Engineering'),
+            (1, 'Bioengineering'),
+            (2, 'Chemical Engineering'),
+            (3, 'Civil Engineering'),
+            (4, 'Computer Science'),
+            (5, 'Computer Science and Engineering'),
+            (6, 'Electrical Engineering'),
+            (7, 'Materials Engineering'),
+            (8, 'Mechanical Engineering'),
             )
     user = models.ForeignKey(User)
-    major = models.CharField(max_length=40, choices=MAJOR_CHOICES, blank=True, null=True)
+    major = models.IntegerField(choices=MAJOR_CHOICES, blank=True, null=True)
     graduation_year = models.IntegerField(blank=True, null=True)
     resume = models.DateTimeField(blank=True, null=True)
     professor_interview = models.DateTimeField(blank=True, null=True)

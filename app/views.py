@@ -176,9 +176,14 @@ def profile(request):
             user.save()
             profile.save()
 
+    major = ['' for i in range(9)]
+    if profile.major is not None:
+        major[int(profile.major)] = ' selected="selected"'
+
     return render(request, 'profile.html', 
             {'user': user,
                 'profile': profile,
+                'major': major,
                 'error': error})
 
 def resume(request):
