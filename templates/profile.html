@@ -9,7 +9,7 @@
   <fieldset>  
     <legend>Profile</legend>
 
-    {% if incorrect_password %}
+    {% if error.incorrect_password %}
     <div class="control-group error">
       <label class="control-label" for="inputError">Current Password</label>
       <div class="controls">
@@ -23,7 +23,7 @@
     {% endif %}
     <span class="help-block">Required if changing username or password</span>
 
-    {% if username_taken %}
+    {% if error.username_taken %}
     <div class="control-group error">
       <label class="control-label" for="inputError">Username</label>
       <div class="controls">
@@ -36,7 +36,7 @@
     <input type="text" name="username" value="{{ user.get_username }}" required>
     {% endif %}
 
-    {% if non_matching_password %}
+    {% if error.non_matching_password %}
     <div class="control-group error">
       <label class="control-label" for="inputError">New Password</label>
       <div class="controls">
