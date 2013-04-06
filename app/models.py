@@ -26,6 +26,10 @@ class Profile(models.Model):
             (7, 'Materials Engineering'),
             (8, 'Mechanical Engineering'),
             )
+    POSITION_CHOICES = (
+            (0, 'Candidate'),
+            (1, 'Member'),
+            )
     user = models.ForeignKey(User)
     major = models.IntegerField(choices=MAJOR_CHOICES, blank=True, null=True)
     graduation_year = models.IntegerField(blank=True, null=True)
@@ -35,3 +39,7 @@ class Profile(models.Model):
 
     def __unicode__(self):
         return self.user.get_full_name()
+
+class Feedback(models.Model):
+    timestamp = models.DateTimeField(auto_now_add=True)
+    comment = models.TextField()

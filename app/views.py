@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import auth
 from django.contrib.auth.models import User
-from app.models import Profile
+from app.models import Profile, Feedback
 from django.core.exceptions import ObjectDoesNotExist
 import tbpsite
 import datetime
@@ -215,4 +215,9 @@ def interview(request):
         return response
     except IOError:
         return redirect(next)
+
+def feedback(request):
+    if request.method == "POST" and 'comment' in request.POST:
+        Feedback(comment=request.POST.get('comment')).save()
+    return redirect('app.views.tutoring')
 
