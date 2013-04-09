@@ -109,10 +109,7 @@ def profile(request):
         return redirect(next)
 
     user = request.user
-    try:
-        profile = Profile.objects.get(user=user)
-    except ObjectDoesNotExist:
-        profile = Profile(user=user)
+    profile = Profile.objects.get_or_create(user=user)[0]
     term = profile.graduation_term
 
     error = Error()
@@ -148,12 +145,8 @@ def profile(request):
         profile.major = request.POST.get('major')
         graduation_quarter = request.POST.get('graduation_quarter')
         graduation_year = request.POST.get('graduation_year')
-        try:
-            term = Term.objects.get(
-                    quarter=graduation_quarter, year=graduation_year)
-        except ObjectDoesNotExist:
-            term = Term(quarter=graduation_quarter, year=graduation_year)
-            term.save()
+        term = Term.objects.get_or_create(
+                quarter=graduation_quarter, year=graduation_year)[0]
 
         if 'resume' in request.FILES:
             resume = request.FILES['resume']
@@ -210,7 +203,6 @@ def resume(request):
         return redirect(next)
 
     user = request.user
-    response = None
     try:
         f = open(tbpsite.settings.BASE_DIR + '/resumes/' + str(user.id))
         response = HttpResponse(FileWrapper(f), content_type='application/pdf')
