@@ -152,7 +152,8 @@ def profile(request):
             term = Term.objects.get(
                     quarter=graduation_quarter, year=graduation_year)
         except ObjectDoesNotExist:
-            term = Term(quarter=graduation_quarter, year=graduation_year).save()
+            term = Term(quarter=graduation_quarter, year=graduation_year)
+            term.save()
 
         if 'resume' in request.FILES:
             resume = request.FILES['resume']
