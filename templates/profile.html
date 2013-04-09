@@ -60,19 +60,18 @@
 
     <label>Major</label>
     <select name="major">
-      <option value="0"{{ major.0 }}>Aerospace Engineering</option>
-      <option value="1"{{ major.1 }}>Bioengineering</option>
-      <option value="2"{{ major.2 }}>Chemical Engineering</option>
-      <option value="3"{{ major.3 }}>Civil Engineering</option>
-      <option value="4"{{ major.4 }}>Computer Science</option>
-      <option value="5"{{ major.5 }}>Computer Science and Engineering</option>
-      <option value="6"{{ major.6 }}>Electrical Engineering</option>
-      <option value="7"{{ major.7 }}>Materials Engineering</option>
-      <option value="8"{{ major.8 }}>Mechanical Engineering</option>
+      {% for major in majors %}
+      <option value="{{ major.0 }}"{{ major.2 }}>{{ major.1 }}</option>
+      {% endfor %}
     </select>
-    <label>Graduation Year</label>
+    <label>Graduation Term</label>
+    <select name="graduation_quarter">
+      {% for quarter in quarters %}
+      <option value="{{ quarter.0 }}"{{ quarter.2 }}>{{ quarter.1 }}</option>
+      {% endfor %}
+    </select>
 	<input type="text" name="graduation_year" 
-	{% if profile.graduation_year %}value="{{ profile.graduation_year }}"{% endif %} required>
+	{% if term.year %}value="{{ term.year }}"{% endif %} required>
     <label>Resume</label>
     <input type="file" name="resume">
     <br />
@@ -97,5 +96,6 @@
     </div>
   </fieldset>
 </form>
+{{ major }}
 
 {% endblock %}

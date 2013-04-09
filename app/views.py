@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import auth
 from django.contrib.auth.models import User
-from app.models import Profile, Feedback
+from app.models import Profile, Feedback, Term
 from django.core.exceptions import ObjectDoesNotExist
 import tbpsite
 import datetime
@@ -113,6 +113,7 @@ def profile(request):
         profile = Profile.objects.get(user=user)
     except ObjectDoesNotExist:
         profile = Profile(user=user)
+    term = profile.graduation_term
 
     error = Error()
     if request.method == "POST":
@@ -145,7 +146,13 @@ def profile(request):
         user.last_name = request.POST.get('last_name')
 
         profile.major = request.POST.get('major')
-        profile.graduation_year = request.POST.get('graduation_year')
+        graduation_quarter = request.POST.get('graduation_quarter')
+        graduation_year = request.POST.get('graduation_year')
+        try:
+            term = Term.objects.get(
+                    quarter=graduation_quarter, year=graduation_year)
+        except ObjectDoesNotExist:
+            term = Term(quarter=graduation_quarter, year=graduation_year).save()
 
         if 'resume' in request.FILES:
             resume = request.FILES['resume']
@@ -173,17 +180,27 @@ def profile(request):
                         f.write(chunk)
                     profile.professor_interview = datetime.datetime.today()
 
+            profile.graduation_term = term
+
             user.save()
             profile.save()
 
-    major = ['' for i in range(9)]
-    if profile.major is not None:
-        major[int(profile.major)] = ' selected="selected"'
+    majors = [item + ((' selected="selected"',) 
+        if item[0] == profile.major else ('',)) 
+        for item in profile.MAJOR_CHOICES]
+    try:
+        quarters = [item + ((' selected="selected"',) 
+            if item[0] == Term.objects.get(id=term.id).quarter else ('',)) 
+            for item in Term.QUARTER_CHOICES]
+    except AttributeError:
+        quarters = [item + ('',) for item in Term.QUARTER_CHOICES]
 
     return render(request, 'profile.html', 
             {'user': user,
                 'profile': profile,
-                'major': major,
+                'term': term,
+                'majors': majors,
+                'quarters': quarters,
                 'error': error})
 
 def resume(request):
