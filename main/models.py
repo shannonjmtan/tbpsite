@@ -1,6 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+CANDIDATE_COMMUNITY_SERVICE = 1
+CANDIDATE_SOCIAL = 2
+ACTIVE_MEMBER_SOCIAL = 2
+
 PLACE_CHOICES = (
         ('0', 'Not Completed'),
         ('1', 'Completed'),
@@ -15,32 +19,6 @@ PLACE_POINTS = {
         '3': 10,
         '4': 25,
         }
-
-class CurrentManager(models.Manager):
-    def get_term(self):
-        queryset = super(CurrentManager, self).get_query_set()
-        if not queryset.exists():
-            return None
-        return queryset[0].term
-
-class TermManager(models.Manager):
-    def get_query_set(self):
-        term = Current.objects.get_term()
-        if term is None:
-            return super(TermManager, self).get_query_set()
-        return super(TermManager, self).get_query_set().filter(term=term)
-
-class Current(models.Model):
-    term = models.ForeignKey('Term', blank=True, null=True)
-    objects = CurrentManager()
-
-    class Meta:
-        verbose_name_plural = "Current Term"
-
-    def __unicode__(self):
-        if self.term is not None:
-            return self.term.__unicode__()
-        return str(None)
 
 class Term(models.Model):
     QUARTER_CHOICES = (
@@ -59,6 +37,32 @@ class Term(models.Model):
     def __unicode__(self):
         return self.get_quarter_display() + ' ' + str(self.year)
 
+class CurrentManager(models.Manager):
+    def get_term(self):
+        queryset = super(CurrentManager, self).get_query_set()
+        if not queryset.exists():
+            return None
+        return queryset[0].term
+
+class Current(models.Model):
+    term = models.ForeignKey('Term', blank=True, null=True)
+    objects = CurrentManager()
+
+    class Meta:
+        verbose_name_plural = "Current Term"
+
+    def __unicode__(self):
+        if self.term is not None:
+            return self.term.__unicode__()
+        return str(None)
+
+class TermManager(models.Manager):
+    def get_query_set(self):
+        term = Current.objects.get_term()
+        if term is None:
+            return super(TermManager, self).get_query_set()
+        return super(TermManager, self).get_query_set().filter(term=term)
+
 class House(models.Model):
     HOUSE_CHOICES = (
             ('0', 'Tau'),
@@ -75,13 +79,14 @@ class HousePoints(models.Model):
     house = models.ForeignKey('House')
     term = models.ForeignKey('Term')
     
-    professor_interview = models.IntegerField(choices=PLACE_CHOICES, default=0)
     resume = models.IntegerField(choices=PLACE_CHOICES, default=0)
+    professor_interview = models.IntegerField(choices=PLACE_CHOICES, default=0)
     other = models.IntegerField(default=0)
 
     objects = TermManager()
 
     class Meta:
+        ordering = ('-term', 'house')
         unique_together = ('house', 'term')
         verbose_name_plural = "House Points"
                      
@@ -89,22 +94,24 @@ class HousePoints(models.Model):
         return self.house.__unicode__()
 
     def candidate_list(self):
-        return Candidate.objects.select_related().filter(profile__house=self.house, 
-                profile__initation_term=self.term)
+        return Candidate.objects.select_related().filter(
+                profile__house=self.house, term=self.term)
 
     def candidate_points(self):
         return sum(candidate.points() for candidate in self.candidate_list())
 
     def points(self):
-        return sum([PLACE_POINTS[self.professor_interview], 
-                PLACE_CHOICES[self.resume], self.candidate_points()])
+        return sum([PLACE_CHOICES[self.resume], 
+            PLACE_POINTS[self.professor_interview], self.candidate_points()])
 
 class Profile(models.Model):
     user = models.ForeignKey(User, unique=True)
 
+    CANDIDATE = '0'
+    MEMBER = '1'
     POSITION_CHOICES = (
-            ('0', 'Candidate'),
-            ('1', 'Member'),
+            (CANDIDATE, 'Candidate'),
+            (MEMBER, 'Member'),
             )
     MAJOR_CHOICES = (
             ('0', 'Aerospace Engineering'),
@@ -120,18 +127,16 @@ class Profile(models.Model):
     position = models.CharField(max_length=1, choices=POSITION_CHOICES, default='0')
     house = models.ForeignKey('House', blank=True, null=True)
     major = models.CharField(max_length=1, choices=MAJOR_CHOICES, default='0')
-    graduation_term = models.ForeignKey('Term', blank=True, null=True)
+    initiation_term = models.ForeignKey('Term', 
+            related_name='profile_initiation_term', default=Current.objects.get_term)
+    graduation_term = models.ForeignKey('Term', 
+            related_name='profile_graduation_term', blank=True, null=True)
     resume = models.DateTimeField(blank=True, null=True)
     professor_interview = models.DateTimeField(blank=True, null=True)
 
     def __unicode__(self):
         ret = self.user.get_full_name()
-        if ret:
-            return ret
-        return self.user.get_username()
-
-    def initiation_term(self):
-        return Candidate.objects.get(profile=self).term
+        return ret if ret else self.user.get_username()
 
 class Candidate(models.Model):
     profile = models.ForeignKey('Profile', unique=True)
@@ -147,39 +152,39 @@ class Candidate(models.Model):
     engineering_futures = models.BooleanField(default=False)
     other = models.IntegerField(default=0)
 
-    objects = TermManager()
-    default = models.Manager()
+    default = TermManager()
+    objects = models.Manager()
 
     def __unicode__(self):
         return self.profile.__unicode__()
 
-    #def tutoring(self):
-        #return tutoring.complete()
+    def tutoring_complete(self):
+        return self.tutoring.complete()
 
     def tutoring_points(self):
         return self.tutoring.points()
 
-    def social_event_count(self):
-        return Social.objects.filter(members=self).count()
+    def social_count(self):
+        return Social.objects.filter(members=self, term=self.initiation_term).count()
 
-    def social_event(self):
-        return (self.social_event_count() >= 1)
+    def social_complete(self):
+        return (self.social_count() >= CANDIDATE_SOCIAL)
 
-    def social_event_points(self):
-        count = self.social_event_count()
-        if count <= 1:
-            return 0
-        return 5 * count
+    def social_points(self):
+        return (0 if not social_complete() else
+                5 * (self.social_count() - CANDIDATE_SOCIAL))
+
+    def community_service_complete(self):
+        return self.community_service >= CANDIDATE_COMMUNITY_SERVICE
 
     def community_service_points(self):
-        if self.community_service <= 1:
-            return 0
-        return 5 * self.community_service
+        return (0 if not self.community_service_points() else
+                5 * (self.community_service - CANDIDATE_COMMUNITY_SERVICE))
 
     def points(self):
         return sum([PLACE_POINTS[self.signature_book], 
             PLACE_POINTS[self.candidate_quiz], 
-                self.social_event_points(), self.tutoring_points(), 
+                self.social_points(), self.tutoring_points(), 
                 self.community_service_points(), self.other])
 
     def resume(self):
@@ -188,10 +193,20 @@ class Candidate(models.Model):
     def professor_interview(self):
         return self.profile.professor_interview is not None
 
+    def complete(self):
+        return (self.tutoring.complete() and self.bent_polish and
+                self.candidate_quiz != '0' and self.candidate_meet_and_greet and
+                self.signature_book != '0' and self.community_service_complete() and
+                self.initiation_fee and self.engineering_futures and
+                self.social_complete() and self.resume() and self.professor_interview())
+
 class ActiveMember(models.Model):
-    profile = models.ForeignKey('Profile', unique=True)
+    profile = models.ForeignKey('Profile')
     term = models.ForeignKey('Term')
 
+    EMCC = '0'
+    TUTORING = '1'
+    COMMITTEE = '2'
     REQUIREMENT_CHOICES = (
             ('0', 'EMCC'),
             ('1', 'Tutoring'),
@@ -210,13 +225,15 @@ class ActiveMember(models.Model):
         unique_together = ('profile', 'term')
 
     def requirement(self):
-        if not self.requirement_choice:
-            return False
-        if self.requirement_choice == '0' or self.requirement_choice == '2':
+        if self.requirement_choice == EMCC or self.requirement_choice == COMMITTEE:
             return requirement_complete
-        if tutoring is None:
-            return False
-        return all(map(lambda hours: hours >= 2, tutoring.get_hours()))
+        if self.tutoring is None:
+            self.tutoring = Tutoring.objects.get_or_create(
+                    profile=self.profile, term=self.term)[0]
+        return self.tutoring.complete()
 
-    def social_event(self):
-        return (Social.objects.filter(members=self).count() >= 2)
+    def social_complete(self):
+        return (Social.objects.filter(members=self).count() >= ACTIVE_MEMBER_SOCIAL)
+
+    def complete(self):
+        return self.requirement() and self.social_complete()

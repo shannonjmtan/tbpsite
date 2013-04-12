@@ -19,17 +19,19 @@ def create_candidates(modeladmin, request, queryset):
     if term is None:
         raise forms.ValidationError('Current term not set')
 
+    # check for errors, all or nothing
     for profile in queryset:
         if profile.position == '1':
             raise forms.ValidationError('User is already a member')
 
         try:
-            candidate = Candidate.default.get(profile=profile)
+            candidate = Candidate.objects.get(profile=profile)
             raise forms.ValidationError(
                     'User is already a candidate')
         except ObjectDoesNotExist:
             pass
 
+    for profile in queryset:
         week_3 = Week3.objects.get_or_create(profile=profile, term=term)[0]
         week_4 = Week4.objects.get_or_create(profile=profile, term=term)[0]
         week_5 = Week5.objects.get_or_create(profile=profile, term=term)[0]

@@ -9,6 +9,7 @@ class Social(models.Model):
     objects = TermManager()
 
     class Meta:
+        ordering = ('-term', 'name')
         unique_together = ('name', 'term')
 
     def __unicode__(self):

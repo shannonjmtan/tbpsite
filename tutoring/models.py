@@ -1,6 +1,8 @@
 from django.db import models
 from main.models import TermManager
 
+TUTORING_HOURS_PER_WEEK = 2
+
 class Feedback(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     comment = models.TextField()
@@ -29,23 +31,23 @@ class Tutoring(models.Model):
     objects = TermManager()
 
     class Meta:
-        #ordering = ['profile']
+        ordering = ('-term', 'profile')
         unique_together = ('profile', 'term')
         verbose_name_plural = "Tutoring"
 
     def __unicode__(self):
         return self.profile.__unicode__()
 
-    def get_hours(self):
-        return [self.week_3.hours, self.week_4.hours, self.week_5.hours, 
-                self.week_6.hours, self.week_7.hours, 
-                self.week_8.hours, self.week_9.hours]
+    def get_weeks(self):
+        return [self.week_3, self.week_4, self.week_5, 
+                self.week_6, self.week_7, 
+                self.week_8, self.week_9]
 
     def complete(self):
-        return all(lambda hours: hours >= 2, self.get_hours())
+        return all(week.complete() for week in self.get_hours())
 
     def points(self):
-        return sum(hours - 2 if hours > 2 else 0 for hours in self.get_hours())
+        return sum(week.points() for week in self.get_hours())
 
 class Week(models.Model):
     profile = models.ForeignKey('main.Profile')
@@ -62,72 +64,42 @@ class Week(models.Model):
     def __unicode__(self):
         return self.profile.__unicode__()
 
+    def complete(self):
+        return self.hours > TUTORING_HOURS_PER_WEEK
+
+    def points(self):
+        return 0 if not self.complete() else self.hours - TUTORING_HOURS_PER_WEEK
+
+    def day_1(self):
+        return Tutoring.objects.get(profile=self.profile, term=self.term).day_1
+
+    def day_2(self):
+        return Tutoring.objects.get(profile=self.profile, term=self.term).day_2
+
 class Week3(Week):
     class Meta:
         verbose_name_plural = "Week 3"
-
-    def day_1(self):
-        return Tutoring.objects.get(week_3=self).day_1
-
-    def day_2(self):
-        return Tutoring.objects.get(week_3=self).day_2
 
 class Week4(Week):
     class Meta:
         verbose_name_plural = "Week 4"
 
-    def day_1(self):
-        return Tutoring.objects.get(week_4=self).day_1
-
-    def day_2(self):
-        return Tutoring.objects.get(week_4=self).day_2
-
 class Week5(Week):
     class Meta:
         verbose_name_plural = "Week 5"
-
-    def day_1(self):
-        return Tutoring.objects.get(week_5=self).day_1
-
-    def day_2(self):
-        return Tutoring.objects.get(week_5=self).day_2
 
 class Week6(Week):
     class Meta:
         verbose_name_plural = "Week 6"
 
-    def day_1(self):
-        return Tutoring.objects.get(week_6=self).day_1
-
-    def day_2(self):
-        return Tutoring.objects.get(week_6=self).day_2
-
 class Week7(Week):
     class Meta:
         verbose_name_plural = "Week 7"
-
-    def day_1(self):
-        return Tutoring.objects.get(week_7=self).day_1
-
-    def day_2(self):
-        return Tutoring.objects.get(week_7=self).day_2
 
 class Week8(Week):
     class Meta:
         verbose_name_plural = "Week 8"
 
-    def day_1(self):
-        return Tutoring.objects.get(week_8=self).day_1
-
-    def day_2(self):
-        return Tutoring.objects.get(week_8=self).day_2
-
 class Week9(Week):
     class Meta:
         verbose_name_plural = "Week 9"
-
-    def day_1(self):
-        return Tutoring.objects.get(week_9=self).day_1
-
-    def day_2(self):
-        return Tutoring.objects.get(week_9=self).day_2
