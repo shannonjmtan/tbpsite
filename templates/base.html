@@ -54,44 +54,44 @@
 
 <div class="navbar">
   <div class="navbar-inner">
-	<a class="brand" href="{% url 'app.views.home' %}">UCLA Tau Beta Pi</a>
+	<a class="brand" href="{% url 'main.views.home' %}">UCLA Tau Beta Pi</a>
 	<ul class="nav">
 	  {% comment %}<li class="active"><a href="#">Home</a></li>{% endcomment %}
 	  <li class="dropdown">
-      <a href="{% url 'app.views.events' %}">Events</a>
+      <a href="{% url 'main.views.events' %}">Events</a>
 	  <ul class="dropdown-menu">
-		<li><a href="{% url 'app.views.poker_tournament' %}">Poker Tournament</a></li>
-		<li><a href="{% url 'app.views.rube_goldberg' %}">Rube Goldberg</a></li>
+		<li><a href="{% url 'main.views.poker_tournament' %}">Poker Tournament</a></li>
+		<li><a href="{% url 'main.views.rube_goldberg' %}">Rube Goldberg</a></li>
 	  </ul>
 	  </li>
-	  <li><a href="{% url 'app.views.tutoring' %}">Tutoring</a></li>
+	  <li><a href="{% url 'main.views.tutoring' %}">Tutoring</a></li>
       <li class="dropdown">
-      <a href="{% url 'app.views.programs' %}" class="dropdown-toggle">Programs</a>
+      <a href="{% url 'main.views.programs' %}" class="dropdown-toggle">Programs</a>
       <ul class="dropdown-menu">
-          <li><a href="{% url 'app.views.emcc' %}">EMCC</a></li>
-          <li><a href="{% url 'app.views.fe' %}">FE Test Prepartion Materials</a></li>
+          <li><a href="{% url 'main.views.emcc' %}">EMCC</a></li>
+          <li><a href="{% url 'main.views.fe' %}">FE Test Prepartion Materials</a></li>
       </ul>
       </li>
       <li class="dropdown">
-      <a href="{% url 'app.views.about' %}" class="dropdown-toggle">About Us</a>
+      <a href="{% url 'main.views.about' %}" class="dropdown-toggle">About Us</a>
       <ul class="dropdown-menu">
 				<li><a href="https://www.facebook.com/tbp.epsilon.ucla/photos_stream">Photos</a></li>
-				<li><a href="{% url 'app.views.awards' %}">Awards</a></li>
-				<li><a href="{% url 'app.views.officers' %}">Officers</a></li>
-				<li><a href="{% url 'app.views.faculty' %}">Faculty</a></li>
-				<li><a href="{% url 'app.views.contact' %}">Contact</a></li>
-				<li><a href="{% url 'app.views.eligibility_list' %}">Eligibility List</a></li>
-				<li><a href="{% url 'app.views.requirements' %}">Requirements</a></li>
+				<li><a href="{% url 'main.views.awards' %}">Awards</a></li>
+				<li><a href="{% url 'main.views.officers' %}">Officers</a></li>
+				<li><a href="{% url 'main.views.faculty' %}">Faculty</a></li>
+				<li><a href="{% url 'main.views.contact' %}">Contact</a></li>
+				<li><a href="{% url 'main.views.eligibility_list' %}">Eligibility List</a></li>
+				<li><a href="{% url 'main.views.requirements' %}">Requirements</a></li>
       </ul>
       </li>
 	</ul>
 	{% if user.is_authenticated %}
 	<ul class="nav pull-right">
-		<li class="pull-right"><a href="{% url 'app.views.profile' %}">{{ user.username }}</a></li>
-		<li class="pull-right"><a href="{% url 'app.views.logout' %}?next={{ next }}">Logout</a></li>
+		<li class="pull-right"><a href="{% url 'main.views.profile' %}">{{ user.username }}</a></li>
+		<li class="pull-right"><a href="{% url 'main.views.logout' %}?next={{ next }}">Logout</a></li>
 	</ul>
 	{% else %}
-	<form class="navbar-form pull-right" method="post" action="{% url 'app.views.login' %}?next={{ next }}">
+	<form class="navbar-form pull-right" method="post" action="{% url 'main.views.login' %}?next={{ next }}">
 		{% csrf_token %}
 	  <input type="text" class="input-medium" placeholder="Username" name="username">
 	  <input type="password" class="input-medium" placeholder="Password" name="password">
@@ -105,8 +105,8 @@
   <footer>
     <hr />
     UCLA Tau Beta Pi
-    <a href="{% url 'app.views.home' %}">Home</a>
-    <a href="{% url 'app.views.contact' %}">Contact</a>
+    <a href="{% url 'main.views.home' %}">Home</a>
+    <a href="{% url 'main.views.contact' %}">Contact</a>
   </footer>
 </div>
 <script src="http://code.jquery.com/jquery.js"></script>

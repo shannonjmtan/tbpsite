@@ -15,7 +15,7 @@ Monday through Friday<br />
 11AM - 5PM<br />
 Weeks 2 through 9
 
-<form method="post" action="{% url 'app.views.feedback' %}">
+<form method="post" action="{% url 'main.views.feedback' %}">
   {% csrf_token %}
   <legend>Tutoring Feedback</legend>
   <label>Comment</label>
