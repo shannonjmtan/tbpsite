@@ -93,8 +93,8 @@
 	{% else %}
 	<form class="navbar-form pull-right" method="post" action="{% url 'web.views.login' %}?next={{ next }}">
 		{% csrf_token %}
-	  <input type="text" class="input-medium" placeholder="Username" name="username">
-	  <input type="password" class="input-medium" placeholder="Password" name="password">
+	  Username: <input type="text" class="input-medium" placeholder="Username" name="username">
+	   Password: <input type="password" class="input-medium" placeholder="Password" name="password">
 	  <button type="submit" class="btn">Sign in</button>
 	</form>
     {% endif %}
