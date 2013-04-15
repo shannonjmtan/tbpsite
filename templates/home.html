@@ -3,27 +3,32 @@
 {% block title %}UCLA Tau Beta Pi{% endblock %}
 
 {% block content %}
-
+<style>
+.carousel-caption
+{
+	padding-bottom:30px;
+}
+</style>
 <div class="row">
   <div class="span8">
 	<div id="this-carousel-id" class="carousel slide">
 	  <div class="carousel-inner">
 		<div class="item active">
 		  <img src="static/img/about.jpg" alt="" />
-		  <div class="carousel-caption">
-			<a href="{% url 'web.views.about' %}">About Us</a>
+		  <div class="carousel-caption" style="padding-bottom:30px">
+			<a href="{% url 'web.views.about' %}" style="color:white">About Us</a>
 		  </div>
 		</div>
 		<div class="item">
 		  <img src="static/img/tutoring.jpg" alt="" />
 		  <div class="carousel-caption">
-			<a href="{% url 'web.views.tutoring' %}">Tutoring</a>
+			<a href="{% url 'web.views.tutoring' %}" style="color:white">Tutoring</a>
 		  </div>
 		</div>
 		<div class="item">
 		  <img src="static/img/events.jpg" alt="" />
 		  <div class="carousel-caption">
-			<a href="{% url 'web.views.events' %}">Events</a>
+			<a href="{% url 'web.views.events' %}" style="color:white">Events</a>
 		  </div>
 		</div>
 	  </div>
@@ -33,6 +38,8 @@
   </div>
   <div class="span4">
 	<h2>UCLA Tau Beta Pi</h2>
+    <h4>Announcements</h4>
+    <a href="http://bit.ly/TBPtutoring" class="btn btn-large btn-primary">The Tutoring Schedule is Up!</a>
     <h4>Upcoming Events</h4> 
     <dl><a href="{% url 'web.views.poker_tournament' %}">2nd Annual Charity Poker Tournament</a>
     <dd>Boelter Hall Penthouse</dd>

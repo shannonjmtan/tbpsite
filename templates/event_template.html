@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}[title]{% endblock %}
+
+{% block content %}
+<!-- TITLE --> 
+<div class="row">
+    <div class="span12" style="margin-bottom:20px">
+    
+    <h4>Tau Beta Pi Presents:</h4> <!--optional-->
+    <h1>[Title]</h1>
+    </div>
+</div>
+
+<div class="row">
+    <div class="span8"> 
+    [eventDescription]
+    </div>
+    
+    </div> 
+    <div class="span4">
+      <table class="table">
+           <tr>
+           <th>Date:</th>
+           <td>Day, MM/DD/YYYY</td>
+           </tr>
+           <tr>
+           <th>Time:</th>
+           <td>00:00AM-00:00AM</td>
+           </tr>
+           <tr>
+           <th>Location:</th>
+           <td>Some Place</td>
+           </tr>
+           <tr>
+           <th>Event Type:</th>
+           <td>Project</td> <!-- project, social event, mandatory, etc-->
+           <tr>
+           </tr>
+      </table>
+      <img src="http://placehold.it/500x500"></img> 
+      <br>
+    </div>
+</div>
+
+<div class="row">
+    <div class="span12" style="margin-top:15px">        
+    <p><strong>Questions? Contact: <a href="mailto:tbp.events@gmail.com">tbp.events@gmail.com</a></strong>
+    </div> 
+</div>
+{% endblock %}
