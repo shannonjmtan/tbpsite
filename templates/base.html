@@ -92,22 +92,19 @@
       <li class="pull-right"><a href="{% url 'web.views.logout' %}?next={{ next }}">Logout</a></li>
     </ul>
     {% else %}
-    <form class="navbar-form pull-right" method="post" action="{% url 'web.views.login' %}?next={{ next }}">
-      {% csrf_token %}
-      {% if request.GET.error %}
-      <div class="control-group error">
-        <div class="controls">
-          <span class="help-inline">Invalid login</span>
-          <input type="text" class="input-medium" placeholder="Username" name="username" id="inputError">
-          <input type="password" class="input-medium" placeholder="Password" name="password" id="inputError">
-        </div>
-      </div>
-      {% else %}
-      <input type="text" class="input-medium" placeholder="Username" name="username">
-      <input type="password" class="input-medium" placeholder="Password" name="password">
-      {% endif %}
-      <button type="submit" class="btn">Sign in</button>
-    </form>
+		<form class="navbar-form pull-right" method="post" action="{% url 'web.views.login' %}?next={{ next }}">
+			{% csrf_token %}
+			{% if request.GET.error %}
+			<div class="control-group error">
+				<span class="help-inline">Invalid login</span>
+			{% else %}
+			<div class="control-group">
+				{% endif %}
+				<input type="text" class="input-medium" placeholder="Username" name="username">
+				<input type="password" class="input-medium" placeholder="Password" name="password">
+				<button type="submit" class="btn">Sign in</button>
+			</div>
+		</form>
     {% endif %}
   </div>
 </div>
