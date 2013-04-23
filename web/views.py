@@ -93,11 +93,13 @@ def login(request):
     next = get_next(request)
     username = request.POST.get('username', False)
     password = request.POST.get('password', False)
+    error = True
     if username and password:
         user = auth.authenticate(username=username, password=password)
         if user is not None:
             auth.login(request, user)
-    return redirect(next)
+            error = False
+    return redirect(next + ('' if not error else '?error=True'))
 
 def logout(request):
     next = get_next(request)
