@@ -40,3 +40,5 @@ nosetests.xml
 resumes/
 interviews/
 static/
+tbpsite/settings.py
+tbpsite/wsgi.py
