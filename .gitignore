@@ -35,6 +35,8 @@ nosetests.xml
 .project
 .pydevproject
 *.swp
+*.swo
+*.csv
 resumes/
 interviews/
 static/

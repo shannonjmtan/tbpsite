@@ -32,23 +32,26 @@ def create_candidates(modeladmin, request, queryset):
             pass
 
     for profile in queryset:
-        week_3 = Week3.objects.get_or_create(profile=profile, term=term)[0]
-        week_4 = Week4.objects.get_or_create(profile=profile, term=term)[0]
-        week_5 = Week5.objects.get_or_create(profile=profile, term=term)[0]
-        week_6 = Week6.objects.get_or_create(profile=profile, term=term)[0]
-        week_7 = Week7.objects.get_or_create(profile=profile, term=term)[0]
-        week_8 = Week8.objects.get_or_create(profile=profile, term=term)[0]
-        week_9 = Week9.objects.get_or_create(profile=profile, term=term)[0]
-        tutoring = Tutoring.objects.get_or_create(profile=profile, term=term,
-                week_3=week_3,
-                week_4=week_4,
-                week_5=week_5,
-                week_6=week_6,
-                week_7=week_7,
-                week_8=week_8,
-                week_9=week_9)[0]
-        candidate = Candidate.objects.get_or_create(profile=profile, term=term, 
-                tutoring=tutoring)[0]
+        create_candidate(profile, term)
+
+def create_candidate(profile, term):
+    week_3 = Week3.objects.get_or_create(profile=profile, term=term)[0]
+    week_4 = Week4.objects.get_or_create(profile=profile, term=term)[0]
+    week_5 = Week5.objects.get_or_create(profile=profile, term=term)[0]
+    week_6 = Week6.objects.get_or_create(profile=profile, term=term)[0]
+    week_7 = Week7.objects.get_or_create(profile=profile, term=term)[0]
+    week_8 = Week8.objects.get_or_create(profile=profile, term=term)[0]
+    week_9 = Week9.objects.get_or_create(profile=profile, term=term)[0]
+    tutoring = Tutoring.objects.get_or_create(profile=profile, term=term,
+            week_3=week_3,
+            week_4=week_4,
+            week_5=week_5,
+            week_6=week_6,
+            week_7=week_7,
+            week_8=week_8,
+            week_9=week_9)[0]
+    candidate = Candidate.objects.get_or_create(profile=profile, term=term, 
+            tutoring=tutoring)[0]
 
 class MyUserAdmin(UserAdmin):
     actions = (create_profile,)
