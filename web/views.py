@@ -181,6 +181,7 @@ def profile(request):
 
             user.save()
             profile.save()
+            error.success = True
 
     majors = [item + ((' selected="selected"',) 
         if item[0] == profile.major else ('',)) 

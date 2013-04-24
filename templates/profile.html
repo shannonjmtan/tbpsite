@@ -4,6 +4,10 @@
 
 {% block content %}
 
+{% if error.success %}
+<p class="text-success">Changes saved succesfully</p>
+{% endif %}
+
 <form method="post" enctype="multipart/form-data">
   {% csrf_token %}
   <fieldset>  
