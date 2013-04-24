@@ -5,6 +5,28 @@ from tutoring.models import *
 from django.contrib.auth.models import User
 from django.contrib.auth.admin import UserAdmin
 from django.core.exceptions import ObjectDoesNotExist
+from django.core.mail import send_mail
+
+def reset_password(modeladmin, request, queryset):
+    for user in queryset:
+        password = User.objects.make_random_password()
+        user.set_password(password)
+        user.save()
+        send_mail('TBP Account Password Reset', 
+                'Welcome to UCLA Tau Beta Pi!\n'
+                'Our website can be found at http://tbp.seas.ucla.edu\n'
+                '\n'
+                'Username: %s\n'
+                'Password: %s\n'
+                '\n'
+                'This account is used for uploading your resume and professor interview.\n'
+                'You can find your profile by clicking your username at the top right corner after logging in.\n'
+                'Please change your password and update your information so we can keep the resumes we send out up to date.\n'
+                '\n'
+                'Bryan Ngo\n'
+                'Webmaster - Tau Beta Pi\n'
+                'UCLA - CA Epsilon\n' % (user.get_username(), password),
+                'bngo92@gmail.com', [user.email], fail_silently=False)
 
 def create_profile(modeladmin, request, queryset):
     term = Current.objects.get_term()
@@ -54,14 +76,16 @@ def create_candidate(profile, term):
             tutoring=tutoring)[0]
 
 class MyUserAdmin(UserAdmin):
-    actions = (create_profile,)
+    actions = (create_profile, reset_password)
 
 class HousePointsAdmin(admin.ModelAdmin):
     list_display = ('__unicode__', 'term', 'resume', 'professor_interview', 'other')
     list_editable = ('resume', 'professor_interview', 'other')
 
 class ProfileAdmin(admin.ModelAdmin):
-    list_display = ('__unicode__', 'position', 'house', 'major', 'initiation_term', 'graduation_term')
+    list_display = ('__unicode__', 'position', 'house', 'major', 'initiation_term', 'graduation_term', 'resume', 'professor_interview')
+    list_filter = ('position',)
+    search_fields = ('user__first_name', 'user__last_name')
     actions = (create_candidates,)
 
 class CandidateAdmin(admin.ModelAdmin):

@@ -134,6 +134,9 @@ class Profile(models.Model):
     resume = models.DateTimeField(blank=True, null=True)
     professor_interview = models.DateTimeField(blank=True, null=True)
 
+    class Meta:
+        ordering = ('user',)
+
     def __unicode__(self):
         ret = self.user.get_full_name()
         return ret if ret else self.user.get_username()

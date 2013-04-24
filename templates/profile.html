@@ -13,7 +13,7 @@
     <div class="control-group error">
       <label class="control-label" for="inputError">Current Password</label>
       <div class="controls">
-        <input type="password" id="inputError" name="current_password">
+        <input type="password" name="current_password">
         <span class="help-inline">Incorrect password</span>
       </div>
     </div>
@@ -27,7 +27,7 @@
     <div class="control-group error">
       <label class="control-label" for="inputError">Username</label>
       <div class="controls">
-        <input type="text" id="inputError" name="username" value="{{ user.get_username }}" required>
+        <input type="text" name="username" value="{{ user.get_username }}" required>
         <span class="help-inline">Username has already been taken</span>
       </div>
     </div>
@@ -40,7 +40,7 @@
     <div class="control-group error">
       <label class="control-label" for="inputError">New Password</label>
       <div class="controls">
-        <input type="text" id="inputError" name="new_password">
+        <input type="password" name="new_password">
         <span class="help-inline">Passwords do not match</span>
       </div>
     </div>
@@ -50,7 +50,7 @@
     {% endif %}
 
     <label>Confirm Password</label>
-    <input type="password">
+    <input type="password" name="confirm_password">
     <label>Email</label>
     <input type="email" name="email" value="{{ user.email }}" required>
     <label>First Name</label>
@@ -76,7 +76,7 @@
     <input type="file" name="resume">
     <br />
     {% if profile.resume %}
-    <a href="{% url 'app.views.resume' %}">Last upload: {{ profile.resume }}</a>
+    <a href="{% url 'web.views.resume' %}">Last upload: {{ profile.resume }}</a>
     {% else %}
     <span class="help-inline">Last upload: {{ profile.resume }}</span>
     {% endif %}
@@ -84,7 +84,7 @@
     <input type="file" name="professor_interview">
     <br />
     {% if profile.professor_interview %}
-    <a href="{% url 'app.views.interview' %}">Last upload: {{ profile.professor_interview }}</a>
+    <a href="{% url 'web.views.interview' %}">Last upload: {{ profile.professor_interview }}</a>
     {% else %}
     <span class="help-inline">Last upload: {{ profile.professor_interview }}</span>
     {% endif %}
