@@ -53,8 +53,8 @@ def poker_tournament(request):
 def rube_goldberg(request):
     return render_next(request, 'rube_goldberg.html')
 
-def requirements(request):
-    return render_next(request, 'requirements.html')
+def candidates(request):
+    return render_next(request, 'candidates.html')
 
 def tutoring(request):
     return render_next(request, 'tutoring.html')
