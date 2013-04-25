@@ -53,6 +53,9 @@ def poker_tournament(request):
 def rube_goldberg(request):
     return render_next(request, 'rube_goldberg.html')
 
+def cb_race(request):
+    return render_next(request, 'cb_race.html')
+
 def candidates(request):
     return render_next(request, 'candidates.html')
 

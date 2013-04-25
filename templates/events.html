@@ -3,12 +3,44 @@
 {% block title %}Events{% endblock %}
 
 {% block content %}
-
+<div class = "row-fluid"><div class = "span12" style="margin-bottom:20px">
 <h1>Events</h1>
+</div></div>
+<div class="row-fluid">
+<div class="span8">
+<table class="table" style="margin-bottom:50px">
+	<tr>
+		<th>Upcoming Events</th>
+		<th>Date/Time</th>
+		<th>Location</th>
+		<th>Event Type:</th>
+	</tr>
+	<tr>
+		<td><a href="{% url 'web.views.cb_race' %}">Cardboard Boat Race</a></td>
+		<td>Sat 05/18 10:30AM-03:30PM</td>
+		<td>SAC Pool</td>
+		<td>Project</td>
+	</tr>
+</table>
 
-<ul>
-    <li><a href="{% url 'web.views.poker_tournament' %}">Poker Tournament</a></li>
-    <li><a href="{% url 'web.views.rube_goldberg' %}">Rube Goldberg</a></li>
-</ul>
+<table class="table" style="margin-bottom-20px">
+	<tr>
+		<th>Past Events</th>
+	</tr>
+    <tr>
+        <td style="color:gray">Candidate Meet and Greet</td>
+    </tr>
+	<tr>
+		<td><a href="{% url 'web.views.poker_tournament' %}" style="color:gray">Poker Tournament</a></td>
+	</tr>
+	<tr>
+    	<td><a href="{% url 'web.views.rube_goldberg' %}" style="color:gray">Rube Goldberg</a></td>
+	</tr>
+</table>
 
+</div>
+<div class="span4">
+<img src="http://placehold.it/500x700" width="100%"></img>
+</div>
+</div>
 {% endblock %}
