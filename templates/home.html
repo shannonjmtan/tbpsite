@@ -9,26 +9,26 @@
 	padding-bottom:30px;
 }
 </style>
-<div id="content" class="row-fluid">
+<div class="row-fluid">
   <div class="span8">
 	<div id="this-carousel-id" class="carousel slide">
 	  <div class="carousel-inner">
 		<div class="item active">
 		  <img src="static/img/about.jpg" alt="" />
 		  <div class="carousel-caption" style="padding-bottom:30px">
-			<a href="{% url 'web.views.about' %}" style="color:white">About Us</a>
+			<a href="{% url 'web.views.about' %}" style="color:white"><h4>About Us</h4></a>
 		  </div>
 		</div>
 		<div class="item">
 		  <img src="static/img/tutoring.jpg" alt="" />
 		  <div class="carousel-caption">
-			<a href="{% url 'web.views.tutoring' %}" style="color:white">Tutoring</a>
+			<a href="{% url 'web.views.tutoring' %}" style="color:white"><h4>Tutoring</h4></a>
 		  </div>
 		</div>
 		<div class="item">
 		  <img src="static/img/events.jpg" alt="" />
 		  <div class="carousel-caption">
-			<a href="{% url 'web.views.events' %}" style="color:white">Events</a>
+			<a href="{% url 'web.views.events' %}" style="color:white"><h4>Events</h4></a>
 		  </div>
 		</div>
 	  </div>
@@ -36,15 +36,21 @@
 	  <a class="carousel-control right" href="#this-carousel-id" data-slide="next">&rsaquo;</a>
 	</div>
   </div>
-  <div class="span4">
+  <div class="span4" style="padding-left:10px">
 	<h2>UCLA Tau Beta Pi</h2>
-    <h4>Announcements</h4>
-    <a href="http://bit.ly/TBPtutoring" class="btn btn-large btn-primary">The Tutoring Schedule is Up!</a>
-    <h4>Upcoming Events</h4> 
-    <dl><a href="{% url 'web.views.cb_race' %}">Cardboard Boat Race</a>
-    <dd>SAC Pool</dd>
-    <dd>Sat 05/18 10:30am-3:30pm</dd>
-    </dl>
+    <table class="table">
+        <tr><td>
+            <h4 style="margin-top:10px">Announcements</h4>
+            <a href="http://bit.ly/TBPtutoring" class="btn btn-large btn-primary">The Tutoring Schedule is Up!</a>
+        </td></tr>
+        <tr><td>
+            <h4>Upcoming Events</h4> 
+            <dl><a href="{% url 'web.views.cb_race' %}">Cardboard Boat Race</a>
+            <dd>SAC Pool</dd>
+            <dd>Sat 05/18 10:30am-3:30pm</dd>
+            </dl>
+        </td></tr>
+    </table>
   </div>
 </div>
 

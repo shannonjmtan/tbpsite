@@ -25,16 +25,15 @@
 	content:
 	none;
   }
-  .navbar .dropdown-menu
+  ul.dropdown-menu
   {
-	margin-top:
-	0px;
+    padding-top:3px;
   }
 </style> 
 
-<div class="navbar">
-  <div class="navbar-inner">
-    <a class="brand" href="{% url 'web.views.home' %}">UCLA Tau Beta Pi</a>
+<div class="navbar" style="padding:0px">
+  <div class="navbar-inner " style="padding-top:5px">
+    <a class="brand" href="{% url 'web.views.home' %}"><strong>UCLA Tau Beta Pi</strong></a>
     <ul class="nav">
       {% comment %}<li class="active"><a href="#">Home</a></li>{% endcomment %}
       <li class="dropdown">
