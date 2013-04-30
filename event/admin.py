@@ -1,8 +1,9 @@
 from django.contrib import admin
-from social.models import Social
+from event.models import Event
 
-class SocialAdmin(admin.ModelAdmin):
-    list_display = ('__unicode__', 'term')
+class EventAdmin(admin.ModelAdmin):
+    list_display = ('__unicode__', 'term', 'name', 'start', 'end', 'event_type', 'dropdown')
+    list_editable = ('dropdown',)
     filter_horizontal = ('attendees',)
 
-admin.site.register(Social, SocialAdmin)
+admin.site.register(Event, EventAdmin)

@@ -1,45 +1,44 @@
 {% extends "base.html" %}
 
-{% block title %}[title]{% endblock %}
+{% block title %}{{ event.name }}{% endblock %}
 
 {% block content %}
 <!-- TITLE --> 
 <div class="row">
     <div class="span12" style="margin-bottom:20px">
     
-    <h4>Tau Beta Pi Presents:</h4> <!--optional-->
-    <h1>[Title]</h1>
+        <h4>Tau Beta Pi Presents:</h4> <!--optional-->
+        <h1>{{ event.name }}</h1>
     </div>
 </div>
 
 <div class="row">
     <div class="span8"> 
-    [eventDescription]
+        {% autoescape off %}
+        {{ event.description }}
+        {% endautoescape %}
     </div>
-    
-    </div> 
     <div class="span4">
-      <table class="table">
-           <tr>
-           <th>Date:</th>
-           <td>Day, MM/DD/YYYY</td>
-           </tr>
-           <tr>
-           <th>Time:</th>
-           <td>00:00AM-00:00AM</td>
-           </tr>
-           <tr>
-           <th>Location:</th>
-           <td>Some Place</td>
-           </tr>
-           <tr>
-           <th>Event Type:</th>
-           <td>Project</td> <!-- project, social event, mandatory, etc-->
-           <tr>
-           </tr>
-      </table>
-      <img src="http://placehold.it/500x500"></img> 
-      <br>
+        <table class="table">
+            <tr>
+                <th>Date:</th>
+                <td>{{ event.get_date }}</td>
+            </tr>
+            <tr>
+                <th>Time:</th>
+				<td>{{ event.get_time }}</td>
+            </tr>
+            <tr>
+                <th>Location:</th>
+                <td>{{ event.location }}</td>
+            </tr>
+            <tr>
+                <th>Event Type:</th>
+                <td>{{ event.get_event_type_display }}</td> <!-- project, social event, mandatory, etc-->
+            </tr>
+        </table>
+		<img src="{% if event.image %}/media/{{ event.image.url }}{% endif %}"> 
+        <br>
     </div>
 </div>
 

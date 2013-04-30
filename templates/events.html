@@ -15,27 +15,28 @@
 		<th>Location</th>
 		<th>Event Type:</th>
 	</tr>
+    {% for event in upcoming_events %}
 	<tr>
-		<td><a href="{% url 'web.views.cb_race' %}">Cardboard Boat Race</a></td>
-		<td>Sat 05/18 10:30AM-03:30PM</td>
-		<td>SAC Pool</td>
-		<td>Project</td>
+        <td><a href="/events/{{ event.url }}">{{ event.name }}</a></td>
+        <td>{{ event.datetime }}</td>
+        <td>{{ event.location }}</td>
+        <td>{{ event.get_event_type_display }}</td>
 	</tr>
-</table>
-
-<table class="table" style="margin-bottom-20px">
+    {% endfor %}
 	<tr>
 		<th>Past Events</th>
+		<th>Date/Time</th>
+		<th>Location</th>
+		<th>Event Type:</th>
 	</tr>
-    <tr>
-        <td style="color:gray">Candidate Meet and Greet</td>
-    </tr>
+    {% for event in past_events %}
 	<tr>
-		<td><a href="{% url 'web.views.poker_tournament' %}" style="color:gray">Poker Tournament</a></td>
+        <td><a href="/events/{{ event.url }}" style="color:gray">{{ event.name }}</a></td>
+        <td style="color:gray">{{ event.datetime }}</td>
+        <td style="color:gray">{{ event.location }}</td>
+        <td style="color:gray">{{ event.get_event_type_display }}</td>
 	</tr>
-	<tr>
-    	<td><a href="{% url 'web.views.rube_goldberg' %}" style="color:gray">Rube Goldberg</a></td>
-	</tr>
+    {% endfor %}
 </table>
 
 </div>
