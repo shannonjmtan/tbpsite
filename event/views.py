@@ -1,6 +1,8 @@
 from event.models import Event
 from web.views import render_next
 from datetime import datetime
+from django.core.exceptions import ObjectDoesNotExist
+from django.shortcuts import Http404
 
 def events(request): 
     today = datetime.today()
@@ -9,5 +11,9 @@ def events(request):
                 'past_events': Event.objects.filter(end__lte=today)})
 
 def event(request, url):
+    try:
+        event = Event.objects.get(url=url)
+    except ObjectDoesNotExist:
+        raise Http404
     return render_next(request, 'event_template.html', 
             {'event': Event.objects.get(url=url)})
