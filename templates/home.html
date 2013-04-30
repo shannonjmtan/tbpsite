@@ -28,7 +28,7 @@
 		<div class="item">
 		  <img src="static/img/events.jpg" alt="" />
 		  <div class="carousel-caption">
-			<a href="{% url 'web.views.events' %}" style="color:white"><h4>Events</h4></a>
+			<a href="{% url 'event.views.events' %}" style="color:white">Events</a>
 		  </div>
 		</div>
 	  </div>
@@ -38,19 +38,15 @@
   </div>
   <div class="span4" style="padding-left:10px">
 	<h2>UCLA Tau Beta Pi</h2>
-    <table class="table">
-        <tr><td>
-            <h4 style="margin-top:10px">Announcements</h4>
-            <a href="http://bit.ly/TBPtutoring" class="btn btn-large btn-primary">The Tutoring Schedule is Up!</a>
-        </td></tr>
-        <tr><td>
-            <h4>Upcoming Events</h4> 
-            <dl><a href="{% url 'web.views.cb_race' %}">Cardboard Boat Race</a>
-            <dd>SAC Pool</dd>
-            <dd>Sat 05/18 10:30am-3:30pm</dd>
-            </dl>
-        </td></tr>
-    </table>
+    <h4>Announcements</h4>
+    <a href="http://bit.ly/TBPtutoring" class="btn btn-large btn-primary">The Tutoring Schedule is Up!</a>
+    <h4>Upcoming Events</h4> 
+    {% for event in events %}
+    <dl><a href="/events/{{ event.url }}">{{ event.name }}</a>
+      <dd>{{ event.location }}</dd>
+      <dd>{{ event.datetime }}</dd>
+    {% endfor %}
+    </dl>
   </div>
 </div>
 

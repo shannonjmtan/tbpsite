@@ -3,8 +3,8 @@
 <title>{% block title %}{% endblock %}</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Bootstrap -->
-<link href="static/css/bootstrap.min.css" rel="stylesheet" media="screen">
-<link href="static/css/todc-bootstrap.css" rel="stylesheet" media="screen">
+<link href="/static/css/bootstrap.min.css" rel="stylesheet" media="screen">
+<link href="/static/css/todc-bootstrap.css" rel="stylesheet" media="screen">
 
 <style>
   body
@@ -37,9 +37,11 @@
     <ul class="nav">
       {% comment %}<li class="active"><a href="#">Home</a></li>{% endcomment %}
       <li class="dropdown">
-      <a href="{% url 'web.views.events' %}">Events</a>
+      <a href="{% url 'event.views.events' %}">Events</a>
       <ul class="dropdown-menu">
-        <li><a href="{% url 'web.views.cb_race' %}">Cardboard Boat Race</a></li>
+        {% for event in events %}
+        <li><a href="/events/{{ event.url }}">{{ event.name }}</a></li>
+        {% endfor %}
       </ul>
       </li>
       <li><a href="{% url 'web.views.tutoring' %}">Tutoring</a></li>

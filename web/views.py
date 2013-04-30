@@ -8,6 +8,7 @@ import tbpsite
 import datetime
 from django.http import HttpResponse
 from django.core.servers.basehttp import FileWrapper
+from event.models import Event
 
 class Error:
     def __init__(self):
@@ -36,25 +37,15 @@ def get_next(request):
         next = '/'
     return next
 
-def render_next(request, template_name):
-    return render(request, template_name, 
-            {'user': request.user, 
-                'next': request.path})
+def render_next(request, template_name, additional=None):
+    dictionary = {'user': request.user, 'next': request.path, 
+            'events': Event.objects.filter(dropdown=True)}
+    if additional is not None:
+        dictionary.update(additional)
+    return render(request, template_name, dictionary)
 
 def home(request):
     return render_next(request, 'home.html')
-
-def events(request): 
-    return render_next(request, 'events.html')
-
-def poker_tournament(request):
-    return render_next(request, 'poker_tournament.html')
-
-def rube_goldberg(request):
-    return render_next(request, 'rube_goldberg.html')
-
-def cb_race(request):
-    return render_next(request, 'cb_race.html')
 
 def candidates(request):
     return render_next(request, 'candidates.html')
