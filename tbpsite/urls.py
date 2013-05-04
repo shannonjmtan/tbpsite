@@ -8,9 +8,7 @@ admin.autodiscover()
 urlpatterns = patterns('',
     # Examples:
     url(r'^$', 'web.views.home', name='home'),
-    url(r'^events/$', 'event.views.events'),
-    url(r'^events/(?P<url>\w+)/$', 'event.views.event'),
-    url(r'^cb_race/$', 'web.views.event_redirect', {'event_url': 'cb_race'}),
+
     url(r'^candidates/$', 'web.views.candidates'),
     url(r'^programs/$', 'web.views.programs'),
     url(r'^emcc/$', 'web.views.emcc'),
@@ -23,17 +21,22 @@ urlpatterns = patterns('',
     url(r'^feedback/$', 'web.views.feedback'),
     url(r'^contact/$', 'web.views.contact'),
     url(r'^eligibility_list/$', 'web.views.eligibility_list'),
-    url(r'^houses/$', 'web.views.houses'),
-    # url(r'^app/', include('web.foo.urls')),
+
+    #url(r'^houses/$', 'web.views.houses'),
+    url(r'^logout$', 'main.views.logout'),
+    url(r'^login$', 'main.views.login'),
+    url(r'^profile$', 'main.views.profile'),
+    url(r'^resume$', 'main.views.resume'),
+    url(r'^interview$', 'main.views.interview'),
+
+    # url(r'^events/', include('event.site.urls')),
+    url(r'^events/$', 'event.views.events'),
+    url(r'^events/(?P<url>\w+)/$', 'event.views.event'),
+    url(r'^cb_race/$', 'event.views.event_redirect', {'event_url': 'cb_race'}),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^logout$', 'web.views.logout'),
-    url(r'^login$', 'web.views.login'),
-    url(r'^profile$', 'web.views.profile'),
-    url(r'^resume$', 'web.views.resume'),
-    url(r'^interview$', 'web.views.interview'),
 )

@@ -2,7 +2,7 @@ from event.models import Event
 from web.views import render_next
 from datetime import datetime
 from django.core.exceptions import ObjectDoesNotExist
-from django.shortcuts import Http404
+from django.shortcuts import redirect, Http404
 
 def events(request): 
     today = datetime.today()
@@ -17,3 +17,6 @@ def event(request, url):
         raise Http404
     return render_next(request, 'event_template.html', 
             {'event': Event.objects.get(url=url)})
+
+def event_redirect(request, event_url):
+    return redirect('/events/' + event_url)

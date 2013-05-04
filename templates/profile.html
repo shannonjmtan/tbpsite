@@ -80,7 +80,7 @@
     <input type="file" name="resume">
     <br />
     {% if profile.resume %}
-    <a href="{% url 'web.views.resume' %}">Last upload: {{ profile.resume }}</a>
+    <a href="{% url 'main.views.resume' %}">Last upload: {{ profile.resume }}</a>
     {% else %}
     <span class="help-inline">Last upload: {{ profile.resume }}</span>
     {% endif %}
@@ -88,7 +88,7 @@
     <input type="file" name="professor_interview">
     <br />
     {% if profile.professor_interview %}
-    <a href="{% url 'web.views.interview' %}">Last upload: {{ profile.professor_interview }}</a>
+    <a href="{% url 'main.views.interview' %}">Last upload: {{ profile.professor_interview }}</a>
     {% else %}
     <span class="help-inline">Last upload: {{ profile.professor_interview }}</span>
     {% endif %}

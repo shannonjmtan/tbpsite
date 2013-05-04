@@ -66,11 +66,11 @@
     </ul>
     {% if user.is_authenticated %}
     <ul class="nav pull-right">
-      <li class="pull-right"><a href="{% url 'web.views.profile' %}">{{ user.username }}</a></li>
-      <li class="pull-right"><a href="{% url 'web.views.logout' %}?next={{ next }}">Logout</a></li>
+      <li class="pull-right"><a href="{% url 'main.views.profile' %}">{{ user.username }}</a></li>
+      <li class="pull-right"><a href="{% url 'main.views.logout' %}?next={{ next }}">Logout</a></li>
     </ul>
     {% else %}
-		<form class="navbar-form pull-right" method="post" action="{% url 'web.views.login' %}?next={{ next }}">
+		<form class="navbar-form pull-right" method="post" action="{% url 'main.views.login' %}?next={{ next }}">
 			{% csrf_token %}
 			{% if request.GET.error %}
 			<div class="control-group error">
