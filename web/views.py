@@ -229,3 +229,5 @@ def feedback(request):
         Feedback(comment=request.POST.get('comment')).save()
     return redirect('main.views.tutoring')
 
+def event_redirect(request, event_url):
+    return redirect('/events/' + event_url)
