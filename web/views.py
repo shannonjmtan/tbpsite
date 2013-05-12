@@ -16,10 +16,6 @@ def home(request):
 def requirements(request):
     return render_next(request, 'requirements.html')
 
-def candidates(request):
-    return render_next(request, 'candidates.html', 
-            {'candidate_list': Candidate.default.all()})
-
 def tutoring(request):
     return render_next(request, 'tutoring.html')
 

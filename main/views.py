@@ -1,11 +1,12 @@
 from django.contrib import auth
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
-from main.models import Profile, Term
+from main.models import Profile, Term, Candidate
 from tbpsite.settings import BASE_DIR
 from django.http import HttpResponse
 from django.core.servers.basehttp import FileWrapper
 from django.core.exceptions import ObjectDoesNotExist
+from web.views import render_next
 import datetime
 
 class Error:
@@ -177,4 +178,12 @@ def interview(request):
         return response
     except IOError:
         return redirect(next)
+
+def candidates(request):
+    next = get_next(request)
+    if not request.user.is_authenticated() and not request.user.is_staff():
+        return redirect(next)
+
+    return render(request, 'candidates.html', 
+            {'candidate_list': Candidate.default.all()})
 
