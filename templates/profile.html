@@ -76,7 +76,10 @@
     </select>
 	<input type="text" name="graduation_year" 
 	{% if term.year %}value="{{ term.year }}"{% endif %} required>
+    <br />
     <label>Resume</label>
+    <span class="help-inline">Please submit PDF files.</span>
+    <br />
     <input type="file" name="resume">
     <br />
     {% if profile.resume %}
@@ -91,8 +94,6 @@
     <a href="{% url 'main.views.interview' %}">Last upload: {{ profile.professor_interview }}</a>
     {% else %}
     <span class="help-inline">Last upload: {{ profile.professor_interview }}</span>
-    {% endif %}
-    {% if profile.resume %}
     {% endif %}
     <div class="form-actions">
       <button type="submit" class="btn btn-primary">Save changes</button>

@@ -135,7 +135,7 @@ class Profile(models.Model):
     professor_interview = models.DateTimeField(blank=True, null=True)
 
     class Meta:
-        ordering = ('user',)
+        ordering = ('position', 'user__last_name', 'user__first_name')
 
     def __unicode__(self):
         ret = self.user.get_full_name()
