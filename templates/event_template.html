@@ -21,12 +21,30 @@
     <div class="span4">
         <table class="table">
             <tr>
+				{% if event.is_same_day %}
                 <th>Date:</th>
-                <td>{{ event.get_date }}</td>
+                <td>
+				{{ event.get_date }}
+                </td>
+				{% else %}
+                <th>Start:</th>
+                <td>
+				{{ event.get_start }}
+                </td>
+				{% endif %}
             </tr>
             <tr>
+				{% if event.is_same_day %}
                 <th>Time:</th>
-				<td>{{ event.get_time }}</td>
+                <td>
+				{{ event.get_time }}
+                </td>
+				{% else %}
+                <th>End:</th>
+                <td>
+				{{ event.get_end }}
+                </td>
+				{% endif %}
             </tr>
             <tr>
                 <th>Location:</th>

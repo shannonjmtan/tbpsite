@@ -32,8 +32,10 @@ urlpatterns = patterns('',
     # url(r'^events/', include('event.site.urls')),
     url(r'^events/$', 'event.views.events'),
     url(r'^events/(?P<url>\w+)/$', 'event.views.event'),
-    url(r'^cb_race/$', 'event.views.event_redirect', {'event_url': 'cb_race'}),
-    url(r'^scholarship/$','event.views.event_redirect',{'event_url':'scholarship}),
+    url(r'^cb_race/$', 'event.views.event_redirect', 
+        {'event_url': 'cb_race'}),
+    url(r'^scholarship/$','event.views.event_redirect', 
+        {'event_url': 'scholarship'}),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),

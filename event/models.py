@@ -37,13 +37,22 @@ class Event(models.Model):
     def is_upcoming(self):
         return self.end < datetime.datetime.today()
 
+    def get_start(self):
+        return self.start.strftime("%a, %m/%d/%y %I:%M%p")
+
+    def get_end(self):
+        return self.end.strftime("%a, %m/%d/%y %I:%M%p")
+
     def get_date(self):
-        return self.start.strftime("%a, %m/%d/%y") + '' if self.is_same_day() else (
-                self.end.strftime("-%a, %m/%d%y"))
+        return self.start.strftime("%a, %m/%d/%y") + (
+                '' if self.is_same_day() 
+                else self.end.strftime("-%a, %m/%d/%y"))
 
     def get_time(self):
         return self.start.strftime("%I:%M%p") + self.end.strftime("-%I:%M%p")
 
     def datetime(self):
-        return self.start.strftime("%a %m/%d %I:%M%p") + (self.end.strftime(
-            "-%I:%M%p") if self.is_same_day() else self.end.stftime("-%a %m/%d %I:%M%p"))
+        return self.start.strftime("%a %m/%d %I:%M%p") + (
+                self.end.strftime("-%I:%M%p") 
+                if self.is_same_day() 
+                else self.end.strftime("-%a %m/%d %I:%M%p"))
