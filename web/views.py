@@ -13,8 +13,12 @@ def render_next(request, template_name, additional=None):
 def home(request):
     return render_next(request, 'home.html')
 
+def requirements(request):
+    return render_next(request, 'requirements.html')
+
 def candidates(request):
-    return render_next(request, 'candidates.html', {'candidate_list': Candidate.default.all()})
+    return render_next(request, 'candidates.html', 
+            {'candidate_list': Candidate.default.all()})
 
 def tutoring(request):
     return render_next(request, 'tutoring.html')

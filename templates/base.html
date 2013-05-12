@@ -55,7 +55,7 @@
       <li class="dropdown">
 	  <a href="{% url 'web.views.about' %}" class="dropdown-toggle">About Us</a>
 	  <ul class="dropdown-menu">
-		  <li><a href="{% url 'web.views.candidates' %}">Candidates</a></li>
+		  <li><a href="{% url 'web.views.requirements' %}">Requirements</a></li>
 		  <li><a href="https://www.facebook.com/tbp.epsilon.ucla/photos_stream">Photos</a></li>
 		  <li><a href="{% url 'web.views.awards' %}">Awards</a></li>
 		  <li><a href="{% url 'web.views.officers' %}">Officers</a></li>
@@ -66,8 +66,16 @@
     </ul>
     {% if user.is_authenticated %}
     <ul class="nav pull-right">
-      <li class="pull-right"><a href="{% url 'main.views.profile' %}">{{ user.username }}</a></li>
-      <li class="pull-right"><a href="{% url 'main.views.logout' %}?next={{ next }}">Logout</a></li>
+        {% if user.is_staff %}
+        <li class="dropdown">
+        <a href="/admin" class="dropdown-toggle">Admin</a>
+        <ul class="dropdown-menu">
+            <li><a href="{% url 'web.views.candidates' %}">Candidates</a></li>
+        </ul>
+        </li>
+        {% endif %}
+      <li><a href="{% url 'main.views.profile' %}">{{ user.username }}</a></li>
+      <li><a href="{% url 'main.views.logout' %}?next={{ next }}">Logout</a></li>
     </ul>
     {% else %}
 		<form class="navbar-form pull-right" method="post" action="{% url 'main.views.login' %}?next={{ next }}">

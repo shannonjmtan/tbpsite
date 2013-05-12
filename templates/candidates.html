@@ -4,123 +4,43 @@
 
 {% block content %}
 <div id="content" class="row-fluid">
-<h1 style="margin-bottom:20px">Candidates</h1>
-<div class="accordion" id="accordion2">
-	<div class="accordion-group">
-		<div class="accordion-heading">
-			<a class="accordion-toggle" data-toggle="collapse"
- data-parent="#accordion2" href="#collapseOne">
-				<h4>New Member Candidates</h4>
-			</a>
-		</div>
-		<div id="collapseOne" class="accordion-body collapse in"> 
-			<div class="accordion-inner">
-				<h5>Initiation Requirements</h5>
-				<ul>
-					<li>Bent Polish</li>
-					<li>Candidate Quiz</li>
-					<li>Candidate Meet and Greet</li>
-					<li>Social Event</li>
-					<li>Signature Book</li>
-					<li>Community Service</li>
-					<li>Initation Fee</li>
-					<li>Tutoring</li>
-					<li>Engineering Futures</li>
-					<li>Resume Submission</li>
-					<li>Professor Interview</li>
-					<li>Attend Initation Ceremony and Banquet</li>
-				</ul>
-
-				<h5>Eligibility List</h5>
-				<p>View the list of eligible candidates for the Spring 2013 quarter <a href="#">here</a></p>
-				
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Completed</th>
-                            <th>Bent Polish</th>
-                            <th>Candidate Quiz</th>
-                            <th>Candidate Meet and Greet</th>
-                            <th>Social Event</th>
-                            <th>Signature Book</th>
-                            <th>Community Service</th>
-                            <th>Initation Fee</th>
-                            <th>Tutoring</th>
-                            <th>Engineering Futures</th>
-                            <th>Resume Submission</th>
-                            <th>Professor Interview</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for candidate in candidate_list %}
-                        <tr class={% if candidate.completed %}"success"{% else %}"error"{% endif %}</td>
-                            <td>{{ candidate }}</td>
-                            <td>{% if candidate.completed %}<i class="icon-ok"></i>{% else %}<i class="icon-remove"></i>{% endif %}</td>
-                            <td>{% if candidate.bent_polish %}<i class="icon-ok"></i>{% else %}<i class="icon-remove"></i>{% endif %}</td>
-                            <td>{% if candidate.candidate_quiz_complete %}<i class="icon-ok"></i>{% else %}<i class="icon-remove"></i>{% endif %}</td>
-                            <td>{% if candidate.candidate_meet_and_greet %}<i class="icon-ok"></i>{% else %}<i class="icon-remove"></i>{% endif %}</td>
-                            <td>{% if candidate.social_complete %}<i class="icon-ok"></i>{% else %}<i class="icon-remove"></i>{% endif %}</td>
-                            <td>{% if candidate.signature_book_complete %}<i class="icon-ok"></i>{% else %}<i class="icon-remove"></i>{% endif %}</td>
-                            <td>{% if candidate.community_service_complete %}<i class="icon-ok"></i>{% else %}<i class="icon-remove"></i>{% endif %}</td>
-                            <td>{% if candidate.initation_fee %}<i class="icon-ok"></i>{% else %}<i class="icon-remove"></i>{% endif %}</td>
-                            <td>{% if candidate.tutoring_complete %}<i class="icon-ok"></i>{% else %}<i class="icon-remove"></i>{% endif %}</td>
-                            <td>{% if candidate.engineering_futures %}<i class="icon-ok"></i>{% else %}<i class="icon-remove"></i>{% endif %}</td>
-                            <td>{% if candidate.resume_submission %}<i class="icon-ok"></i>{% else %}<i class="icon-remove"></i>{% endif %}</td>
-                            <td>{% if candidate.professor_interview %}<i class="icon-ok"></i>{% else %}<i class="icon-remove"></i>{% endif %}</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-
-			</div>
-		</div>
-	</div>
-	<div class="accordion-group">
-		<div class="accordion-heading">
-			<a class="accordion-toggle" data-toggle="collapse"
- data-parent="#accordion2" href="#collapseTwo">
-				<h4>Distinguished Active Candidates</h4>
-			</a>
-		</div>
-		<div id="collapseTwo" class="accordion-body collapse"> 
-			<div class="accordion-inner">
-				<h5>Requirements</h5>
-				<ul>
-  				<li>Tutoring (2 hrs/week from Week 3 to Week 9) and/or EMCC</li>
-				  <li>Two events hosted by TBP (i.e. infosessions, socials, Engineering Futures, competitions, etc.)</li>
-				</ul>		
-
-				<p>Once members have completed the requirements to become distinguished actives they are eligible to purchase a white stole to wear at graduation (see picture). Members will receive $5 off their stole for completion of the requirements in subsequent quarters. All members who complete the distinguished active requirements for a given quarter will be invited to attend the next TBP banquet.</p>
-			</div>
-		</div>
-	</div>
-	<div class="accordion-group">
-		<div class="accordion-heading">
-			<a class="accordion-toggle" data-toggle="collapse"
- data-parent="#accordion2" href="#collapseThree">
-				<h4>Houses</h4>
-			</a>
-		</div>
-		<div id="collapseThree" class="accordion-body collapse"> 
-			<div class="accordion-inner">
-				<p>Each initiation quarter, candidates and officers will be divided into four houses - Tau, Beta, Pi, and Epsilon - and will compete throughout the quarter to earn points for their house. The house that earns the most points by the end of the quarter will win the honor of Top House, as well as a special prize.
-
-				<h5>Ways to Earn House Points:</h5>
-
-				<ul>
-					<li>First three houses to turn in Professor Interview/Resume (1st: 25, 2nd: 10, 3rd: 5)</li>
-					<li>Best candidate signature book (1st: 25, 2nd: 10, 3rd: 5)</li>
-					<li>Best candidate quiz score (1st: 25, 2nd: 10, 3rd: 5)</li>
-					<li>Attending info-sessions (5 per event)</li>
-					<li>Complete extra tutoring hours (1 per hour, max 5 per week)</li>
-					<li>Extra community service events (5 per event)</li>
-					<li>Attend extra social events (5 per event, 50 if entire house attends extra social)</li>
-					<li>Win games at social events (1st: 25, 2nd: 10, 3rd: 5)</li>
-				</ul>
-			</div>
-		</div>
-	</div>
+	<h1 style="margin-bottom:20px">Candidates</h1>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Bent Polish</th>
+				<th>Candidate Quiz</th>
+				<th>Candidate Meet and Greet</th>
+				<th>Social Event</th>
+				<th>Signature Book</th>
+				<th>Community Service</th>
+				<th>Initation Fee</th>
+				<th>Tutoring</th>
+				<th>Engineering Futures</th>
+				<th>Resume Submission</th>
+				<th>Professor Interview</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for candidate in candidate_list %}
+			<tr class={% if candidate.completed %}"success"{% else %}"error"{% endif %}>
+				<td>{{ candidate }}</td>
+				<td>{% if candidate.bent_polish %}<i class="icon-ok"></i>{% else %}<i class="icon-remove"></i>{% endif %}</td>
+				<td>{% if candidate.candidate_quiz_complete %}<i class="icon-ok"></i>{% else %}<i class="icon-remove"></i>{% endif %}</td>
+				<td>{% if candidate.candidate_meet_and_greet %}<i class="icon-ok"></i>{% else %}<i class="icon-remove"></i>{% endif %}</td>
+				<td>{% if candidate.social_complete %}<i class="icon-ok"></i>{% else %}<i class="icon-remove"></i>{% endif %}</td>
+				<td>{% if candidate.signature_book_complete %}<i class="icon-ok"></i>{% else %}<i class="icon-remove"></i>{% endif %}</td>
+				<td>{% if candidate.community_service_complete %}<i class="icon-ok"></i>{% else %}<i class="icon-remove"></i>{% endif %}</td>
+				<td>{% if candidate.initation_fee %}<i class="icon-ok"></i>{% else %}<i class="icon-remove"></i>{% endif %}</td>
+				<td>{% if candidate.tutoring_complete %}<i class="icon-ok"></i>{% else %}<i class="icon-remove"></i>{% endif %}</td>
+				<td>{% if candidate.engineering_futures %}<i class="icon-ok"></i>{% else %}<i class="icon-remove"></i>{% endif %}</td>
+				<td>{% if candidate.resume %}<i class="icon-ok"></i>{% else %}<i class="icon-remove"></i>{% endif %}</td>
+				<td>{% if candidate.professor_interview %}<i class="icon-ok"></i>{% else %}<i class="icon-remove"></i>{% endif %}</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
 </div>
 
 {% endblock %}

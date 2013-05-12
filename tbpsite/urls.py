@@ -9,7 +9,7 @@ urlpatterns = patterns('',
     # Examples:
     url(r'^$', 'web.views.home', name='home'),
 
-    url(r'^candidates/$', 'web.views.candidates'),
+    url(r'^requirements/$', 'web.views.requirements'),
     url(r'^programs/$', 'web.views.programs'),
     url(r'^emcc/$', 'web.views.emcc'),
     url(r'^fe/$', 'web.views.fe'),
@@ -29,6 +29,7 @@ urlpatterns = patterns('',
     url(r'^profile$', 'main.views.profile'),
     url(r'^resume$', 'main.views.resume'),
     url(r'^interview$', 'main.views.interview'),
+    url(r'^candidates/$', 'web.views.candidates'),
 
     # url(r'^events/', include('event.site.urls')),
     url(r'^events/$', 'event.views.events'),
