@@ -24,7 +24,7 @@
 		</thead>
 		<tbody>
 			{% for candidate in candidate_list %}
-			<tr class={% if candidate.completed %}"success"{% else %}"error"{% endif %}>
+			<tr>
 				<td>{{ candidate }}</td>
 				<td>{% if candidate.bent_polish %}<i class="icon-ok"></i>{% else %}<i class="icon-remove"></i>{% endif %}</td>
 				<td>{% if candidate.candidate_quiz_complete %}<i class="icon-ok"></i>{% else %}<i class="icon-remove"></i>{% endif %}</td>
