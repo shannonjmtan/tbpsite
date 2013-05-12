@@ -181,7 +181,7 @@ def interview(request):
 
 def candidates(request):
     next = get_next(request)
-    if not request.user.is_authenticated() or not request.user.is_staff():
+    if not request.user.is_authenticated() or not request.user.is_staff:
         return redirect(next)
 
     return render(request, 'candidates.html', 
