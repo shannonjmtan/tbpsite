@@ -2,6 +2,11 @@ from django.contrib import auth
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from main.models import Profile, Term
+from tbpsite.settings import BASE_DIR
+from django.http import HttpResponse
+from django.core.servers.basehttp import FileWrapper
+from django.core.exceptions import ObjectDoesNotExist
+import datetime
 
 class Error:
     def __init__(self):
@@ -96,24 +101,26 @@ def profile(request):
             resume = request.FILES['resume']
             if resume.size > 2621440: # 2.5 MB
                 error.resume_too_big = True
-            if resume.content_type != 'application/pdf':
-                error.wrong_resume_type = True
+            if (resume.content_type != 'application/pdf' and 
+                    resume.content_type != 'application/force-download'):
+                error.wrong_resume_type = resume.content_type
         if 'professor_interview' in request.FILES:
             professor_interview = request.FILES['professor_interview']
             if professor_interview.size > 2621440: # 2.5 MB
                 error.interview_too_big = True
-            if professor_interview.content_type != 'application/pdf':
+            if (professor_interview.content_type != 'application/pdf' and
+                    professor_interview.content_type != 'application/force-download'):
                 error.wrong_interview_type = True
 
         if not error.error():
             if resume is not None:
-                with open(tbpsite.settings.BASE_DIR + '/resumes/' + str(user.id), 'wb+') as f:
+                with open(BASE_DIR + '/resumes/' + str(user.id), 'wb+') as f:
                     for chunk in resume.chunks():
                         f.write(chunk)
                     profile.resume = datetime.datetime.today()
 
             if professor_interview is not None:
-                with open(tbpsite.settings.BASE_DIR + '/interviews/' + str(user.id), 'wb+') as f:
+                with open(BASE_DIR + '/interviews/' + str(user.id), 'wb+') as f:
                     for chunk in professor_interview.chunks():
                         f.write(chunk)
                     profile.professor_interview = datetime.datetime.today()
@@ -149,7 +156,7 @@ def resume(request):
 
     user = request.user
     try:
-        f = open(tbpsite.settings.BASE_DIR + '/resumes/' + str(user.id))
+        f = open(BASE_DIR + '/resumes/' + str(user.id))
         response = HttpResponse(FileWrapper(f), content_type='application/pdf')
         response['Content-Disposition'] = 'attachment; filename=resume.pdf'
         return response
@@ -164,7 +171,7 @@ def interview(request):
     user = request.user
     response = None
     try:
-        f = open(tbpsite.settings.BASE_DIR + '/interviews/' + str(user.id))
+        f = open(BASE_DIR + '/interviews/' + str(user.id))
         response = HttpResponse(FileWrapper(f), content_type='application/pdf')
         response['Content-Disposition'] = 'attachment; filename=interview.pdf'
         return response

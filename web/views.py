@@ -18,6 +18,9 @@ def candidates(request):
 def tutoring(request):
     return render_next(request, 'tutoring.html')
 
+def schedule(request):
+    return render_next(request, 'tutoring_schedule.html')
+
 def programs(request):
     return render_next(request, 'programs.html')
 
