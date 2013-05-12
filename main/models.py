@@ -161,6 +161,12 @@ class Candidate(models.Model):
     def __unicode__(self):
         return self.profile.__unicode__()
 
+    def candidate_quiz_complete(self):
+        return self.candidate_quiz != '0'
+
+    def signature_book_complete(self):
+        return self.signature_book != '0'
+
     def tutoring_complete(self):
         return self.tutoring.complete()
 
@@ -168,7 +174,8 @@ class Candidate(models.Model):
         return self.tutoring.points()
 
     def social_count(self):
-        return Social.objects.filter(members=self, term=self.initiation_term).count()
+        from event.models import Event
+        return Event.objects.filter(attendees=self, term=self.term).count()
 
     def social_complete(self):
         return (self.social_count() >= CANDIDATE_SOCIAL)

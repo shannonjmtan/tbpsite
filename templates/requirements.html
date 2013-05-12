@@ -23,6 +23,41 @@
   <li>Attend Initation Ceremony and Banquet</li>
 </ul>
 
+<table>
+<tr>
+<th>Name</th>
+<th>Completed</th>
+<th>Bent Polish</th>
+<th>Candidate Quiz</th>
+<th>Candidate Meet and Greet</th>
+<th>Social Event</th>
+<th>Signature Book</th>
+<th>Community Service</th>
+<th>Initation Fee</th>
+<th>Tutoring</th>
+<th>Engineering Futures</th>
+<th>Resume Submission</th>
+<th>Professor Interview</th>
+</tr>
+{% for candidate in candidate_list %}
+<tr>
+    <td>{{ candidate }}</td>
+    <td>{% if candidate.completed %}<i class="icon-ok"></i>{% else %}<i class="icon-remove"></i>{% endif %}</td>
+    <td>{% if candidate.bent_polish %}<i class="icon-ok"></i>{% else %}<i class="icon-remove"></i>{% endif %}</td>
+    <td>{% if candidate.candidate_quiz_complete %}<i class="icon-ok"></i>{% else %}<i class="icon-remove"></i>{% endif %}</td>
+    <td>{% if candidate.candidate_meet_and_greet %}<i class="icon-ok"></i>{% else %}<i class="icon-remove"></i>{% endif %}</td>
+    <td>{% if candidate.social_complete %}<i class="icon-ok"></i>{% else %}<i class="icon-remove"></i>{% endif %}</td>
+    <td>{% if candidate.signature_book_complete %}<i class="icon-ok"></i>{% else %}<i class="icon-remove"></i>{% endif %}</td>
+    <td>{% if candidate.community_service_complete %}<i class="icon-ok"></i>{% else %}<i class="icon-remove"></i>{% endif %}</td>
+    <td>{% if candidate.initation_fee %}<i class="icon-ok"></i>{% else %}<i class="icon-remove"></i>{% endif %}</td>
+    <td>{% if candidate.tutoring_complete %}<i class="icon-ok"></i>{% else %}<i class="icon-remove"></i>{% endif %}</td>
+    <td>{% if candidate.engineering_futures %}<i class="icon-ok"></i>{% else %}<i class="icon-remove"></i>{% endif %}</td>
+    <td>{% if candidate.resume_submission %}<i class="icon-ok"></i>{% else %}<i class="icon-remove"></i>{% endif %}</td>
+    <td>{% if candidate.professor_interview %}<i class="icon-ok"></i>{% else %}<i class="icon-remove"></i>{% endif %}</td>
+</tr>
+{% endfor %}
+</table>
+
 <h4>Distinguished Active Requirements</h4>
 
 <ul>

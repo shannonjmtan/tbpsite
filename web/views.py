@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from event.models import Event
 from tutoring.models import Feedback
+from main.models import Candidate
 
 def render_next(request, template_name, additional=None):
     dictionary = {'user': request.user, 'next': request.path, 
@@ -13,7 +14,7 @@ def home(request):
     return render_next(request, 'home.html')
 
 def candidates(request):
-    return render_next(request, 'candidates.html')
+    return render_next(request, 'candidates.html', {'candidate_list': Candidate.default.all()})
 
 def tutoring(request):
     return render_next(request, 'tutoring.html')

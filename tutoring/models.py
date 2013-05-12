@@ -44,10 +44,10 @@ class Tutoring(models.Model):
                 self.week_8, self.week_9]
 
     def complete(self):
-        return all(week.complete() for week in self.get_hours())
+        return all(week.complete() for week in self.get_weeks())
 
     def points(self):
-        return sum(week.points() for week in self.get_hours())
+        return sum(week.points() for week in self.get_weeks())
 
 class Week(models.Model):
     profile = models.ForeignKey('main.Profile')
