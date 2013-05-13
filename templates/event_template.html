@@ -4,7 +4,7 @@
 
 {% block content %}
 <!-- TITLE --> 
-<div class="row">
+<div class="row-fluid">
     <div class="span12" style="margin-bottom:20px">
     
         <h4>Tau Beta Pi Presents:</h4> <!--optional-->
@@ -12,7 +12,7 @@
     </div>
 </div>
 
-<div class="row">
+<div class="row-fluid">
     <div class="span8"> 
         {% autoescape off %}
         {{ event.description }}
@@ -56,13 +56,8 @@
             </tr>
         </table>
 		<img src="{% if event.image %}/media/{{ event.image.url }}{% endif %}"> 
-        <br>
+    		<p><strong>Questions? Contact: <a href="mailto:tbp.events@gmail.com">tbp.events@gmail.com</a></strong>
     </div>
 </div>
 
-<div class="row">
-    <div class="span12" style="margin-top:15px">        
-    <p><strong>Questions? Contact: <a href="mailto:tbp.events@gmail.com">tbp.events@gmail.com</a></strong>
-    </div> 
-</div>
 {% endblock %}
