@@ -159,7 +159,7 @@ class Candidate(models.Model):
     objects = models.Manager()
 
     class Meta:
-        ordering = ('user__last_name', 'user__first_name')
+        ordering = ('profile__user__last_name', 'profile__user__first_name')
 
     def __unicode__(self):
         return self.profile.__unicode__()
