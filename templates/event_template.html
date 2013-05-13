@@ -13,7 +13,9 @@
 </div>
 
 <div class="row-fluid">
-    <div class="span8"> 
+	<div class="span8">
+
+		<img src="{% if event.image %}/media/{{ event.image.url }}{% endif %}" width=80% style="margin: 0px auto; margin-bottom:10px; display:block"> 
         {% autoescape off %}
         {{ event.description }}
         {% endautoescape %}
@@ -55,7 +57,6 @@
                 <td>{{ event.get_event_type_display }}</td> <!-- project, social event, mandatory, etc-->
             </tr>
         </table>
-		<img src="{% if event.image %}/media/{{ event.image.url }}{% endif %}"> 
     		<p><strong>Questions? Contact: <a href="mailto:tbp.events@gmail.com">tbp.events@gmail.com</a></strong>
     </div>
 </div>
