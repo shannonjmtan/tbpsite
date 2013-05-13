@@ -202,4 +202,4 @@ def tutoring_hours(request):
         return redirect(next)
 
     return render(request, 'tutoring_hours.html', 
-            {'tutoring_list': Tutoring.default.order_by('profile')})
+            {'tutoring_list': Tutoring.objects.order_by('profile')})
