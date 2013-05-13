@@ -18,8 +18,20 @@ class Tutoring(models.Model):
             ('3', 'Thursday'),
             ('4', 'Friday'),
             )
+    HOUR_CHOICES = (
+            ('0', '10am'),
+            ('1', '11am'),
+            ('2', '12pm'),
+            ('3', '1pm'),
+            ('4', '2pm'),
+            ('5', '3pm'),
+            ('6', '4pm'),
+            )
     day_1 = models.CharField(max_length=1, choices=DAY_CHOICES, default='0')
-    day_2 = models.CharField(max_length=1, choices=DAY_CHOICES, blank=True, null=True)
+    hour_1 = models.CharField(max_length=1, choices=HOUR_CHOICES, default='0')
+    day_2 = models.CharField(max_length=1, choices=DAY_CHOICES, default='0')
+    hour_2 = models.CharField(max_length=1, choices=HOUR_CHOICES, default='0')
+
     week_3 = models.ForeignKey('Week3')
     week_4 = models.ForeignKey('Week4')
     week_5 = models.ForeignKey('Week5')
@@ -28,7 +40,7 @@ class Tutoring(models.Model):
     week_8 = models.ForeignKey('Week8')
     week_9 = models.ForeignKey('Week9')
 
-    default = TermManager()
+    objects = TermManager()
 
     class Meta:
         ordering = ('-term', 'profile')
@@ -60,6 +72,9 @@ class Week(models.Model):
 
     class Meta:
         abstract = True
+        ordering = ('term', 'tutoring__day_1', 'tutoring__hour_1',
+                'tutoring__day_2', 'tutoring__hour_2',
+                'profile')
 
     def __unicode__(self):
         return self.profile.__unicode__()
@@ -71,10 +86,16 @@ class Week(models.Model):
         return 0 if not self.complete() else self.hours - TUTORING_HOURS_PER_WEEK
 
     def day_1(self):
-        return Tutoring.objects.get(profile=self.profile, term=self.term).day_1
+        return Tutoring.objects.get(profile=self.profile, term=self.term).get_day_1_display()
 
     def day_2(self):
-        return Tutoring.objects.get(profile=self.profile, term=self.term).day_2
+        return Tutoring.objects.get(profile=self.profile, term=self.term).get_day_2_display()
+
+    def hour_1(self):
+        return Tutoring.objects.get(profile=self.profile, term=self.term).get_hour_1_display()
+
+    def hour_2(self):
+        return Tutoring.objects.get(profile=self.profile, term=self.term).get_hour_2_display()
 
 class Week3(Week):
     class Meta:

@@ -8,11 +8,11 @@ class FeedbackAdmin(admin.ModelAdmin):
         self.list_display_links = (None,)
 
 class TutoringAdmin(admin.ModelAdmin):
-    list_display = ('__unicode__', 'term', 'day_1', 'day_2')
-    list_editable = ('day_1', 'day_2')
+    list_display = ('__unicode__', 'term', 'day_1', 'hour_1', 'day_2', 'hour_2')
+    list_editable = ('day_1', 'hour_1', 'day_2', 'hour_2')
 
 class WeekAdmin(admin.ModelAdmin):
-    list_display = ('__unicode__', 'term', 'day_1', 'day_2', 'hours', 'tutees')
+    list_display = ('__unicode__', 'term', 'day_1', 'hour_1', 'day_2', 'hour_2', 'hours', 'tutees')
     list_editable = ('hours', 'tutees')
     
 admin.site.register(Feedback, FeedbackAdmin)
