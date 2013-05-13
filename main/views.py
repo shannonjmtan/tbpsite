@@ -185,5 +185,5 @@ def candidates(request):
         return redirect(next)
 
     return render(request, 'candidates.html', 
-            {'candidate_list': Candidate.default.all()})
+            {'candidate_list': Candidate.default.order_by('profile')})
 
