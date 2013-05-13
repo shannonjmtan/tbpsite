@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Tutoring Hours{% endblock %}
+
+{% block content %}
+<div id="content" class="row-fluid">
+  <h1 style="margin-bottom:20px">Tutoring Hours</h1>
+  <table class="table">
+    <thead>
+      <tr>
+        <th></th>
+        <th>Week 3 Hours</th>
+        <th>Week 3 Tutees</th>
+        <th>Week 4 Hours</th>
+        <th>Week 4 Tutees</th>
+        <th>Week 5 Hours</th>
+        <th>Week 5 Tutees</th>
+        <th>Week 6 Hours</th>
+        <th>Week 6 Tutees</th>
+        <th>Week 7 Hours</th>
+        <th>Week 7 Tutees</th>
+        <th>Week 8 Hours</th>
+        <th>Week 8 Tutees</th>
+        <th>Week 9 Hours</th>
+        <th>Week 9 Tutees</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for tutoring in tutoring_list %}
+      <tr>
+        <td>{{ tutoring }}</td>
+        <td>{{ tutoring.week_3.hours }}</td>
+        <td>{{ tutoring.week_3.tutees }}</td>
+        <td>{{ tutoring.week_4.hours }}</td>
+        <td>{{ tutoring.week_4.tutees }}</td>
+        <td>{{ tutoring.week_5.hours }}</td>
+        <td>{{ tutoring.week_5.tutees }}</td>
+        <td>{{ tutoring.week_6.hours }}</td>
+        <td>{{ tutoring.week_6.tutees }}</td>
+        <td>{{ tutoring.week_7.hours }}</td>
+        <td>{{ tutoring.week_7.tutees }}</td>
+        <td>{{ tutoring.week_8.hours }}</td>
+        <td>{{ tutoring.week_8.tutees }}</td>
+        <td>{{ tutoring.week_9.hours }}</td>
+        <td>{{ tutoring.week_9.tutees }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% endblock %}
