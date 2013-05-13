@@ -158,6 +158,9 @@ class Candidate(models.Model):
     default = TermManager()
     objects = models.Manager()
 
+    class Meta:
+        ordering = ('user__last_name', 'user__first_name')
+
     def __unicode__(self):
         return self.profile.__unicode__()
 

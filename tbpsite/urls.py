@@ -30,6 +30,7 @@ urlpatterns = patterns('',
     url(r'^resume$', 'main.views.resume'),
     url(r'^interview$', 'main.views.interview'),
     url(r'^candidates/$', 'main.views.candidates'),
+    url(r'^active_members/$', 'main.views.active_members'),
 
     # url(r'^events/', include('event.site.urls')),
     url(r'^events/$', 'event.views.events'),

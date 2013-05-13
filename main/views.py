@@ -187,3 +187,10 @@ def candidates(request):
     return render(request, 'candidates.html', 
             {'candidate_list': Candidate.default.order_by('profile')})
 
+def active_members(request):
+    next = get_next(request)
+    if not request.user.is_authenticated() or not request.user.is_staff:
+        return redirect(next)
+
+    return render(request, 'active_members.html', 
+            {'member_list': ActiveMember.default.order_by('profile')})
