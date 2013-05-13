@@ -28,7 +28,7 @@ class Tutoring(models.Model):
     week_8 = models.ForeignKey('Week8')
     week_9 = models.ForeignKey('Week9')
 
-    objects = TermManager()
+    default = TermManager()
 
     class Meta:
         ordering = ('-term', 'profile')

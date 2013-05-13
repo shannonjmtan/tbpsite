@@ -2,6 +2,7 @@ from django.contrib import auth
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from main.models import Profile, Term, Candidate
+from tutoring.models import Tutoring
 from tbpsite.settings import BASE_DIR
 from django.http import HttpResponse
 from django.core.servers.basehttp import FileWrapper
@@ -194,3 +195,11 @@ def active_members(request):
 
     return render(request, 'active_members.html', 
             {'member_list': ActiveMember.default.order_by('profile')})
+
+def tutoring_hours(request):
+    next = get_next(request)
+    if not request.user.is_authenticated() or not request.user.is_staff:
+        return redirect(next)
+
+    return render(request, 'tutoring_hours.html', 
+            {'tutoring_list': Tutoring.default.order_by('profile')})
