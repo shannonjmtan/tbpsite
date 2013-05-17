@@ -7,56 +7,20 @@ from django.contrib.auth.admin import UserAdmin
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.mail import send_mail
 
-def reset_password(modeladmin, request, queryset):
-    for user in queryset:
-        password = User.objects.make_random_password()
-        user.set_password(password)
-        user.save()
-        send_mail('TBP Account Password Reset', 
-                'Welcome to UCLA Tau Beta Pi!\n'
-                'Our website can be found at http://tbp.seas.ucla.edu\n'
-                '\n'
-                'Username: %s\n'
-                'Password: %s\n'
-                '\n'
-                'This account is used for uploading your resume and professor interview.\n'
-                'You can find your profile by clicking your username at the top right corner after logging in.\n'
-                'Please change your password and update your information so we can keep the resumes we send out up to date.\n'
-                '\n'
-                'Bryan Ngo\n'
-                'Webmaster - Tau Beta Pi\n'
-                'UCLA - CA Epsilon\n' % (user.get_username(), password),
-                'bngo92@gmail.com', [user.email], fail_silently=False)
+def generate_profile(user):
+    return Profile.objects.get_or_create(user=user)[0]
 
-def create_profile(modeladmin, request, queryset):
-    term = Current.objects.get_term()
-    if term is None:
-        raise forms.ValidationError('Current term not set')
-    create_candidates(modeladmin, request, 
-            [Profile.objects.get_or_create(user=user)[0] 
-                for user in queryset])
+def generate_candidate(profile, term):
+    tutoring = generate_tutoring(profile, term)
+    return Candidate.objects.get_or_create(profile=profile, term=term, 
+            tutoring=tutoring)[0]
 
-def create_candidates(modeladmin, request, queryset):
-    term = Current.objects.get_term()
-    if term is None:
-        raise forms.ValidationError('Current term not set')
+def generate_active_member(profile, term):
+    tutoring = create_Tutoring(profile, term)
+    return ActiveMember.objects.get_or_create(profile=profile, term=term,
+            tutoring=tutoring)[0]
 
-    # check for errors, all or nothing
-    for profile in queryset:
-        if profile.position == '1':
-            raise forms.ValidationError('User is already a member')
-
-        try:
-            candidate = Candidate.objects.get(profile=profile)
-            raise forms.ValidationError(
-                    'User is already a candidate')
-        except ObjectDoesNotExist:
-            pass
-
-    for profile in queryset:
-        create_candidate(profile, term)
-
-def create_candidate(profile, term):
+def generate_tutoring(profile, term):
     week_3 = Week3.objects.get_or_create(profile=profile, term=term)[0]
     week_4 = Week4.objects.get_or_create(profile=profile, term=term)[0]
     week_5 = Week5.objects.get_or_create(profile=profile, term=term)[0]
@@ -72,21 +36,79 @@ def create_candidate(profile, term):
             week_7=week_7,
             week_8=week_8,
             week_9=week_9)[0]
-    candidate = Candidate.objects.get_or_create(profile=profile, term=term, 
-            tutoring=tutoring)[0]
+    return tutoring
 
 class MyUserAdmin(UserAdmin):
-    actions = (create_profile, reset_password)
+    actions = ('create_profile', 'reset_password')
+
+    def create_profile(self, request, queryset):
+        for user in queryset:
+            generate_profile(user)
+
+    def reset_password(self, request, queryset):
+        for user in queryset:
+            password = User.objects.make_random_password()
+            user.set_password(password)
+            user.save()
+            send_mail('TBP Account Password Reset', 
+                    'Welcome to UCLA Tau Beta Pi!\n'
+                    'Our website can be found at http://tbp.seas.ucla.edu\n'
+                    '\n'
+                    'Username: %s\n'
+                    'Password: %s\n'
+                    '\n'
+                    'This account is used for uploading your resume and professor interview.\n'
+                    'You can find your profile by clicking your username at the top right corner after logging in.\n'
+                    'Please change your password and update your information so we can keep the resumes we send out up to date.\n'
+                    '\n'
+                    'Bryan Ngo\n'
+                    'Webmaster - Tau Beta Pi\n'
+                    'UCLA - CA Epsilon\n' % (user.get_username(), password),
+                    'bngo92@gmail.com', [user.email], fail_silently=False)
 
 class HousePointsAdmin(admin.ModelAdmin):
-    list_display = ('__unicode__', 'term', 'resume', 'professor_interview', 'other')
+    list_display = ('__unicode__', 'term', 'resume', 'professor_interview', 
+            'other')
     list_editable = ('resume', 'professor_interview', 'other')
 
 class ProfileAdmin(admin.ModelAdmin):
-    list_display = ('__unicode__', 'position', 'house', 'major', 'initiation_term', 'graduation_term', 'resume', 'professor_interview')
+    list_display = ('__unicode__', 'position', 'house', 'major', 
+            'initiation_term', 'graduation_term', 'resume', 
+            'professor_interview')
     list_filter = ('position',)
     search_fields = ('user__first_name', 'user__last_name', 'user__email')
-    actions = (create_candidates,)
+    actions = ('create_candidate', 'create_active_member')
+
+    def create_candidate(self, request, queryset):
+        term = Current.objects.get_term()
+        if term is None:
+            self.message_user(request, 'Current term not set')
+
+        # check for errors, all or nothing
+        for profile in queryset:
+            if profile.position == '1':
+                self.message_user(request, profile.__unicode__() + 
+                        ' is already a member')
+                return
+
+            try:
+                candidate = Candidate.objects.get(profile=profile)
+                self.message_user(request, profile.__unicode__() + 
+                        ' is already a candidate')
+                return
+            except ObjectDoesNotExist:
+                pass
+
+        for profile in queryset:
+            generate_candidate(profile, term)
+
+    def create_active_member(modeladmin, request, queryset):
+        term = Current.objects.get_term()
+        if term is None:
+            self.message_user(request, 'Current term not set')
+
+        for profile in queryset:
+            generate_active_member(profile, term)
 
 class CandidateAdmin(admin.ModelAdmin):
     list_display = (

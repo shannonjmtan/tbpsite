@@ -7,6 +7,32 @@ class Feedback(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     comment = models.TextField()
 
+class Class(models.Model):
+    DEPT_CHOICES = (
+            ('BE', 'BE'),
+            ('CEE', 'CEE'),
+            ('CHEM', 'CHEM'),
+            ('CHEME', 'CHEME'),
+            ('CS', 'CS'),
+            ('EE', 'EE'),
+            ('ENG', 'ENG'),
+            ('LS', 'LS'),
+            ('MAE', 'MAE'),
+            ('MATH', 'MATH'),
+            ('MGMT', 'MGMT'),
+            ('MSE', 'MSE'),
+            ('PHYSICS', 'PHYSICS'),
+            ('STATS', 'STATS'),
+            )
+    department = models.CharField(max_length=10, choices=DEPT_CHOICES)
+    course_number = models.CharField(max_length=10)
+
+    class Meta:
+        verbose_name_plural = "Classes"
+
+    def __unicode__(self):
+        return self.department + ' ' + self.course_number
+
 class Tutoring(models.Model):
     profile = models.ForeignKey('main.Profile')
     term = models.ForeignKey('main.Term')
@@ -31,6 +57,8 @@ class Tutoring(models.Model):
     hour_1 = models.CharField(max_length=1, choices=HOUR_CHOICES, default='0')
     day_2 = models.CharField(max_length=1, choices=DAY_CHOICES, default='0')
     hour_2 = models.CharField(max_length=1, choices=HOUR_CHOICES, default='0')
+
+    classes = models.ManyToManyField('Class', blank=True, null=True)
 
     week_3 = models.ForeignKey('Week3')
     week_4 = models.ForeignKey('Week4')
@@ -72,55 +100,59 @@ class Week(models.Model):
 
     class Meta:
         abstract = True
-        ordering = ('term', 'tutoring__day_1', 'tutoring__hour_1',
-                'tutoring__day_2', 'tutoring__hour_2',
-                'profile')
+        ordering = ('tutoring__day_1', 'tutoring__hour_1',
+                'tutoring__day_2', 'tutoring__hour_2')
 
     def __unicode__(self):
         return self.profile.__unicode__()
 
     def complete(self):
-        return self.hours > TUTORING_HOURS_PER_WEEK
+        return self.hours >= TUTORING_HOURS_PER_WEEK
 
     def points(self):
-        return 0 if not self.complete() else self.hours - TUTORING_HOURS_PER_WEEK
+        return (0 if not self.complete() 
+                else self.hours - TUTORING_HOURS_PER_WEEK)
 
     def day_1(self):
-        return Tutoring.objects.get(profile=self.profile, term=self.term).get_day_1_display()
+        return Tutoring.objects.get(
+                profile=self.profile, term=self.term).get_day_1_display()
 
     def day_2(self):
-        return Tutoring.objects.get(profile=self.profile, term=self.term).get_day_2_display()
+        return Tutoring.objects.get(
+                profile=self.profile, term=self.term).get_day_2_display()
 
     def hour_1(self):
-        return Tutoring.objects.get(profile=self.profile, term=self.term).get_hour_1_display()
+        return Tutoring.objects.get(
+                profile=self.profile, term=self.term).get_hour_1_display()
 
     def hour_2(self):
-        return Tutoring.objects.get(profile=self.profile, term=self.term).get_hour_2_display()
+        return Tutoring.objects.get(
+                profile=self.profile, term=self.term).get_hour_2_display()
 
 class Week3(Week):
-    class Meta:
+    class Meta(Week.Meta):
         verbose_name_plural = "Week 3"
 
 class Week4(Week):
-    class Meta:
+    class Meta(Week.Meta):
         verbose_name_plural = "Week 4"
 
 class Week5(Week):
-    class Meta:
+    class Meta(Week.Meta):
         verbose_name_plural = "Week 5"
 
 class Week6(Week):
-    class Meta:
+    class Meta(Week.Meta):
         verbose_name_plural = "Week 6"
 
 class Week7(Week):
-    class Meta:
+    class Meta(Week.Meta):
         verbose_name_plural = "Week 7"
 
 class Week8(Week):
-    class Meta:
+    class Meta(Week.Meta):
         verbose_name_plural = "Week 8"
 
 class Week9(Week):
-    class Meta:
+    class Meta(Week.Meta):
         verbose_name_plural = "Week 9"
