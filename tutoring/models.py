@@ -89,6 +89,13 @@ class Tutoring(models.Model):
     def points(self):
         return sum(week.points() for week in self.get_weeks())
 
+    def get_class_classes(self):
+        return ' '.join([c.department+c.course_number+'_1'
+            for c in self.classes.all()])
+
+    def get_classes(self):
+        return ', '.join([c.__unicode__() for c in self.classes.all()])
+
 class Week(models.Model):
     profile = models.ForeignKey('main.Profile')
     term = models.ForeignKey('main.Term')
@@ -101,7 +108,7 @@ class Week(models.Model):
     class Meta:
         abstract = True
         ordering = ('tutoring__day_1', 'tutoring__hour_1',
-                'tutoring__day_2', 'tutoring__hour_2')
+                'tutoring__day_2', 'tutoring__hour_2', 'profile')
 
     def __unicode__(self):
         return self.profile.__unicode__()
