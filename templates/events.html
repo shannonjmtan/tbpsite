@@ -3,45 +3,43 @@
 {% block title %}Events{% endblock %}
 
 {% block content %}
-<div class = "row-fluid"><div class = "span12" style="margin-bottom:20px">
 <h1>Events</h1>
-</div></div>
-<div class="row-fluid">
-<div class="span8">
-<table class="table" style="margin-bottom:50px">
-	<tr>
-		<th>Upcoming Events</th>
-		<th>Date/Time</th>
-		<th>Location</th>
-		<th>Event Type:</th>
-	</tr>
-    {% for event in upcoming_events %}
-	<tr>
+<div class="row">
+  <div class="col-lg-8">
+    <table class="table">
+      <tr>
+        <th>Upcoming Events</th>
+        <th>Date/Time</th>
+        <th>Location</th>
+        <th>Event Type:</th>
+      </tr>
+      {% for event in upcoming_events %}
+      <tr>
         <td><a href="/events/{{ event.url }}">{{ event.name }}</a></td>
         <td>{{ event.datetime }}</td>
         <td>{{ event.location }}</td>
         <td>{{ event.get_event_type_display }}</td>
-	</tr>
-    {% endfor %}
-	<tr>
-		<th>Past Events</th>
-		<th>Date/Time</th>
-		<th>Location</th>
-		<th>Event Type:</th>
-	</tr>
-    {% for event in past_events %}
-	<tr>
+      </tr>
+      {% endfor %}
+      <tr>
+        <th>Past Events</th>
+        <th>Date/Time</th>
+        <th>Location</th>
+        <th>Event Type:</th>
+      </tr>
+      {% for event in past_events %}
+      <tr>
         <td><a href="/events/{{ event.url }}" style="color:gray">{{ event.name }}</a></td>
         <td style="color:gray">{{ event.datetime }}</td>
         <td style="color:gray">{{ event.location }}</td>
         <td style="color:gray">{{ event.get_event_type_display }}</td>
-	</tr>
-    {% endfor %}
-</table>
+      </tr>
+      {% endfor %}
+    </table>
 
-</div>
-<div class="span4">
-<img src="http://placehold.it/500x700" width="100%"></img>
-</div>
+  </div>
+  <div class="col-lg-4">
+    <img src="http://placehold.it/500x700" width="100%"></img>
+  </div>
 </div>
 {% endblock %}

@@ -4,61 +4,56 @@
 
 {% block content %}
 <!-- TITLE --> 
-<div class="row-fluid">
-    <div class="span12" style="margin-bottom:20px">
-    
-        <h4>Tau Beta Pi Presents:</h4> <!--optional-->
-        <h1>{{ event.name }}</h1>
-    </div>
-</div>
+<h4>Tau Beta Pi Presents:</h4> <!--optional-->
+<h1>{{ event.name }}</h1>
 
-<div class="row-fluid">
-	<div class="span8">
+<div class="row">
+  <div class="col-lg-8">
 
-		<img src="{% if event.image %}/media/{{ event.image.url }}{% endif %}" width=80% style="margin: 0px auto; margin-bottom:10px; display:block"> 
-        {% autoescape off %}
-        {{ event.description }}
-        {% endautoescape %}
-    </div>
-    <div class="span4">
-        <table class="table">
-            <tr>
-				{% if event.is_same_day %}
-                <th>Date:</th>
-                <td>
-				{{ event.get_date }}
-                </td>
-				{% else %}
-                <th>Start:</th>
-                <td>
-				{{ event.get_start }}
-                </td>
-				{% endif %}
-            </tr>
-            <tr>
-				{% if event.is_same_day %}
-                <th>Time:</th>
-                <td>
-				{{ event.get_time }}
-                </td>
-				{% else %}
-                <th>End:</th>
-                <td>
-				{{ event.get_end }}
-                </td>
-				{% endif %}
-            </tr>
-            <tr>
-                <th>Location:</th>
-                <td>{{ event.location }}</td>
-            </tr>
-            <tr>
-                <th>Event Type:</th>
-                <td>{{ event.get_event_type_display }}</td> <!-- project, social event, mandatory, etc-->
-            </tr>
-        </table>
-    		<p><strong>Questions? Contact: <a href="mailto:tbp.events@gmail.com">tbp.events@gmail.com</a></strong>
-    </div>
+    <img src="{% if event.image %}/media/{{ event.image.url }}{% endif %}" width=80% style="margin: 0px auto; margin-bottom:10px; display:block"> 
+    {% autoescape off %}
+    {{ event.description }}
+    {% endautoescape %}
+  </div>
+  <div class="col-lg-4">
+    <table class="table">
+      <tr>
+        {% if event.is_same_day %}
+        <th>Date:</th>
+        <td>
+          {{ event.get_date }}
+        </td>
+        {% else %}
+        <th>Start:</th>
+        <td>
+          {{ event.get_start }}
+        </td>
+        {% endif %}
+      </tr>
+      <tr>
+        {% if event.is_same_day %}
+        <th>Time:</th>
+        <td>
+          {{ event.get_time }}
+        </td>
+        {% else %}
+        <th>End:</th>
+        <td>
+          {{ event.get_end }}
+        </td>
+        {% endif %}
+      </tr>
+      <tr>
+        <th>Location:</th>
+        <td>{{ event.location }}</td>
+      </tr>
+      <tr>
+        <th>Event Type:</th>
+        <td>{{ event.get_event_type_display }}</td> <!-- project, social event, mandatory, etc-->
+      </tr>
+    </table>
+    <p><strong>Questions? Contact: <a href="mailto:tbp.events@gmail.com">tbp.events@gmail.com</a></strong>
+  </div>
 </div>
 
 {% endblock %}

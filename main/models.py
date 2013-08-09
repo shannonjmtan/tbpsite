@@ -131,7 +131,8 @@ class Profile(models.Model):
             related_name='profile_initiation_term', default=Current.objects.get_term)
     graduation_term = models.ForeignKey('Term', 
             related_name='profile_graduation_term', blank=True, null=True)
-    resume = models.DateTimeField(blank=True, null=True)
+    resume_pdf = models.DateTimeField(blank=True, null=True)
+    resume_word = models.DateTimeField(blank=True, null=True)
     professor_interview = models.DateTimeField(blank=True, null=True)
 
     class Meta:

@@ -65,7 +65,8 @@ def profile(request):
 
     error = Error()
     if request.method == "POST":
-        resume = None
+        resume_pdf = None
+        resume_word = None
         professor_interview = None
 
         current_password = request.POST.get('current_password')
@@ -99,13 +100,20 @@ def profile(request):
         term = Term.objects.get_or_create(
                 quarter=graduation_quarter, year=graduation_year)[0]
 
-        if 'resume' in request.FILES:
-            resume = request.FILES['resume']
-            if resume.size > 2621440: # 2.5 MB
+        if 'resume_pdf' in request.FILES:
+            resume_pdf = request.FILES['resume_pdf']
+            if resume_pdf.size > 2621440: # 2.5 MB
                 error.resume_too_big = True
-            if (resume.content_type != 'application/pdf' and 
-                    resume.content_type != 'application/force-download'):
-                error.wrong_resume_type = resume.content_type
+            if (resume_pdf.content_type != 'application/pdf' and 
+                    resume_pdf.content_type != 'application/force-download'):
+                error.wrong_resume_type = resume_pdf.content_type
+        if 'resume_word' in request.FILES:
+            resume_word = request.FILES['resume_word']
+            if resume_word.size > 2621440: # 2.5 MB
+                error.resume_too_big = True
+            if (resume_word.content_type != 'application/msword' and 
+                    resume_word.content_type != 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'):
+                error.wrong_resume_type = resume_word.content_type
         if 'professor_interview' in request.FILES:
             professor_interview = request.FILES['professor_interview']
             if professor_interview.size > 2621440: # 2.5 MB
@@ -115,11 +123,17 @@ def profile(request):
                 error.wrong_interview_type = True
 
         if not error.error():
-            if resume is not None:
-                with open(BASE_DIR + '/resumes/' + str(user.id), 'wb+') as f:
-                    for chunk in resume.chunks():
+            if resume_pdf is not None:
+                with open(BASE_DIR + '/resumes_pdf/' + str(user.id), 'wb+') as f:
+                    for chunk in resume_pdf.chunks():
                         f.write(chunk)
-                    profile.resume = datetime.datetime.today()
+                    profile.resume_pdf = datetime.datetime.today()
+
+            if resume_word is not None:
+                with open(BASE_DIR + '/resumes_word/' + str(user.id), 'wb+') as f:
+                    for chunk in resume_word.chunks():
+                        f.write(chunk)
+                    profile.resume_word = datetime.datetime.today()
 
             if professor_interview is not None:
                 with open(BASE_DIR + '/interviews/' + str(user.id), 'wb+') as f:
@@ -151,16 +165,30 @@ def profile(request):
                 'quarters': quarters,
                 'error': error})
 
-def resume(request):
+def resume_pdf(request):
     next = get_next(request)
     if not request.user.is_authenticated():
         return redirect(next)
 
     user = request.user
     try:
-        f = open(BASE_DIR + '/resumes/' + str(user.id))
+        f = open(BASE_DIR + '/resumes_pdf/' + str(user.id))
         response = HttpResponse(FileWrapper(f), content_type='application/pdf')
         response['Content-Disposition'] = 'attachment; filename=resume.pdf'
+        return response
+    except IOError:
+        return redirect(next)
+
+def resume_word(request):
+    next = get_next(request)
+    if not request.user.is_authenticated():
+        return redirect(next)
+
+    user = request.user
+    try:
+        f = open(BASE_DIR + '/resumes_word/' + str(user.id))
+        response = HttpResponse(FileWrapper(f), content_type='application/msword')
+        response['Content-Disposition'] = 'attachment; filename=resume.doc'
         return response
     except IOError:
         return redirect(next)
