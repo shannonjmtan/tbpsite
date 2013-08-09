@@ -1,147 +1,99 @@
 <!DOCTYPE html>
-<meta charset="utf-8">
-<title>{% block title %}{% endblock %}</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- Bootstrap -->
-<link href="/static/dist/css/bootstrap.min.css" rel="stylesheet" media="screen">
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+    <!-- Bootstrap -->
+    <link href="/static/dist/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="/static/css/style.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="navbar navbar-inverse navbar-static-top">
+      <div class="container">
 
-<style>
-  /* footer */
-  html, body {
-    height: 100%;
-  }
-  #main {
-    min-height: 80%;
-    padding-bottom: 20px;
-  }
-  footer {
-    border-top: 1px solid rgb(229, 229, 229);
-  }
-  .footer {
-    padding-top: 20px;
-    padding-bottom: 20px;
-  }
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
 
-  /* preferences */
-  .navbar .nav > li > a, .navbar-inverse .navbar-brand {
-    color: #FFFFFF;
-  }
-  .navbar-inverse {
-    background-color:rgb(53, 126, 189);
-  }
-  body {
-    background-color:#FBFBFB;
-  }
-  textarea {
-    width:40%;
-  }
-  h1 {
-    margin-bottom:20px;
-  }
-  .container {
-    margin-left: 5%;
-    margin-right: 5%;
-  }
+        <a class="navbar-brand" href="{% url 'web.views.home' %}"><strong>UCLA Tau Beta Pi</strong></a>
 
-  /* http://stackoverflow.com/questions/8878033/how-to-make-twitter-bootstrap-menu-dropdown-on-hover-rather-than-click */
-  ul.nav li.dropdown:hover > ul.dropdown-menu{
-    display:
-    block;    
-  }
-  a.menu:after, .dropdown-toggle:after
-  {
-    content:
-    none;
-  }
-  ul.dropdown-menu
-  {
-    padding-top:3px;
-  }
-</style> 
-
-<div class="navbar navbar-inverse navbar-static-top">
-  <div class="container">
-
-    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-    </button>
-
-    <a class="navbar-brand" href="{% url 'web.views.home' %}"><strong>UCLA Tau Beta Pi</strong></a>
-
-    <div class="nav-collapse collapse navbar-responsive-collapse">
-      <ul class="nav navbar-nav">
-        {% comment %}<li class="active"><a href="#">Home</a></li>{% endcomment %}
-        <li class="dropdown">
-        <a href="{% url 'event.views.events' %}">Events</a>
-        <ul class="dropdown-menu">
-          {% for event in events %}
-          <li><a href="/events/{{ event.url }}">{{ event.name }}</a></li>
-          {% endfor %}
-        </ul>
-        </li>
-        <li><a href="{% url 'web.views.tutoring' %}">Tutoring</a></li>
-        <li class="dropdown">
-        <a href="{% url 'web.views.programs' %}" class="dropdown-toggle">Programs</a>
-        <ul class="dropdown-menu">
-          <li><a href="{% url 'web.views.emcc' %}">EMCC</a></li>
-          <li><a href="{% url 'web.views.fe' %}">FE Test Prepartion Materials</a></li>
-        </ul>
-        </li>
-        <li class="dropdown">
-        <a href="{% url 'web.views.about' %}" class="dropdown-toggle">About Us</a>
-        <ul class="dropdown-menu">
-          <li><a href="{% url 'web.views.requirements' %}">Requirements</a></li>
-          <li><a href="https://www.facebook.com/tbp.epsilon.ucla/photos_stream">Photos</a></li>
-          <li><a href="{% url 'web.views.awards' %}">Awards</a></li>
-          <li><a href="{% url 'web.views.officers' %}">Officers</a></li>
-          <li><a href="{% url 'web.views.faculty' %}">Faculty</a></li>
-          <li><a href="{% url 'web.views.contact' %}">Contact</a></li>
-        </ul>
-        </li>
-      </ul>
-      {% if user.is_authenticated %}
-      <ul class="nav navbar-nav pull-right">
-        {% if user.is_staff %}
-        <li class="dropdown">
-        <a href="/admin" class="dropdown-toggle">Admin</a>
-        <ul class="dropdown-menu">
-          <li><a href="{% url 'main.views.candidates' %}">Candidates</a></li>
-          <li><a href="{% url 'main.views.tutoring_hours' %}">Tutoring Hours</a></li>
-        </ul>
-        </li>
-        {% endif %}
-        <li><a href="{% url 'main.views.profile' %}">{{ user.username }}</a></li>
-        <li><a href="{% url 'main.views.logout' %}?next={{ next }}">Logout</a></li>
-      </ul>
-      {% else %}
-      <form class="navbar-form pull-right" method="post" action="{% url 'main.views.login' %}?next={{ next }}">
-        {% csrf_token %}
-        {% if request.GET.error %}
-        <span class="help-inline" style="color:white;">Invalid login</span>
-        {% endif %}
-        <input type="text" class="form-control" placeholder="Username" name="username" style="width: 200px;">
-        <input type="password" class="form-control" placeholder="Password" name="password" style="width: 200px;">
-        <button type="submit" class="btn">Sign in</button>
-      </form>
-      {% endif %}
-    </div>
-  </div>
-</div>
-<div id="main" class="container">
-  {% block content %}{% endblock %}
-</div>
-<footer class="footer">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-12">
-        UCLA Tau Beta Pi | 
-        <a href="{% url 'web.views.home' %}">Home</a> | 
-        <a href="{% url 'web.views.contact' %}">Contact</a>
+        <div class="nav-collapse collapse navbar-responsive-collapse">
+          <ul class="nav navbar-nav">
+            {% comment %}<li class="active"><a href="#">Home</a></li>{% endcomment %}
+            <li class="dropdown">
+            <a href="{% url 'event.views.events' %}">Events</a>
+            <ul class="dropdown-menu">
+              {% for event in events %}
+              <li><a href="/events/{{ event.url }}">{{ event.name }}</a></li>
+              {% endfor %}
+            </ul>
+            </li>
+            <li><a href="{% url 'web.views.tutoring' %}">Tutoring</a></li>
+            <li class="dropdown">
+            <a href="{% url 'web.views.programs' %}" class="dropdown-toggle">Programs</a>
+            <ul class="dropdown-menu">
+              <li><a href="{% url 'web.views.emcc' %}">EMCC</a></li>
+              <li><a href="{% url 'web.views.fe' %}">FE Test Prepartion Materials</a></li>
+            </ul>
+            </li>
+            <li class="dropdown">
+            <a href="{% url 'web.views.about' %}" class="dropdown-toggle">About Us</a>
+            <ul class="dropdown-menu">
+              <li><a href="{% url 'web.views.requirements' %}">Requirements</a></li>
+              <li><a href="https://www.facebook.com/tbp.epsilon.ucla/photos_stream">Photos</a></li>
+              <li><a href="{% url 'web.views.awards' %}">Awards</a></li>
+              <li><a href="{% url 'web.views.officers' %}">Officers</a></li>
+              <li><a href="{% url 'web.views.faculty' %}">Faculty</a></li>
+              <li><a href="{% url 'web.views.contact' %}">Contact</a></li>
+            </ul>
+            </li>
+          </ul>
+          {% if user.is_authenticated %}
+          <ul class="nav navbar-nav pull-right">
+            {% if user.is_staff %}
+            <li class="dropdown">
+            <a href="/admin" class="dropdown-toggle">Admin</a>
+            <ul class="dropdown-menu">
+              <li><a href="{% url 'main.views.candidates' %}">Candidates</a></li>
+              <li><a href="{% url 'main.views.tutoring_hours' %}">Tutoring Hours</a></li>
+            </ul>
+            </li>
+            {% endif %}
+            <li><a href="{% url 'main.views.profile' %}">{{ user.username }}</a></li>
+            <li><a href="{% url 'main.views.logout' %}?next={{ next }}">Logout</a></li>
+          </ul>
+          {% else %}
+          <form class="navbar-form pull-right" method="post" action="{% url 'main.views.login' %}?next={{ next }}">
+            {% csrf_token %}
+            {% if request.GET.error %}
+            <span class="help-inline" style="color:white;">Invalid login</span>
+            {% endif %}
+            <input type="text" class="form-control" placeholder="Username" name="username" style="width: 200px;">
+            <input type="password" class="form-control" placeholder="Password" name="password" style="width: 200px;">
+            <button type="submit" class="btn">Sign in</button>
+          </form>
+          {% endif %}
+        </div>
       </div>
     </div>
-  </div>
-</footer>
-<script src="http://code.jquery.com/jquery.js"></script>
-<script src="/static/dist/js/bootstrap.min.js"></script>
+    <div id="main" class="container">
+      {% block content %}{% endblock %}
+    </div>
+    <footer class="footer">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12">
+            UCLA Tau Beta Pi | 
+            <a href="{% url 'web.views.home' %}">Home</a> | 
+            <a href="{% url 'web.views.contact' %}">Contact</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <script src="http://code.jquery.com/jquery.js"></script>
+    <script src="/static/dist/js/bootstrap.min.js"></script>
+  </body>
+</html>
