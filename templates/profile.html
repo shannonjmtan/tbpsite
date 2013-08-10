@@ -13,13 +13,6 @@
     <form class="form-horizontal">
       <fieldset>
         <div class="form-group">
-          <label class="col-lg-4 control-label">Username</label>
-          <div class="col-lg-8">
-            <p class="form-control-static">{{ user.get_username }}</p>
-          </div>
-        </div>
-
-        <div class="form-group">
           <label class="col-lg-4 control-label">Email</label>
           <div class="col-lg-8">
             <p class="form-control-static">{{ user.email }}</p>
@@ -37,7 +30,6 @@
             <p class="form-control-static">{{ user.last_name }}</p>
           </div>
         </div>
-
         <div class="form-group">
           <label class="col-lg-4 control-label">Major</label>
           <div class="col-lg-8">
@@ -55,9 +47,9 @@
           <label class="col-lg-4 control-label" for="resume_word">Resume (word)</label>
           <div class="col-lg-8">
             {% if profile.resume_word %}
-            <a href="{% url 'main.views.resume_word' %}">Last upload: {{ profile.resume_word }}</a>
+            <a href="{% url 'main.views.resume_word' %}"><p class="form-control-static">Last upload: {{ profile.resume_word }}</p></a>
             {% else %}
-            <span class="help-inline">Last upload: {{ profile.resume_word }}</span>
+            <p class="form-control-static">Last upload: {{ profile.resume_word }}</p>
             {% endif %}
           </div>
         </div>
@@ -65,9 +57,9 @@
           <label class="col-lg-4 control-label" for="resume_pdf">Resume (pdf)</label>
           <div class="col-lg-8">
             {% if profile.resume_pdf %}
-            <a href="{% url 'main.views.resume_pdf' %}">Last upload: {{ profile.resume_pdf }}</a>
+            <a href="{% url 'main.views.resume_pdf' %}"><p class="form-control-static">Last upload: {{ profile.resume_pdf }}</p></a>
             {% else %}
-            <span class="help-inline">Last upload: {{ profile.resume_pdf }}</span>
+            <p class="form-control-static">Last upload: {{ profile.resume_pdf }}</p>
             {% endif %}
           </div>
         </div>
@@ -75,9 +67,9 @@
           <label class="col-lg-4 control-label" for="professor_interview">Professor Interview</label>
           <div class="col-lg-8">
             {% if profile.professor_interview %}
-            <a href="{% url 'main.views.interview' %}">Last upload: {{ profile.professor_interview }}</a>
+            <a href="{% url 'main.views.interview' %}"><p class="form-control-static">Last upload: {{ profile.professor_interview }}</p></a>
             {% else %}
-            <span class="help-inline">Last upload: {{ profile.professor_interview }}</span>
+            <p class="form-control-static">Last upload: {{ profile.professor_interview }}</p>
             {% endif %}
           </div>
         </div>
@@ -87,14 +79,15 @@
   <div class="col-lg-6">
     <h4>{{ profile.get_position_display }}</h4>
     <p>Distinguished Active Terms:</p>
-      <table class="table">
-        {% for active in actives %}
-        <tr>
-          <td>{{ active.term }}</td>
-          <td>{% if active.completed %}Completed{% else %}In Progress{% endif %}</td>
-        </tr>
-        {% endfor %}
-      </table>
+    <table class="table">
+      {% for active in actives %}
+      <tr>
+        <td>{{ active.term }}</td>
+        <td>{% if active.completed %}Completed{% else %}In Progress{% endif %}</td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
 </div>
 
 {% endblock %}
