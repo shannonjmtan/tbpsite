@@ -5,6 +5,17 @@ CANDIDATE_COMMUNITY_SERVICE = 1
 CANDIDATE_SOCIAL = 2
 ACTIVE_MEMBER_SOCIAL = 2
 
+MAJOR_CHOICES = (
+        ('0', 'Aerospace Engineering'),
+        ('1', 'Bioengineering'),
+        ('2', 'Chemical Engineering'),
+        ('3', 'Civil Engineering'),
+        ('4', 'Computer Science'),
+        ('5', 'Computer Science and Engineering'),
+        ('6', 'Electrical Engineering'),
+        ('7', 'Materials Engineering'),
+        ('8', 'Mechanical Engineering'),
+        )
 PLACE_CHOICES = (
         ('0', 'Not Completed'),
         ('1', 'Completed'),
@@ -112,17 +123,6 @@ class Profile(models.Model):
     POSITION_CHOICES = (
             (CANDIDATE, 'Candidate'),
             (MEMBER, 'Member'),
-            )
-    MAJOR_CHOICES = (
-            ('0', 'Aerospace Engineering'),
-            ('1', 'Bioengineering'),
-            ('2', 'Chemical Engineering'),
-            ('3', 'Civil Engineering'),
-            ('4', 'Computer Science'),
-            ('5', 'Computer Science and Engineering'),
-            ('6', 'Electrical Engineering'),
-            ('7', 'Materials Engineering'),
-            ('8', 'Mechanical Engineering'),
             )
     position = models.CharField(max_length=1, choices=POSITION_CHOICES, default='0')
     house = models.ForeignKey('House', blank=True, null=True)
@@ -268,3 +268,13 @@ class Officer(models.Model):
 
     class Meta:
         ordering = ('-rank',)
+
+class Faculty(models.Model):
+    name = models.CharField(max_length=40)
+    major = models.CharField(max_length=1, choices=MAJOR_CHOICES)
+    chapter = models.CharField(max_length=10)
+    graduation = models.CharField(max_length=10)
+    link = models.CharField(max_length=80)
+
+    def __unicode__(self):
+        return self.name
