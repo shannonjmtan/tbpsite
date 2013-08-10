@@ -4,153 +4,97 @@
 
 {% block content %}
 
-{% if error.success %}
-<p class="text-success">Changes saved succesfully</p>
-{% endif %}
+<ul class="nav nav-tabs">
+  <li class="active"><a href="#">Profile</a></li>
+  <li><a href="{% url 'main.views.edit' %}">Edit</a></li>
+</ul>
+<div class="row">
+  <div class="col-lg-6">
+    <form class="form-horizontal">
+      <fieldset>
+        <div class="form-group">
+          <label class="col-lg-4 control-label">Username</label>
+          <div class="col-lg-8">
+            <p class="form-control-static">{{ user.get_username }}</p>
+          </div>
+        </div>
 
-<form class="form-horizontal" method="post" enctype="multipart/form-data">
-  {% csrf_token %}
-  <fieldset>  
-    <legend>Profile</legend>
+        <div class="form-group">
+          <label class="col-lg-4 control-label">Email</label>
+          <div class="col-lg-8">
+            <p class="form-control-static">{{ user.email }}</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-lg-4 control-label">First Name</label>
+          <div class="col-lg-8">
+            <p class="form-control-static">{{ user.first_name }}</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-lg-4 control-label">Last Name</label>
+          <div class="col-lg-8">
+            <p class="form-control-static">{{ user.last_name }}</p>
+          </div>
+        </div>
 
-    {% if error.incorrect_password %}
-    <div class="form-group has-error">
-      <label class="col-lg-2 control-label" for="inputError">Current Password</label>
-      <div class="col-lg-4">
-        <input type="password" class="form-control" name="current_password">
-        <span class="help-inline">Incorrect password</span>
-    {% else %}
-    <div class="form-group">
-      <label class="col-lg-2 control-label">Current Password</label>
-      <div class="col-lg-4">
-        <input type="password" class="form-control" name="current_password">
-        {% endif %}
-        <span class="help-block">Required if changing username or password</span>
-      </div>
-    </div>
-
-    {% if error.username_taken %}
-    <div class="form-group has-error">
-      <label class="col-lg-2 control-label" for="inputError">Username</label>
-      <div class="col-lg-4">
-        <input type="text" class="form-control" name="username" value="{{ user.get_username }}" required>
-        <span class="help-inline">Username has already been taken</span>
-    {% else %}
-    <div class="form-group">
-      <label class="col-lg-2 control-label">Username</label>
-      <div class="col-lg-4">
-        <input type="text" class="form-control" name="username" value="{{ user.get_username }}" required>
-        {% endif %}
-      </div>
-    </div>
-
-    {% if error.non_matching_password %}
-    <div class="form-group has-error">
-      <label class="col-lg-2 control-label" for="inputError">New Password</label>
-      <div class="col-lg-4">
-        <input type="password" class="form-control" name="new_password">
-        <span class="help-inline">Passwords do not match</span>
-    {% else %}
-    <div class="form-group">
-      <label class="col-lg-2 control-label">New Password</label>
-      <div class="col-lg-4">
-        <input type="password" class="form-control" name="new_password">
-    {% endif %}
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label class="col-lg-2 control-label">Confirm Password</label>
-      <div class="col-lg-4">
-        <input type="password" class="form-control" name="confirm_password">
-      </div>
-    </div>
-    <hr />
-    <div class="form-group">
-      <label class="col-lg-2 control-label">Email</label>
-      <div class="col-lg-4">
-        <input type="email" class="form-control" name="email" value="{{ user.email }}" required>
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="col-lg-2 control-label">First Name</label>
-      <div class="col-lg-4">
-        <input type="text" class="form-control" name="first_name" value="{{ user.first_name }}" required>
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="col-lg-2 control-label">Last Name</label>
-      <div class="col-lg-4">
-        <input type="text" class="form-control" name="last_name" value="{{ user.last_name }}" required>
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label class="col-lg-2 control-label">Major</label>
-      <div class="col-lg-4">
-        <select class="form-control" name="major">
-          {% for major in majors %}
-          <option value="{{ major.0 }}"{{ major.2 }}>{{ major.1 }}</option>
-          {% endfor %}
-        </select>
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="col-lg-2 control-label">Graduation Term</label>
-      <div class="col-lg-2">
-        <select class="form-control" name="graduation_quarter">
-          {% for quarter in quarters %}
-          <option value="{{ quarter.0 }}"{{ quarter.2 }}>{{ quarter.1 }}</option>
-          {% endfor %}
-        </select>
-      </div>
-      <div class="col-lg-2">
-        <input type="text" class="form-control" name="graduation_year" 
-        {% if term.year %}value="{{ term.year }}"{% endif %} required>
-      </div>
-    </div>
-    <hr />
-    <div class="form-group">
-      <span class="col-lg-offset-2 col-lg-4 help-inline">Submitting resumes in both formats is highly suggested for more opportunities.</span>
-    </div>
-    <div class="form-group">
-      <label class="col-lg-2 control-label" for="resume_word">Resume (word)</label>
-      <div class="col-lg-4">
-        <input type="file" name="resume_word">
-        {% if profile.resume_word %}
-        <a href="{% url 'main.views.resume_word' %}">Last upload: {{ profile.resume_word }}</a>
-        {% else %}
-        <span class="help-inline">Last upload: {{ profile.resume_word }}</span>
-        {% endif %}
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="col-lg-2 control-label" for="resume_pdf">Resume (pdf)</label>
-      <div class="col-lg-4">
-        <input type="file" name="resume_pdf">
-        {% if profile.resume_pdf %}
-        <a href="{% url 'main.views.resume_pdf' %}">Last upload: {{ profile.resume_pdf }}</a>
-        {% else %}
-        <span class="help-inline">Last upload: {{ profile.resume_pdf }}</span>
-        {% endif %}
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="col-lg-2 control-label" for="professor_interview">Professor Interview</label>
-      <div class="col-lg-4">
-        <input type="file" name="professor_interview">
-        {% if profile.professor_interview %}
-        <a href="{% url 'main.views.interview' %}">Last upload: {{ profile.professor_interview }}</a>
-        {% else %}
-        <span class="help-inline">Last upload: {{ profile.professor_interview }}</span>
-        {% endif %}
-      </div>
-    </div>
-    <div class="form-actions">
-      <button type="submit" class="btn btn-primary">Save changes</button>
-      <button type="button" class="btn">Cancel</button>
-    </div>
-  </fieldset>
-</form>
+        <div class="form-group">
+          <label class="col-lg-4 control-label">Major</label>
+          <div class="col-lg-8">
+            <p class="form-control-static">{{ profile.get_major_display }}</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-lg-4 control-label">Graduation Term</label>
+          <div class="col-lg-8">
+            <p class="form-control-static">{{ profile.graduation_term }}</p>
+          </div>
+        </div>
+        <hr />
+        <div class="form-group">
+          <label class="col-lg-4 control-label" for="resume_word">Resume (word)</label>
+          <div class="col-lg-8">
+            {% if profile.resume_word %}
+            <a href="{% url 'main.views.resume_word' %}">Last upload: {{ profile.resume_word }}</a>
+            {% else %}
+            <span class="help-inline">Last upload: {{ profile.resume_word }}</span>
+            {% endif %}
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-lg-4 control-label" for="resume_pdf">Resume (pdf)</label>
+          <div class="col-lg-8">
+            {% if profile.resume_pdf %}
+            <a href="{% url 'main.views.resume_pdf' %}">Last upload: {{ profile.resume_pdf }}</a>
+            {% else %}
+            <span class="help-inline">Last upload: {{ profile.resume_pdf }}</span>
+            {% endif %}
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-lg-4 control-label" for="professor_interview">Professor Interview</label>
+          <div class="col-lg-8">
+            {% if profile.professor_interview %}
+            <a href="{% url 'main.views.interview' %}">Last upload: {{ profile.professor_interview }}</a>
+            {% else %}
+            <span class="help-inline">Last upload: {{ profile.professor_interview }}</span>
+            {% endif %}
+          </div>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+  <div class="col-lg-6">
+    <h4>{{ profile.get_position_display }}</h4>
+    <p>Distinguished Active Terms:</p>
+      <table class="table">
+        {% for active in actives %}
+        <tr>
+          <td>{{ active.term }}</td>
+          <td>{% if active.completed %}Completed{% else %}In Progress{% endif %}</td>
+        </tr>
+        {% endfor %}
+      </table>
+</div>
 
 {% endblock %}
