@@ -1,5 +1,5 @@
-from django.db import models
 from django.contrib.auth.models import User
+from django.db import models
 
 CANDIDATE_COMMUNITY_SERVICE = 1
 CANDIDATE_SOCIAL = 2
@@ -249,8 +249,7 @@ class ActiveMember(models.Model):
         if self.requirement_choice == EMCC or self.requirement_choice == COMMITTEE:
             return requirement_complete
         if self.tutoring is None:
-            self.tutoring = Tutoring.objects.get_or_create(
-                    profile=self.profile, term=self.term)[0]
+            self.tutoring, created = Tutoring.objects.get_or_create(profile=self.profile, term=self.term)
         return self.tutoring.complete()
 
     def social_complete(self):
@@ -258,3 +257,14 @@ class ActiveMember(models.Model):
 
     def complete(self):
         return self.requirement() and self.social_complete()
+
+class Officer(models.Model):
+    position = models.CharField(max_length=20)
+    rank = models.IntegerField()
+    profile = models.ManyToManyField('Profile')
+
+    def __unicode__(self):
+        return self.position
+
+    class Meta:
+        ordering = ('-rank',)
