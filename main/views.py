@@ -1,7 +1,7 @@
 from django.contrib import auth
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
-from main.models import Profile, Term, Candidate
+from main.models import Profile, Term, Candidate, ActiveMember
 from tutoring.models import Tutoring
 from tbpsite.settings import BASE_DIR
 from django.http import HttpResponse
@@ -55,6 +55,20 @@ def logout(request):
     return redirect(next)
 
 def profile(request):
+    next = get_next(request)
+    if not request.user.is_authenticated():
+        return redirect(next)
+
+    user = request.user
+    profile = Profile.objects.get_or_create(user=user)[0]
+    term = profile.graduation_term
+
+    return render(request, 'profile.html', 
+            {'user': user,
+                'profile': profile,
+                'actives': ActiveMember.objects.filter(profile=profile)})
+
+def edit(request):
     next = get_next(request)
     if not request.user.is_authenticated():
         return redirect(next)
@@ -157,7 +171,7 @@ def profile(request):
     except AttributeError:
         quarters = [item + ('',) for item in Term.QUARTER_CHOICES]
 
-    return render(request, 'profile.html', 
+    return render(request, 'edit.html', 
             {'user': user,
                 'profile': profile,
                 'term': term,

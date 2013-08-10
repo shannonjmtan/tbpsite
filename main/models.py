@@ -148,6 +148,7 @@ class Profile(models.Model):
 class Candidate(models.Model):
     profile = models.ForeignKey('Profile', unique=True)
     term = models.ForeignKey('Term')
+    completed = models.BooleanField(default=False)
 
     tutoring = models.ForeignKey('tutoring.Tutoring')
     bent_polish = models.BooleanField(default=False)
@@ -220,6 +221,7 @@ class Candidate(models.Model):
 class ActiveMember(models.Model):
     profile = models.ForeignKey('Profile')
     term = models.ForeignKey('Term')
+    completed = models.BooleanField(default=False)
 
     EMCC = '0'
     TUTORING = '1'
@@ -233,13 +235,15 @@ class ActiveMember(models.Model):
     requirement_complete = models.BooleanField(default=False)
     tutoring = models.ForeignKey('tutoring.Tutoring', blank=True, null=True)
 
-    objects = TermManager()
+    default = TermManager()
+    objects = models.Manager()
 
     def __unicode__(self):
-        return profile.__unicode__()
+        return self.profile.__unicode__()
 
     class Meta:
         unique_together = ('profile', 'term')
+        ordering = ('term',)
 
     def requirement(self):
         if self.requirement_choice == EMCC or self.requirement_choice == COMMITTEE:
