@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Profile{% endblock %}
+
+{% block content %}
+
+<ul class="nav nav-tabs">
+  <li><a href="{% url 'main.views.profile_view' %}">Profile</a></li>
+  <li class="active"><a href="#">Edit</a></li>
+</ul>
+<div class="row">
+  <div class="col-lg-6">
+    {% if from_redirect %}
+    <p class="text-info">Please enter the following information</p>
+    {% endif %}
+    <form class="form-horizontal" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <fieldset>  
+        {% if error.incorrect_password %}
+        <div class="form-group has-error">
+          <label class="col-lg-4 control-label" for="inputError">Current Password</label>
+          <div class="col-lg-8">
+            <input type="password" class="form-control" name="current_password">
+            <span class="help-block">Incorrect password</span>
+        {% else %}
+        <div class="form-group">
+          <label class="col-lg-4 control-label">Current Password</label>
+          <div class="col-lg-8">
+            <input type="password" class="form-control" name="current_password">
+        {% endif %}
+            <span class="help-inline">Required if changing username or password</span>
+          </div>
+        </div>
+
+        {% if error.username_taken %}
+        <div class="form-group has-error">
+          <label class="col-lg-4 control-label" for="username">Username</label>
+          <div class="col-lg-8">
+            <input type="text" class="form-control" name="username" {% if user.get_username %}placeholder="{{ user.get_username }}"{% else %}required{% endif %}>
+            <span class="help-block">Username has already been taken</span>
+        {% else %}
+        <div class="form-group">
+          <label class="col-lg-4 control-label">Username</label>
+          <div class="col-lg-8">
+            <input type="text" class="form-control" name="username" {% if user.get_username %}placeholder="{{ user.get_username }}"{% else %}required{% endif %}>
+        {% endif %}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-lg-4 control-label">New Password</label>
+          <div class="col-lg-8">
+            <input type="password" class="form-control" name="new_password">
+          </div>
+        </div>
+
+        {% if error.non_matching_password %}
+        <div class="form-group has-error">
+          <label class="col-lg-4 control-label" for="confirm_password">Confirm Password</label>
+          <div class="col-lg-8">
+            <input type="password" class="form-control" name="confirm_password">
+            <span class="help-block">Passwords do not match</span>
+        {% else %}
+        <div class="form-group">
+          <label class="col-lg-4 control-label">Confirm Password</label>
+          <div class="col-lg-8">
+            <input type="password" class="form-control" name="confirm_password">
+        {% endif %}
+          </div>
+        </div>
+
+        <hr />
+        <div class="form-group">
+          <label class="col-lg-4 control-label">Email</label>
+          <div class="col-lg-8">
+            <input type="email" class="form-control" name="email" {% if user.email %}placeholder="{{ user.email }}"{% else %}required{% endif %}>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-lg-4 control-label">First Name</label>
+          <div class="col-lg-8">
+            <input type="text" class="form-control" name="first_name" {% if user.first_name %}placeholder="{{ user.first_name }}"{% else %}required{% endif %}>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-lg-4 control-label">Last Name</label>
+          <div class="col-lg-8">
+            <input type="text" class="form-control" name="last_name" {% if user.last_name %}placeholder="{{ user.last_name }}"{% else %}required{% endif %}>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-lg-4 control-label">Major</label>
+          <div class="col-lg-8">
+            <select class="form-control" name="major">
+              {% for major in majors %}
+              <option{{ major.0 }}>{{ major.1 }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-lg-4 control-label">Graduation Term</label>
+          <div class="col-lg-4">
+            <select class="form-control" name="graduation_quarter">
+              {% for quarter in quarters %}
+              <option{{ quarter.0 }}>{{ quarter.1 }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col-lg-4">
+            <input type="text" class="form-control" name="graduation_year" {% if term.year %}placeholder="{{ term.year }}"{% else %}required{% endif %}>
+          </div>
+        </div>
+        <hr />
+        <div class="form-group">
+          <span class="help-inline">Submitting resumes in both formats is highly suggested for more opportunities.</span>
+        </div>
+        <div class="form-group">
+          <label class="col-lg-4 control-label" for="resume_word">Resume (word)</label>
+          <div class="col-lg-8">
+            <input type="file" name="resume_word">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-lg-4 control-label" for="resume_pdf">Resume (pdf)</label>
+          <div class="col-lg-8">
+            <input type="file" name="resume_pdf">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-lg-4 control-label" for="professor_interview">Professor Interview (pdf)</label>
+          <div class="col-lg-8">
+            <input type="file" name="professor_interview">
+          </div>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">Save changes</button>
+          <button type="button" class="btn">Cancel</button>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+</div>
+
+{% endblock %}
