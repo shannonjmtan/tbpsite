@@ -142,6 +142,9 @@ class Profile(models.Model):
         ret = self.user.get_full_name()
         return ret if ret else self.user.get_username()
 
+    def resume(self):
+        return resume_pdf or resume_word
+
 class Candidate(models.Model):
     profile = models.ForeignKey('Profile', unique=True)
     term = models.ForeignKey('Term')
