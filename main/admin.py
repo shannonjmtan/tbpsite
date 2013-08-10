@@ -1,49 +1,38 @@
 from django import forms
 from django.contrib import admin
-from main.models import *
-from tutoring.models import *
-from django.contrib.auth.models import User
 from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.mail import send_mail
 
+from main.models import *
+from tutoring import models
+from tutoring.models import Tutoring
+
 def generate_profile(user):
-    return Profile.objects.get_or_create(user=user)[0]
+    profile, created = Profile.objects.get_or_create(user=user)
+    return profile
 
 def generate_candidate(profile, term):
     tutoring = generate_tutoring(profile, term)
-    return Candidate.objects.get_or_create(profile=profile, term=term, 
-            tutoring=tutoring)[0]
+    candidate, created = Candidate.objects.get_or_create(profile=profile, term=term, tutoring=tutoring)
+    return candidate
 
 def generate_active_member(profile, term):
-    tutoring = create_Tutoring(profile, term)
-    return ActiveMember.objects.get_or_create(profile=profile, term=term,
-            tutoring=tutoring)[0]
+    tutoring = generate_tutoring(profile, term)
+    active_member, created = ActiveMember.objects.get_or_create(profile=profile, term=term, tutoring=tutoring)
 
-def generate_tutoring(profile, term):
-    week_3 = Week3.objects.get_or_create(profile=profile, term=term)[0]
-    week_4 = Week4.objects.get_or_create(profile=profile, term=term)[0]
-    week_5 = Week5.objects.get_or_create(profile=profile, term=term)[0]
-    week_6 = Week6.objects.get_or_create(profile=profile, term=term)[0]
-    week_7 = Week7.objects.get_or_create(profile=profile, term=term)[0]
-    week_8 = Week8.objects.get_or_create(profile=profile, term=term)[0]
-    week_9 = Week9.objects.get_or_create(profile=profile, term=term)[0]
-    tutoring = Tutoring.objects.get_or_create(profile=profile, term=term,
-            week_3=week_3,
-            week_4=week_4,
-            week_5=week_5,
-            week_6=week_6,
-            week_7=week_7,
-            week_8=week_8,
-            week_9=week_9)[0]
+def generate_tutoring(profile, term): 
+    tutoring_weeks = {'week_{}'.format(d): getattr(models, 'Week{}'.format(d)).objects.get_or_create(profile=profile, term=term)[0]
+            for d in range(3, 10)}
+    tutoring, created = Tutoring.objects.get_or_create(profile=profile, term=term, **tutoring_weeks)
     return tutoring
 
 class MyUserAdmin(UserAdmin):
     actions = ('create_profile', 'reset_password')
 
     def create_profile(self, request, queryset):
-        for user in queryset:
-            generate_profile(user)
+        map(generate_profile, queryset)
 
     def reset_password(self, request, queryset):
         for user in queryset:
@@ -73,8 +62,7 @@ class HousePointsAdmin(admin.ModelAdmin):
 
 class ProfileAdmin(admin.ModelAdmin):
     list_display = ('__unicode__', 'position', 'house', 'major', 
-            'initiation_term', 'graduation_term', 'resume_pdf', 'resume_word',
-            'professor_interview')
+            'initiation_term', 'graduation_term', 'resume_pdf', 'resume_word', 'professor_interview')
     list_filter = ('position',)
     search_fields = ('user__first_name', 'user__last_name', 'user__email')
     actions = ('create_candidate', 'create_active_member')
@@ -87,14 +75,12 @@ class ProfileAdmin(admin.ModelAdmin):
         # check for errors, all or nothing
         for profile in queryset:
             if profile.position == '1':
-                self.message_user(request, profile.__unicode__() + 
-                        ' is already a member')
+                self.message_user(request, '{} is already a member'.format(profile.__unicode__()))
                 return
 
             try:
                 candidate = Candidate.objects.get(profile=profile)
-                self.message_user(request, profile.__unicode__() + 
-                        ' is already a candidate')
+                self.message_user(request, '{} is already a candidate'.format(profile.__unicode__()))
                 return
             except ObjectDoesNotExist:
                 pass
@@ -113,12 +99,10 @@ class ProfileAdmin(admin.ModelAdmin):
 class CandidateAdmin(admin.ModelAdmin):
     list_display = (
             '__unicode__', 'term', 'bent_polish', 'candidate_quiz', 'candidate_meet_and_greet', 
-            'signature_book', 'community_service', 'initiation_fee', 
-            'engineering_futures')
+            'signature_book', 'community_service', 'initiation_fee', 'engineering_futures')
     list_editable = (
             'bent_polish', 'candidate_quiz', 'candidate_meet_and_greet', 
-            'signature_book', 'community_service', 'initiation_fee', 
-            'engineering_futures') 
+            'signature_book', 'community_service', 'initiation_fee', 'engineering_futures') 
 
 class ActiveMemberAdmin(admin.ModelAdmin):
     list_display = ('__unicode__', 'term', 'requirement_choice', 'requirement_complete')
