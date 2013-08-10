@@ -22,7 +22,8 @@ class Event(models.Model):
     dropdown = models.BooleanField()
     attendees = models.ManyToManyField('main.Profile', blank=True, null=True)
 
-    objects = TermManager()
+    default = TermManager()
+    objects = models.Manager()
 
     class Meta:
         ordering = ('-term', 'name')
