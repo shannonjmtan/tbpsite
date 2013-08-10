@@ -1,0 +1,50 @@
+/* footer */
+html, body {
+  height: 100%;
+}
+#main {
+  min-height: 80%;
+  padding-bottom: 20px;
+}
+footer {
+  border-top: 1px solid rgb(229, 229, 229);
+}
+.footer {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+/* preferences */
+.navbar .nav > li > a, .navbar-inverse .navbar-brand {
+  color: #FFFFFF;
+}
+.navbar-inverse {
+  background-color:rgb(53, 126, 189);
+}
+body {
+  background-color:#FBFBFB;
+}
+textarea {
+  width:40%;
+}
+h1 {
+  margin-bottom:20px;
+}
+ul.nav-tabs + div {
+  padding-top:20px;
+}
+
+/* http://stackoverflow.com/questions/8878033/how-to-make-twitter-bootstrap-menu-dropdown-on-hover-rather-than-click */
+ul.nav li.dropdown:hover > ul.dropdown-menu{
+  display:
+  block;    
+}
+a.menu:after, .dropdown-toggle:after
+{
+  content:
+  none;
+}
+ul.dropdown-menu
+{
+  padding-top:3px;
+}

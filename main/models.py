@@ -1,10 +1,21 @@
-from django.db import models
 from django.contrib.auth.models import User
+from django.db import models
 
 CANDIDATE_COMMUNITY_SERVICE = 1
 CANDIDATE_SOCIAL = 2
 ACTIVE_MEMBER_SOCIAL = 2
 
+MAJOR_CHOICES = (
+        ('0', 'Aerospace Engineering'),
+        ('1', 'Bioengineering'),
+        ('2', 'Chemical Engineering'),
+        ('3', 'Civil Engineering'),
+        ('4', 'Computer Science'),
+        ('5', 'Computer Science and Engineering'),
+        ('6', 'Electrical Engineering'),
+        ('7', 'Materials Engineering'),
+        ('8', 'Mechanical Engineering'),
+        )
 PLACE_CHOICES = (
         ('0', 'Not Completed'),
         ('1', 'Completed'),
@@ -113,17 +124,6 @@ class Profile(models.Model):
             (CANDIDATE, 'Candidate'),
             (MEMBER, 'Member'),
             )
-    MAJOR_CHOICES = (
-            ('0', 'Aerospace Engineering'),
-            ('1', 'Bioengineering'),
-            ('2', 'Chemical Engineering'),
-            ('3', 'Civil Engineering'),
-            ('4', 'Computer Science'),
-            ('5', 'Computer Science and Engineering'),
-            ('6', 'Electrical Engineering'),
-            ('7', 'Materials Engineering'),
-            ('8', 'Mechanical Engineering'),
-            )
     position = models.CharField(max_length=1, choices=POSITION_CHOICES, default='0')
     house = models.ForeignKey('House', blank=True, null=True)
     major = models.CharField(max_length=1, choices=MAJOR_CHOICES, default='0')
@@ -131,7 +131,8 @@ class Profile(models.Model):
             related_name='profile_initiation_term', default=Current.objects.get_term)
     graduation_term = models.ForeignKey('Term', 
             related_name='profile_graduation_term', blank=True, null=True)
-    resume = models.DateTimeField(blank=True, null=True)
+    resume_pdf = models.DateTimeField(blank=True, null=True)
+    resume_word = models.DateTimeField(blank=True, null=True)
     professor_interview = models.DateTimeField(blank=True, null=True)
 
     class Meta:
@@ -141,9 +142,13 @@ class Profile(models.Model):
         ret = self.user.get_full_name()
         return ret if ret else self.user.get_username()
 
+    def resume(self):
+        return resume_pdf or resume_word
+
 class Candidate(models.Model):
     profile = models.ForeignKey('Profile', unique=True)
     term = models.ForeignKey('Term')
+    completed = models.BooleanField(default=False)
 
     tutoring = models.ForeignKey('tutoring.Tutoring')
     bent_polish = models.BooleanField(default=False)
@@ -216,6 +221,7 @@ class Candidate(models.Model):
 class ActiveMember(models.Model):
     profile = models.ForeignKey('Profile')
     term = models.ForeignKey('Term')
+    completed = models.BooleanField(default=False)
 
     EMCC = '0'
     TUTORING = '1'
@@ -229,20 +235,21 @@ class ActiveMember(models.Model):
     requirement_complete = models.BooleanField(default=False)
     tutoring = models.ForeignKey('tutoring.Tutoring', blank=True, null=True)
 
-    objects = TermManager()
+    default = TermManager()
+    objects = models.Manager()
 
     def __unicode__(self):
-        return profile.__unicode__()
+        return self.profile.__unicode__()
 
     class Meta:
         unique_together = ('profile', 'term')
+        ordering = ('term',)
 
     def requirement(self):
         if self.requirement_choice == EMCC or self.requirement_choice == COMMITTEE:
             return requirement_complete
         if self.tutoring is None:
-            self.tutoring = Tutoring.objects.get_or_create(
-                    profile=self.profile, term=self.term)[0]
+            self.tutoring, created = Tutoring.objects.get_or_create(profile=self.profile, term=self.term)
         return self.tutoring.complete()
 
     def social_complete(self):
@@ -250,3 +257,24 @@ class ActiveMember(models.Model):
 
     def complete(self):
         return self.requirement() and self.social_complete()
+
+class Officer(models.Model):
+    position = models.CharField(max_length=20)
+    rank = models.IntegerField()
+    profile = models.ManyToManyField('Profile')
+
+    def __unicode__(self):
+        return self.position
+
+    class Meta:
+        ordering = ('-rank',)
+
+class Faculty(models.Model):
+    name = models.CharField(max_length=40)
+    major = models.CharField(max_length=1, choices=MAJOR_CHOICES)
+    chapter = models.CharField(max_length=10)
+    graduation = models.CharField(max_length=10)
+    link = models.CharField(max_length=80)
+
+    def __unicode__(self):
+        return self.name
