@@ -30,7 +30,7 @@ textarea {
 h1 {
   margin-bottom:20px;
 }
-form {
+ul.nav-tabs + div {
   padding-top:20px;
 }
 
