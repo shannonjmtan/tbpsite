@@ -78,12 +78,16 @@
   </div>
   <div class="col-lg-6">
     <h4>{{ profile.get_position_display }}</h4>
+    {% if profile.position == "0"%}
+    <p>Requirements:</p>
+    {% else %}
     <p>Distinguished Active Terms:</p>
+    {% endif %}
     <table class="table">
-      {% for active in actives %}
+      {% for detail in details %}
       <tr>
-        <td>{{ active.term }}</td>
-        <td>{% if active.completed %}Completed{% else %}In Progress{% endif %}</td>
+        <td>{{ detail.0 }}</td>
+        <td>{{ detail.1 }}</td>
       </tr>
       {% endfor %}
     </table>
