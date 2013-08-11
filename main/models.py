@@ -143,7 +143,7 @@ class Profile(models.Model):
         return ret if ret else self.user.get_username()
 
     def resume(self):
-        return resume_pdf or resume_word
+        return self.resume_pdf or self.resume_word
 
 class Candidate(models.Model):
     profile = models.ForeignKey('Profile', unique=True)
@@ -206,7 +206,7 @@ class Candidate(models.Model):
                 self.community_service_points(), self.other])
 
     def resume(self):
-        return self.profile.resume is not None
+        return self.profile.resume()
 
     def professor_interview(self):
         return self.profile.professor_interview is not None
