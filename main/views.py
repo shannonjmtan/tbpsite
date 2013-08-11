@@ -84,9 +84,9 @@ def profile_view(request):
         return redirect(edit, from_redirect='redirect')
 
     if profile.position == profile.CANDIDATE:
-        details = ((name, 'Complete' if requirement else 'Not Completed') for name, requirement in Candidate.objects.filter(profile=profile)[0].requirements())
+        details = ((name, 'Completed' if requirement else 'Not Completed') for name, requirement in Candidate.objects.filter(profile=profile)[0].requirements())
     else:
-        details = ((active.term, 'Complete' if active.completed else 'In Progress') for active in ActiveMember.objects.filter(profile=profile))
+        details = ((active.term, 'Completed' if active.completed else 'In Progress') for active in ActiveMember.objects.filter(profile=profile))
 
     return render(request, 'profile.html', {'user': user, 'profile': profile, 'details': details})
 

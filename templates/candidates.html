@@ -25,17 +25,17 @@
     {% for candidate in candidate_list %}
     <tr>
       <td>{{ candidate }}</td>
-      <td>{% if candidate.bent_polish %}<i class="icon-ok"></i>{% endif %}</td>
-      <td>{% if candidate.candidate_quiz_complete %}<i class="icon-ok"></i>{% endif %}</td>
-      <td>{% if candidate.candidate_meet_and_greet %}<i class="icon-ok"></i>{% endif %}</td>
-      <td>{% if candidate.social_complete %}<i class="icon-ok"></i>{% endif %}</td>
-      <td>{% if candidate.signature_book_complete %}<i class="icon-ok"></i>{% endif %}</td>
-      <td>{% if candidate.community_service_complete %}<i class="icon-ok"></i>{% endif %}</td>
-      <td>{% if candidate.initation_fee %}<i class="icon-ok"></i>{% endif %}</td>
-      <td>{% if candidate.tutoring_complete %}<i class="icon-ok"></i>{% endif %}</td>
-      <td>{% if candidate.engineering_futures %}<i class="icon-ok"></i>{% endif %}</td>
-      <td>{% if candidate.resume %}<i class="icon-ok"></i>{% endif %}</td>
-      <td>{% if candidate.professor_interview %}<i class="icon-ok"></i>{% endif %}</td>
+      <td>{% if candidate.bent_polish %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+      <td>{% if candidate.candidate_quiz_complete %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+      <td>{% if candidate.candidate_meet_and_greet %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+      <td>{% if candidate.social_complete %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+      <td>{% if candidate.signature_book_complete %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+      <td>{% if candidate.community_service_complete %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+      <td>{% if candidate.initation_fee %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+      <td>{% if candidate.tutoring_complete %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+      <td>{% if candidate.engineering_futures %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+      <td>{% if candidate.resume %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+      <td>{% if candidate.professor_interview %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
     </tr>
     {% endfor %}
   </tbody>
