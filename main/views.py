@@ -7,7 +7,7 @@ from django.core.servers.basehttp import FileWrapper
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
-from main.models import Profile, Term, Candidate, ActiveMember
+from main.models import Profile, Term, Candidate, ActiveMember, MAJOR_CHOICES
 from tbpsite.settings import BASE_DIR
 from tutoring.models import Tutoring
 from web.views import render_next
@@ -83,9 +83,12 @@ def profile_view(request):
     if not all([user.email, user.first_name, user.last_name, profile.graduation_term and profile.graduation_term.year]):
         return redirect(edit, from_redirect='redirect')
 
-    actives = ActiveMember.objects.filter(profile=profile)
+    if profile.position == profile.CANDIDATE:
+        details = ((name, 'Complete' if requirement else 'Not Completed') for name, requirement in Candidate.objects.filter(profile=profile)[0].requirements())
+    else:
+        details = ((active.term, 'Complete' if active.completed else 'In Progress') for active in ActiveMember.objects.filter(profile=profile))
 
-    return render(request, 'profile.html', {'user': user, 'profile': profile, 'actives': actives})
+    return render(request, 'profile.html', {'user': user, 'profile': profile, 'details': details})
 
 def edit(request, from_redirect=''):
     if not request.user.is_authenticated():
@@ -164,7 +167,7 @@ def edit(request, from_redirect=''):
             profile.save()
             return redirect(profile_view)
 
-    majors = [(' value={}{}'.format(value, ' selected="selected"' if value == profile.major else ''), major) for value, major in profile.MAJOR_CHOICES]
+    majors = [(' value={}{}'.format(value, ' selected="selected"' if value == profile.major else ''), major) for value, major in MAJOR_CHOICES]
     quarters = [(' value={}{}'.format(value, ' selected="selected"' if term and value == term.quarter else ''), quarter) for value, quarter in Term.QUARTER_CHOICES]
 
     return render(request, 'edit.html', {'from_redirect': from_redirect, 'user': user, 'profile': profile, 'term': term, 'majors': majors, 'quarters': quarters, 'error': error})

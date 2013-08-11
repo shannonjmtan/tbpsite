@@ -211,12 +211,21 @@ class Candidate(models.Model):
     def professor_interview(self):
         return self.profile.professor_interview is not None
 
+    def requirements(self):
+        return (
+                ('Tutoring', self.tutoring.complete()),
+                ('Bent Polish', self.bent_polish),
+                ('Candidate Quiz', self.candidate_quiz != '0'),
+                ('Community Service', self.community_service_complete()),
+                ('Initiation Fee', self.initiation_fee),
+                ('Engineering Futures', self.engineering_futures),
+                ('Social', self.social_complete()),
+                ('Resume', self.resume()),
+                ('Professor Interview', self.professor_interview())
+                )
+
     def complete(self):
-        return (self.tutoring.complete() and self.bent_polish and
-                self.candidate_quiz != '0' and self.candidate_meet_and_greet and
-                self.signature_book != '0' and self.community_service_complete() and
-                self.initiation_fee and self.engineering_futures and
-                self.social_complete() and self.resume() and self.professor_interview())
+        return all(requirement for name, requirement in self.requirements())
 
 class ActiveMember(models.Model):
     profile = models.ForeignKey('Profile')
