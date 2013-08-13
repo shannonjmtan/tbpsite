@@ -20,12 +20,12 @@
         <div id="{{ item.2 }}" class="accordion-body collapse">
           <div class="accordion-inner">
             {% for class in item.1 %}
-            <a href="#" class="'{{ class.1 }}'" onmouseover="highlight('{{ class.1 }}')" onmouseout="unhighlight('{{ class.1 }}')" onclick="return locklight('{{ class.1 }}')">{{ class.0 }}</a>{% if not forloop.last %},{% endif %}
+            <a href="#" class="{{ class.1 }}" onmouseover="highlight('{{ class.1 }}')" onmouseout="unhighlight('{{ class.1 }}')" onclick="return locklight('{{ class.1 }}')">{{ class.0 }}</a>{% if not forloop.last %},{% endif %}
             {% endfor %}
           </div>
         </div>
       </div>
-    {% endfor %}
+      {% endfor %}
     </div>
   </div>
   <div class="col-lg-9">
