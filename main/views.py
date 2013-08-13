@@ -50,9 +50,9 @@ def validate_file(f, mime_types, error):
         ret = False
     return ret
 
-def write_file(directory, f):
-    with open(directory, 'wb+') as f:
-        for chunk in f.chunks():
+def write_file(upload, save_path):
+    with open(save_path, 'wb+') as f:
+        for chunk in upload.chunks():
             f.write(chunk)
     return datetime.datetime.today()
 
@@ -150,16 +150,19 @@ def edit(request, from_redirect=''):
         word = ('application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document')
 
         if 'resume_pdf' in request.FILES:
-            if validate_file(request.FILES['resume_pdf'], pdf, error):
-                profile.resume_pdf = write_file('{}/resumes_pdf/{}'.format(BASE_DIR, user.id), 'wb+')
+            resume_pdf = request.FILES['resume_pdf']
+            if validate_file(resume_pdf, pdf, error):
+                profile.resume_pdf = write_file(resume_pdf, '{}/resumes_pdf/{}'.format(BASE_DIR, user.id))
 
         if 'resume_word' in request.FILES:
-            if validate_file(request.FILES['resume_word'], word, error):
-                profile.resume_word = write_file('{}/resumes_word/{}'.format(BASE_DIR, user.id), 'wb+')
+            resume_word = request.FILES['resume_word']
+            if validate_file(resume_word, word, error):
+                profile.resume_word = write_file(resume_word, '{}/resumes_word/{}'.format(BASE_DIR, user.id))
 
         if 'professor_interview' in request.FILES:
-            if validate_file(request.FILES['professor_interview'], pdf, error):
-                profile.professor_interview = write_file('{}/professor_interview/{}'.format(BASE_DIR, user.id), 'wb+')
+            professor_interview = request.FILES['professor_interview']
+            if validate_file(professor_interview, pdf, error):
+                profile.professor_interview = write_file(professor_interview, '{}/professor_interview/{}'.format(BASE_DIR, user.id))
 
         if not error.error():
             user.save()
