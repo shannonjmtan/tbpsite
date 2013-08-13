@@ -42,8 +42,8 @@ def officers(request):
     for position in Officer.objects.all():
         match = positionRe.match( position.position )
         if match:
-            liaisons.append( ' '.join( ( str( officer ), 
-                match.group( 1 ) ) for officer in position.profile.all() ) )
+            for officer in position.profile.all():
+                liaisons.append(' '.join([str(officer), match.group(1)]))
         else:
             positions.append( ( position.position, [ str( officer ) 
                 for officer in position.profile.all() ] ) )
