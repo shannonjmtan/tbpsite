@@ -272,15 +272,18 @@ class ActiveMember(models.Model):
         return self.requirement() and self.social_complete()
 
 class Officer(models.Model):
-    position = models.CharField(max_length=20)
+    position = models.CharField(max_length=30)
     rank = models.IntegerField()
     profile = models.ManyToManyField('Profile')
+
+    def list_profiles( self ):
+        return ', '.join( [ str( a ) for a in self.profile.all() ] )
 
     def __unicode__(self):
         return self.position
 
     class Meta:
-        ordering = ('-rank',)
+        ordering = ('rank',)
 
 class Faculty(models.Model):
     name = models.CharField(max_length=40)

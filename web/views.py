@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from event.models import Event
 from tutoring.models import Feedback
-from main.models import Candidate, Faculty
+from main.models import Candidate, Faculty, Officer
+import re
 
 def render_next(request, template_name, additional=None):
     dictionary = {'user': request.user, 'next': request.path, 
@@ -35,7 +36,24 @@ def awards(request):
     return render_next(request, 'awards.html')
 
 def officers(request):
-    return render_next(request, 'officers.html')
+    positionRe = re.compile( r'Club Liaison (\([^)]*\))' )
+    positions = []
+    liaisons = []
+    for position in Officer.objects.all():
+        match = positionRe.match( position.position )
+        if match:
+            liaisons.append( ' '.join( ( str( officer ), 
+                match.group( 1 ) ) for officer in position.profile.all() ) )
+        else:
+            positions.append( ( position.position, [ str( officer ) 
+                for officer in position.profile.all() ] ) )
+
+    positions.append( ( 'Faculty Advisor', [ 'Bill Goodin' ] ) )
+    positions.append( ( 'Club Liaison', liaisons ) )
+
+    return render_next(request, 'officers.html', {
+            'term' : 'Summer - Fall 2013',
+            'positions' : positions } )
 
 def faculty(request):
     faculty = Faculty.objects.all()
