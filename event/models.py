@@ -58,4 +58,6 @@ class Event(models.Model):
         return ''
 
     def get_datetime(self):
+        if self.is_same_day():
+            return '{}{}'.format(self.get_start(), self.end.strftime("-%I:%M%p") if self.display_time else '')
         return '{}-{}'.format(self.get_start(), self.get_end())
