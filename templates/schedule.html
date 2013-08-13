@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}TBP/UPE Tutoring{% endblock %}
+
+{% block content %}
+
+<script src="/static/schedule/application-54517505e0a0174cf744e6233ecb2ba5.js" type="text/javascript"></script>
+<script src="/static/schedule/tutor-a971345e76b4ad2f8951bcb4126eea10.js" type="text/javascript"></script><style></style>
+<h1>TBP {{ term }} Tutoring Schedule</h1>
+<div class="row">
+  <div class="col-lg-3">
+    <div class="accordion" id="accordion2">
+      {% for item in classes %}
+      <div class="accordion-group">
+        <div class="accordion-heading">
+          <a class="accordion-toggle" data-toggle="collapse" data_parent="#accordion2" href="#{{ item.2 }}">
+            {{ item.0 }}
+          </a>
+        </div>
+        <div id="{{ item.2 }}" class="accordion-body collapse">
+          <div class="accordion-inner">
+            {% for class in item.1 %}
+            <a href="#" class="'{{ class.1 }}'" onmouseover="highlight('{{ class.1 }}')" onmouseout="unhighlight('{{ class.1 }}')" onclick="return locklight('{{ class.1 }}')">{{ class.0 }}</a>{% if not forloop.last %},{% endif %}
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+    </div>
+  </div>
+  <div class="col-lg-9">
+    <table class="table">
+      <tbody>
+        <tr>
+          <th>Hours</th>
+          <th>Monday</th>
+          <th>Tuesday</th>
+          <th>Wednesday</th>
+          <th>Thursday</th>
+          <th>Friday</th>
+        </tr>
+        {% for item in tutors %}
+        <tr>
+          <td>{{ item.0 }}</td>
+          {% for tutors in item.1 %}
+          <td>
+            {% for tutor in tutors %}
+            <p id="{{ forloop.parentloop.parentloop.counter }}-{{ forloop.parentloop.counter }}-{{ forloop.counter }}" class="{{ tutor.get_class_classes }}" data-title="{{ tutor }}" data-content="{{ tutor.get_day_1_display }} {{ tutor.get_hour_1_display }}, {{ tutor.get_day_2_display }} {{ tutor.get_hour_2_display }}<br \>{{ tutor.get_classes }}" data-trigger="hover" data-html="true" data-placement="left">{{ tutor }}</p>
+            <script>$(function(){$('#{{ forloop.parentloop.parentloop.counter }}-{{ forloop.parentloop.counter }}-{{ forloop.counter }}').popover();});</script>
+            {% endfor %}
+          </td>
+          {% endfor %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% endblock %}
