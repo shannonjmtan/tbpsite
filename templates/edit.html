@@ -7,6 +7,7 @@
 <ul class="nav nav-tabs">
   <li><a href="{% url 'main.views.profile_view' %}">Profile</a></li>
   <li class="active"><a href="#">Edit</a></li>
+  <li><a href="{% url 'main.views.add' %}">Add Class</a></li>
 </ul>
 <div class="row">
   <div class="col-lg-6">
@@ -16,6 +17,7 @@
     <form class="form-horizontal" method="post" enctype="multipart/form-data">
       {% csrf_token %}
       <fieldset>  
+        <legend>Account Information</legend>
         {% if error.incorrect_password %}
         <div class="form-group has-error">
           <label class="col-lg-4 control-label" for="inputError">Current Password</label>
@@ -68,8 +70,9 @@
         {% endif %}
           </div>
         </div>
-
-        <hr />
+      </fieldset>
+      <fieldset>
+        <legend>Personal Information</legend>
         <div class="form-group">
           <label class="col-lg-4 control-label">Email</label>
           <div class="col-lg-8">
@@ -112,7 +115,9 @@
             <input type="text" class="form-control" name="graduation_year" {% if term.year %}placeholder="{{ term.year }}"{% else %}required{% endif %}>
           </div>
         </div>
-        <hr />
+      </fieldset>
+      <fieldset>
+        <legend>Documents</legend>
         <div class="form-group">
           <span class="help-inline">Submitting resumes in both formats is highly suggested for more opportunities.</span>
         </div>

@@ -68,7 +68,7 @@ class ProfileAdmin(admin.ModelAdmin):
     actions = ('create_candidate', 'create_active_member')
 
     def create_candidate(self, request, queryset):
-        term = Current.objects.get_term()
+        term = Settings.objects.get_term()
         if term is None:
             self.message_user(request, 'Current term not set')
 
@@ -89,7 +89,7 @@ class ProfileAdmin(admin.ModelAdmin):
             generate_candidate(profile, term)
 
     def create_active_member(modeladmin, request, queryset):
-        term = Current.objects.get_term()
+        term = Settings.objects.get_term()
         if term is None:
             self.message_user(request, 'Current term not set')
 
@@ -108,10 +108,14 @@ class ActiveMemberAdmin(admin.ModelAdmin):
     list_display = ('__unicode__', 'term', 'requirement_choice', 'requirement_complete')
     list_editable = ('requirement_choice', 'requirement_complete')
 
+class SettingsAdmin(admin.ModelAdmin):
+    list_display = ('__unicode__', 'term', 'display_all_terms', 'display_tutoring')
+    list_editable = ('term', 'display_all_terms', 'display_tutoring')
+
 admin.site.unregister(User)
 admin.site.register(User, MyUserAdmin)
 admin.site.register(Term)
-admin.site.register(Current)
+admin.site.register(Settings, SettingsAdmin)
 admin.site.register(HousePoints, HousePointsAdmin)
 admin.site.register(Profile, ProfileAdmin)
 admin.site.register(Candidate, CandidateAdmin)

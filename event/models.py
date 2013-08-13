@@ -1,5 +1,5 @@
 from django.db import models
-from main.models import TermManager, Current
+from main.models import TermManager, Settings
 import datetime
 
 class Event(models.Model):
@@ -10,7 +10,7 @@ class Event(models.Model):
             ('3', 'House'),
             )
 
-    term = models.ForeignKey('main.Term', default=Current.objects.get_term)
+    term = models.ForeignKey('main.Term', default=Settings.objects.term)
     name = models.CharField(max_length=40)
     url = models.CharField(max_length=20)
     description = models.TextField(max_length=1000)
@@ -22,7 +22,7 @@ class Event(models.Model):
     dropdown = models.BooleanField()
     attendees = models.ManyToManyField('main.Profile', blank=True, null=True)
 
-    default = TermManager()
+    current = TermManager()
     objects = models.Manager()
 
     class Meta:
