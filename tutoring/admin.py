@@ -13,10 +13,12 @@ class FeedbackAdmin(admin.ModelAdmin):
         self.list_display_links = (None,)
 
 class ClassAdmin(admin.ModelAdmin):
+    list_display = ('__unicode__', 'display')
+    list_editable = ('display',)
     pass
 
 class TutoringAdmin(admin.ModelAdmin):
-    fields = ('day_1', 'hour_1', 'day_2', 'hour_2', 'classes')
+    fields = ('day_1', 'hour_1', 'day_2', 'hour_2')
     list_display = ('__unicode__', 'term', 'day_1', 'hour_1', 'day_2', 'hour_2')
     list_editable = ('day_1', 'hour_1', 'day_2', 'hour_2')
 

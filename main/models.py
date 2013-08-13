@@ -48,31 +48,35 @@ class Term(models.Model):
     def __unicode__(self):
         return self.get_quarter_display() + ' ' + str(self.year)
 
-class CurrentManager(models.Manager):
-    def get_term(self):
-        queryset = super(CurrentManager, self).get_query_set()
-        if not queryset.exists():
-            return None
-        return queryset[0].term
+class SettingsManager(models.Manager):
+    def term(self):
+        return super(SettingsManager, self).get_or_create(id=1)[0].term
 
-class Current(models.Model):
+    def display_all_terms(self):
+        return super(SettingsManager, self).get_or_create(id=1)[0].display_all_terms
+
+    def display_tutoring(self):
+        return super(SettingsManager, self).get_or_create(id=1)[0].display_tutoring
+
+class Settings(models.Model):
     term = models.ForeignKey('Term', blank=True, null=True)
-    objects = CurrentManager()
+    display_all_terms = models.BooleanField(default=False)
+    display_tutoring = models.BooleanField(default=False)
+    objects = SettingsManager()
 
     class Meta:
-        verbose_name_plural = "Current Term"
+        verbose_name_plural = "Settings"
 
     def __unicode__(self):
-        if self.term is not None:
-            return self.term.__unicode__()
-        return str(None)
+        return 'Settings'
 
 class TermManager(models.Manager):
     def get_query_set(self):
-        term = Current.objects.get_term()
-        if term is None:
-            return super(TermManager, self).get_query_set()
-        return super(TermManager, self).get_query_set().filter(term=term)
+        if not Settings.objects.display_all_terms():
+            term = Settings.objects.term()
+            if term:
+                return super(TermManager, self).get_query_set().filter(term=Settings.objects.term())
+        return super(TermManager, self).get_query_set()
 
 class House(models.Model):
     HOUSE_CHOICES = (
@@ -127,13 +131,13 @@ class Profile(models.Model):
     position = models.CharField(max_length=1, choices=POSITION_CHOICES, default='0')
     house = models.ForeignKey('House', blank=True, null=True)
     major = models.CharField(max_length=1, choices=MAJOR_CHOICES, default='0')
-    initiation_term = models.ForeignKey('Term', 
-            related_name='profile_initiation_term', default=Current.objects.get_term)
-    graduation_term = models.ForeignKey('Term', 
-            related_name='profile_graduation_term', blank=True, null=True)
+    initiation_term = models.ForeignKey('Term', related_name='profile_initiation_term', default=Settings.objects.term)
+    graduation_term = models.ForeignKey('Term', related_name='profile_graduation_term', blank=True, null=True)
     resume_pdf = models.DateTimeField(blank=True, null=True)
     resume_word = models.DateTimeField(blank=True, null=True)
     professor_interview = models.DateTimeField(blank=True, null=True)
+
+    classes = models.ManyToManyField('tutoring.Class', blank=True, null=True)
 
     class Meta:
         ordering = ('position', 'user__last_name', 'user__first_name')
@@ -160,7 +164,7 @@ class Candidate(models.Model):
     engineering_futures = models.BooleanField(default=False)
     other = models.IntegerField(default=0)
 
-    default = TermManager()
+    current = TermManager()
     objects = models.Manager()
 
     class Meta:
@@ -244,7 +248,7 @@ class ActiveMember(models.Model):
     requirement_complete = models.BooleanField(default=False)
     tutoring = models.ForeignKey('tutoring.Tutoring', blank=True, null=True)
 
-    default = TermManager()
+    current = TermManager()
     objects = models.Manager()
 
     def __unicode__(self):

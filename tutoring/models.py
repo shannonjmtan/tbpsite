@@ -26,6 +26,7 @@ class Class(models.Model):
             )
     department = models.CharField(max_length=10, choices=DEPT_CHOICES)
     course_number = models.CharField(max_length=10)
+    display = models.BooleanField(default=False)
 
     class Meta:
         verbose_name_plural = "Classes"
@@ -58,8 +59,6 @@ class Tutoring(models.Model):
     day_2 = models.CharField(max_length=1, choices=DAY_CHOICES, default='0')
     hour_2 = models.CharField(max_length=1, choices=HOUR_CHOICES, default='0')
 
-    classes = models.ManyToManyField('Class', blank=True, null=True)
-
     week_3 = models.ForeignKey('Week3')
     week_4 = models.ForeignKey('Week4')
     week_5 = models.ForeignKey('Week5')
@@ -78,10 +77,11 @@ class Tutoring(models.Model):
     def __unicode__(self):
         return self.profile.__unicode__()
 
+    def classes(self):
+        return self.profile.classes
+
     def get_weeks(self):
-        return [self.week_3, self.week_4, self.week_5, 
-                self.week_6, self.week_7, 
-                self.week_8, self.week_9]
+        return [self.week_3, self.week_4, self.week_5, self.week_6, self.week_7, self.week_8, self.week_9]
 
     def complete(self):
         return all(week.complete() for week in self.get_weeks())
@@ -90,11 +90,10 @@ class Tutoring(models.Model):
         return sum(week.points() for week in self.get_weeks())
 
     def get_class_classes(self):
-        return ' '.join([c.department+c.course_number+'_1'
-            for c in self.classes.all()])
+        return ' '.join([c.department+c.course_number+'_1' for c in self.classes().all() if c.display])
 
     def get_classes(self):
-        return ', '.join([c.__unicode__() for c in self.classes.all()])
+        return ', '.join([c.__unicode__() for c in self.classes().all() if c.display])
 
 class Week(models.Model):
     profile = models.ForeignKey('main.Profile')
