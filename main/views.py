@@ -51,7 +51,7 @@ def validate_file(f, mime_types, error):
     return ret
 
 def write_file(directory, f):
-    with open(BASE_DIR + '/interviews/' + str(user.id), 'wb+') as f:
+    with open(directory) as f:
         for chunk in professor_interview.chunks():
             f.write(chunk)
     return datetime.datetime.today()
