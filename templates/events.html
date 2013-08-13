@@ -16,7 +16,7 @@
       {% for event in upcoming_events %}
       <tr>
         <td><a href="/events/{{ event.url }}">{{ event.name }}</a></td>
-        <td>{{ event.datetime }}</td>
+        <td>{{ event.get_datetime }}</td>
         <td>{{ event.location }}</td>
         <td>{{ event.get_event_type_display }}</td>
       </tr>
@@ -30,7 +30,7 @@
       {% for event in past_events %}
       <tr>
         <td><a href="/events/{{ event.url }}" style="color:gray">{{ event.name }}</a></td>
-        <td style="color:gray">{{ event.datetime }}</td>
+        <td style="color:gray">{{ event.get_datetime }}</td>
         <td style="color:gray">{{ event.location }}</td>
         <td style="color:gray">{{ event.get_event_type_display }}</td>
       </tr>
