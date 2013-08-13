@@ -9,7 +9,7 @@ from django.shortcuts import render, redirect
 
 from main.models import Profile, Term, Candidate, ActiveMember, MAJOR_CHOICES
 from tbpsite.settings import BASE_DIR
-from tutoring.models import Tutoring
+from tutoring.models import Tutoring, Class
 from web.views import render_next
 
 class Error:
@@ -51,8 +51,8 @@ def validate_file(f, mime_types, error):
     return ret
 
 def write_file(directory, f):
-    with open(BASE_DIR + '/interviews/' + str(user.id), 'wb+') as f:
-        for chunk in professor_interview.chunks():
+    with open(directory, 'wb+') as f:
+        for chunk in f.chunks():
             f.write(chunk)
     return datetime.datetime.today()
 
@@ -170,7 +170,21 @@ def edit(request, from_redirect=''):
     majors = [(' value={}{}'.format(value, ' selected="selected"' if value == profile.major else ''), major) for value, major in MAJOR_CHOICES]
     quarters = [(' value={}{}'.format(value, ' selected="selected"' if term and value == term.quarter else ''), quarter) for value, quarter in Term.QUARTER_CHOICES]
 
+    classes = profile.classes.all()
+
     return render(request, 'edit.html', {'from_redirect': from_redirect, 'user': user, 'profile': profile, 'term': term, 'majors': majors, 'quarters': quarters, 'error': error})
+
+def add(request):
+    departments = (department for department, _ in Class.DEPT_CHOICES)
+    profile, created = Profile.objects.get_or_create(user=request.user)
+
+    if request.method == "POST":
+        dept = request.POST.get('dept')
+        cnums = request.POST.get('cnum')
+        for cnum in cnums.split(','):
+            profile.classes.add(Class.objects.get_or_create(department=dept, course_number=cnum.strip())[0])
+    
+    return render(request, 'add.html', {'departments': departments, 'classes': profile.classes.all()})
 
 def resume_pdf(request):
     if not request.user.is_authenticated():
