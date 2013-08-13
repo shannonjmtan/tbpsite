@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from event.models import Event
 from tutoring.models import Feedback
-from main.models import Candidate
+from main.models import Candidate, Faculty
 
 def render_next(request, template_name, additional=None):
     dictionary = {'user': request.user, 'next': request.path, 
@@ -38,7 +38,16 @@ def officers(request):
     return render_next(request, 'officers.html')
 
 def faculty(request):
-    return render_next(request, 'faculty.html')
+    faculty = Faculty.objects.all()
+    facultyByMajor = {}
+    for f in faculty:
+        facultyByMajor.setdefault(str(f.get_major_display()), []).append(
+                (f.name, f.chapter, f.graduation, f.link))
+    facultyByMajor['Advisors'] = [
+            ('William R. Goodin', 'CA E', "'75 (Chief Advisor)", ''),
+            ('Stacey Ross', 'CA K', "'06 (District 16 Director)", '')]
+    facultyByMajor = [(major, facultyByMajor[major]) for major in sorted(facultyByMajor)]
+    return render_next(request, 'faculty.html', {'faculty' : facultyByMajor})
 
 def contact(request):
     return render_next(request, 'contact.html')
