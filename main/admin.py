@@ -28,11 +28,16 @@ def generate_tutoring(profile, term):
     tutoring, created = Tutoring.objects.get_or_create(profile=profile, term=term, **tutoring_weeks)
     return tutoring
 
+def promote_candidate(profile):
+    profile.position = Profile.MEMBER
+    profile.save()
+
 class MyUserAdmin(UserAdmin):
     actions = ('create_profile', 'reset_password')
 
     def create_profile(self, request, queryset):
-        map(generate_profile, queryset)
+        for user in queryset:
+            generate_profile(user)
 
     def reset_password(self, request, queryset):
         for user in queryset:
@@ -65,7 +70,7 @@ class ProfileAdmin(admin.ModelAdmin):
             'initiation_term', 'graduation_term', 'resume_pdf', 'resume_word', 'professor_interview')
     list_filter = ('position',)
     search_fields = ('user__first_name', 'user__last_name', 'user__email')
-    actions = ('create_candidate', 'create_active_member')
+    actions = ('create_candidate', 'create_active_member', 'promote_candidate')
 
     def create_candidate(self, request, queryset):
         term = Settings.objects.get_term()
@@ -96,6 +101,10 @@ class ProfileAdmin(admin.ModelAdmin):
         for profile in queryset:
             generate_active_member(profile, term)
 
+    def promote_candidate(modeladmin, request, queryset):
+        for profile in queryset:
+            promote_candidate(profile)
+
 class CandidateAdmin(admin.ModelAdmin):
     list_display = (
             '__unicode__', 'term', 'bent_polish', 'candidate_quiz', 'candidate_meet_and_greet', 
@@ -103,6 +112,11 @@ class CandidateAdmin(admin.ModelAdmin):
     list_editable = (
             'bent_polish', 'candidate_quiz', 'candidate_meet_and_greet', 
             'signature_book', 'community_service', 'initiation_fee', 'engineering_futures') 
+    actions = ('create_candidate', 'create_active_member', 'promote_candidate')
+
+    def promote_candidate(modeladmin, request, queryset):
+        for candidate in queryset:
+            promote_candidate(candidate.profile)
 
 class ActiveMemberAdmin(admin.ModelAdmin):
     list_display = ('__unicode__', 'term', 'requirement_choice', 'requirement_complete')
