@@ -42,7 +42,7 @@ class Event(models.Model):
     def get_start(self):
         if self.display_time:
             return self.start.strftime("%a, %m/%d/%y %I:%M%p")
-        return self.start.strftime("%a, %m/%d/%y %I:%M%p")
+        return self.start.strftime("%a, %m/%d/%y")
 
     def get_end(self):
         if self.display_time:
@@ -58,4 +58,4 @@ class Event(models.Model):
         return ''
 
     def get_datetime(self):
-        return '{}-{}'.format(self.get_start(), self.end.strftime("%I:%M%p" if self.is_same_day() else self.get_end()))
+        return '{}-{}'.format(self.get_start(), self.get_end())
