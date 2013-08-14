@@ -6,144 +6,20 @@
 
 <h1>Officers</h1>
 
-<h4>Officers for Winter - Spring 2013</h4>
+<h4>Officers for {{ term }}</h4>
 <table class="table">
+  {% for position in positions %}
   <tr>
-    <th>President</th>
-    <td>Shannon Tan</td>
+    <th>{{ position.0 }}</th>
+    <td>{{ position.1.0 }}</td>
   </tr>
-  <tr>
-    <th>Vice President</th>
-    <td>Richard Hill</td>
-  </tr>
-  <tr>
-    <th>Secretary</th>
-    <td>Grace Kim</td>
-  </tr>
+    {% for officer in position.1|slice:"1:" %}
   <tr>
     <td></td>
-    <td>Karen Truong</td>
+    <td>{{ officer }}</td>
   </tr>
-  <tr>
-    <th>Treasurer</th>
-    <td>Gaurav Agrawal</td>
-  </tr>
-  <tr>
-    <td></td>
-    <td>Ricki Chairil</td>
-  </tr>
-  <tr>
-    <th>Tutoring</th>
-    <td>Joseph Larson</td>
-  </tr>
-  <tr>
-    <td></td>
-    <td>Ty James</td>
-  </tr>
-  <tr>
-    <th>Community Service</th>
-    <td>Anthony Ambrosio-Meir</td>
-  </tr>
-  <tr>
-    <td></td>
-    <td>Craig McKennon</td>
-  </tr>
-  <tr>
-    <th>Education Outreach</th>
-    <td>Nick Ware</td>
-  </tr>
-  <tr>
-    <td></td>
-    <td>Albert Yen</td>
-  </tr>
-  <tr>
-    <th>Corporate Relations</th>
-    <td>Osbert Xiao</td>
-  </tr>
-  <tr>
-    <td></td>
-    <td>Ji Huang</td>
-  </tr>
-  <tr>
-    <th>Mentorship Chairs</th>
-    <td>Yucen Xie</td>
-  </tr>
-  <tr>
-    <td></td>
-    <td>Armen Azizian</td>
-  </tr>
-  <tr>
-    <th>Social Chairs</th>
-    <td>Roger Lee</td>
-  </tr>
-  <tr>
-    <td></td>
-    <td>Kenneth Lo</td>
-  </tr>
-  <tr>
-    <th>Publicity</th>
-    <td>Linfeng Yang</td>
-  </tr>
-  <tr>
-    <td></td>
-    <td>Gary Ren</td>
-  </tr>
-  <tr>
-    <th>Member Coordinator</th>
-    <td>Athena Huang</td>
-  </tr>
-  <tr>
-    <td></td>
-    <td>Benson Ku</td>
-  </tr>
-  <tr>
-    <th>Historian</th>
-    <td>Johnny Wang</td>
-  </tr>
-  <tr>
-    <td></td>
-    <td>William Parulian</td>
-  </tr>
-  <tr>
-    <th>Webmaster</th>
-    <td>Bryan Ngo</td>
-  </tr>
-  <tr>
-    <td></td>
-    <td>Alexander Ramirez</td>
-  </tr>
-  <tr>
-    <th>Project Chairs</th>
-    <td>Rachel Fang</td>
-  </tr>
-  <tr>
-    <td></td>
-    <td>Terry Peng</td>
-  </tr>
-  <tr>
-    <th>Club Liaisons</th>
-    <td>Edward Barber (AIAA)</td>
-  </tr>
-  <tr>
-    <td></td>
-    <td>Charlie Glavin (AIChE)</td>
-  </tr>
-  <tr>
-    <td></td>
-    <td>Ryan Vanderlip (ASCE)</td>
-  </tr>
-  <tr>
-    <td></td>
-    <td>David Li (BMES)</td>
-  </tr>
-  <tr>
-    <th>Faculty Advisor</th>
-    <td>Bill Goodin</td>
-  </tr>
-  <tr>
-    <th>Secretary of Defense</th>
-    <td>Wade Norris</td>
-  </tr>
+    {% endfor %}
+  {% endfor %}
 </table>
 
 {% endblock %}

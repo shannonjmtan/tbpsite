@@ -5,119 +5,21 @@
 {% block content %}
 <h1>Faculty</h1>
 <div class="accordion" id="accordionf">
+  {% for f in faculty %}
   <div class="accordion-group">
     <div class="accordion-heading">
-      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionf" href="#collapseBIOE">Bioengineering</a>
+      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionf" href="#collapse{{ f.0|slugify }}"><strong>{{ f.0 }}</strong></a>
     </div>
-    <div id="collapseBIOE" class="accordion-body collapse">
+    <div id="collapse{{ f.0|slugify }}" class="accordion-body collapse">
       <div class="accordion-inner">
         <ul class="list-unstyled">
-          <li><a href="http://www.bioeng.ucla.edu/people/faculty/joint-faculty/james-dunn-m.d.-ph.d">James Dunn</a></li>
-          <li><a href="http://www.bioeng.ucla.edu/people/faculty/core-faculty/daniel-kamei-ph.d">Daniel Kamei</a></li>
+          {% for facultyInfo in f.1 %}
+          <li>{% if facultyInfo.3 %}<a href="{{ facultyInfo.3 }}">{% endif %}{{ facultyInfo.0 }}, {{ facultyInfo.1 }}, {{ facultyInfo.2 }}{% if facultyInfo.0 == facultyAdvisor %} (Faculty Advisor){% endif %}{% if facultyInfo.3 %}</a>{% endif %}</li>
+          {% endfor %}
         </ul>
       </div>
     </div>
   </div>
-  <div class="accordion-group">
-    <div class="accordion-heading">
-      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionf" href="#collapseCHEME">Chemical Engineering</a>
-    </div>
-    <div id="collapseCHEME" class="accordion-body collapse">    
-      <div class="accordion-inner">
-        <ul class="list-unstyled">
-          <li><a href="http://www.chemeng.ucla.edu/people/faculty/eldon-knuth">Eldon L. Knuth</a></li>
-          <li><a href="http://www.chemeng.ucla.edu/people/faculty/yvonne-chen">Yvonne Chen</a></li>
-        </ul>
-      </div>
-    </div>
-  </div>
-  <div class="accordion-group">
-    <div class="accordion-heading">
-      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionf" href="#collapseCEE">Civil &amp; Environmental Engineering</a>
-    </div>
-    <div id="collapseCEE" class="accordion-body collapse">    
-      <div class="accordion-inner">
-        <ul class="list-unstyled">
-          <li><a href="http://www.cee.ucla.edu/faculty/dong/profile">Stanley B. Dong</a></li>
-          <li><a href="http://www.cee.ucla.edu/faculty/kendall/profile">Donald Kendall</a></li>
-          <li><a href="http://www.cee.ucla.edu/faculty/margulis/profile">Steven A. Margulis</a></li>
-          <li><a href="http://www.seas.ucla.edu/stenstro/">Michael K. Stenstrom</a></li>
-          <li><a href="http://www.cee.ucla.edu/faculty/stewart/profile">Jonathan P. Stewart</a></li>
-          <li><a href="http://nees.ucla.edu/wallace/">John W. Wallace</a></li>
-        </ul>
-      </div>
-    </div>
-  </div>
-  <div class="accordion-group">
-    <div class="accordion-heading">
-      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionf" href="#collapseCS">Computer Science</a>
-    </div>
-    <div id="collapseCS" class="accordion-body collapse">    
-      <div class="accordion-inner">
-        <ul class="list-unstyled">
-          <li><a href="http://www.cs.ucla.edu/csd/people/faculty_pages/distefano.html">Joseph J. DiStefano III</a></li>
-          <li><a href="mailto:eggert@cs.ucla.edu">Paul Eggert</a></li>
-          <li><a href="http://www.cs.ucla.edu/~lk/">Leonard Kleinrock</a></li>
-          <li><a href="http://www.cs.ucla.edu/~muntz/">Richard R. Muntz</a></li>
-          <li><a href="http://www.cs.ucla.edu/~majid/">Majid Sarrafzadeh</a></li>
-        </ul>
-      </div>
-    </div>
-  </div>
-  <div class="accordion-group">
-    <div  class="accordion-heading">
-      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionf" href="#collapseEE">Electrical Engineering</a>
-    </div>
-    <div id="collapseEE" class="accordion-body collapse">
-      <div class="accordion-inner">
-        <ul class="list-unstyled">
-          <li><a href="http://www.ee.ucla.edu/faculty-alwan.htm">Abeer A.H. Alwan</a></li>
-          <li><a href="http://www.ee.ucla.edu/faculty-bal.htm">A.V. Balakrishnan</a></li>
-          <li><a href="http://www.ee.ucla.edu/faculty-dolecek.htm">Lara Dolecek</a></li>
-          <li><a href="http://www.ee.ucla.edu/faculty-kaiser.htm">William J. Kaiser</a></li>
-          <li><a href="http://www.ee.ucla.edu/faculty-mori.htm">Warren B. Mori</a></li>
-          <li><a href="http://www.ita.ucla.edu/people/advisory-board/henry-samueli">Henry Samueli</a></li>
-          <li><a href="http://www.ee.ucla.edu/faculty-villasenor.htm">John D. Villasenor</a></li>
-          <li><a href="http://www.ee.ucla.edu/~wesel/">Richard Wesel</a></li>
-          <li><a href="http://www.ee.ucla.edu/faculty-willson.htm">Alan N. Willson, Jr.</a></li>
-        </ul>
-      </div>
-    </div>
-  </div>
-  <div class="accordion-group">
-    <div class="accordion-heading">
-      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionf" href="#collapseMAE">Mechanical &amp; Aerospace Engineering</a>
-    </div>
-    <div id="collapseMAE" class="accordion-body collapse">
-      <div class="accordion-inner">
-        <ul class="list-unstyled">
-          <li><a href="http://www.mae.ucla.edu/people/faculty/greg-carman">Gregory P. Carman</a></li>
-          <li><a href="http://www.engineer.ucla.edu/explore/leadership/vijay-k.-dhir-dean">Vijay Dhir</a></li>
-          <li><a href="http://www.mae.ucla.edu/people/faculty/vijay-gupta">Vijay Gupta</a></li>
-          <li><a href="http://www.bioeng.ucla.edu/people/faculty/joint-faculty/chih-ming-ho-ph.d">Chih-Ming Ho</a></li>
-          <li><a href="http://www.mae.ucla.edu/people/faculty/ann-karagozian">Ann R. Karagozian</a></li>
-          <li><a href="http://www.mae.ucla.edu/people/faculty/chang-jin-kim">Chang-Jin Kim</a></li>
-          <li><a href="http://www.mae.ucla.edu/people/faculty/adrienne-lavine">Adrienne G. Lavine</a></li>
-          <li><a href="http://www.mae.ucla.edu/people/faculty/christopher-s-lynch">Christopher S. Lynch</a></li>
-          <li><a href="mailto:ronaldo.szilard@inl.gov">Ronaldo H. Szilard</a></li>
-        </ul>
-      </div>
-    </div>
-  </div>
-  <div class="accordion-group">
-    <div class="accordion-heading">
-      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionf" href="#collapseMSE">Material Science and Engineering</a>
-    </div>
-    <div id="collapseMSE" class="accordion-body collapse">
-      <div class="accordion-inner">
-        <ul class="list-unstyled">
-          <li><a href="http://www.seas.ucla.edu/ms/faculty1/dunn.html">Bruce S. Dunn</a></li>
-          <li><a href="http://www.ms.ucla.edu/people/bios/goorsky">Mark S. Goorsky</a></li>
-          <li><a href="http://www.ms.ucla.edu/people/bios/dwight-streit">Dwight Streit</a></li>
-          <li><a href="http://www.seas.ucla.edu/ms/faculty1/tu.html">King-Ning Tu</a></li>
-        </ul>
-      </div>
-    </div>
-  </div>
+  {% endfor %}
 </div>
 {% endblock %}

@@ -122,9 +122,16 @@ class ActiveMemberAdmin(admin.ModelAdmin):
     list_display = ('__unicode__', 'term', 'requirement_choice', 'requirement_complete')
     list_editable = ('requirement_choice', 'requirement_complete')
 
+class FacultyAdmin(admin.ModelAdmin):
+    list_display = ('name', 'dept', 'chapter', 'graduation', 'link')
+
 class SettingsAdmin(admin.ModelAdmin):
     list_display = ('__unicode__', 'term', 'display_all_terms', 'display_tutoring')
     list_editable = ('term', 'display_all_terms', 'display_tutoring')
+
+class OfficerAdmin( admin.ModelAdmin ):
+    list_display = ( 'position', 'rank', 'list_profiles' )
+    filter_horizontal = ( 'profile', )
 
 admin.site.unregister(User)
 admin.site.register(User, MyUserAdmin)
@@ -134,3 +141,5 @@ admin.site.register(HousePoints, HousePointsAdmin)
 admin.site.register(Profile, ProfileAdmin)
 admin.site.register(Candidate, CandidateAdmin)
 admin.site.register(ActiveMember, ActiveMemberAdmin)
+admin.site.register(Faculty, FacultyAdmin)
+admin.site.register(Officer, OfficerAdmin)
