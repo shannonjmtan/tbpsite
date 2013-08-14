@@ -11,14 +11,13 @@
   <div class="col-lg-3">
     <div class="panel-group" id="accordion">
       {% for item in classes %}
-      {% if forloop.first %}
       <div class="panel">
         <div class="panel-heading">
-          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#{{ item.2 }}">
             {{ item.0 }}
           </a>
         </div>
-        <div id="collapseOne" class="panel-collapse collapse">
+        <div id="{{ item.2 }}" class="panel-collapse collapse">
           <div class="panel-body">
             {% for class in item.1 %}
             <a href="#" class="{{ class.1 }}" onmouseover="highlight('{{ class.1 }}')" onmouseout="unhighlight('{{ class.1 }}')" onclick="return locklight('{{ class.1 }}')">{{ class.0 }}</a>{% if not forloop.last %},{% endif %}
@@ -26,7 +25,6 @@
           </div>
         </div>
       </div>
-      {% endif %}
       {% endfor %}
     </div>
   </div>

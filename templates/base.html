@@ -10,20 +10,18 @@
     <link href="/static/css/style.css" rel="stylesheet">
   </head>
   <body>
-    <div class="navbar navbar-inverse navbar-static-top">
+    <div class="navbar navbar-inverse navbar-static-top" role="navigation">
       <div class="container">
-
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-
-        <a class="navbar-brand" href="{% url 'web.views.home' %}"><strong>UCLA Tau Beta Pi</strong></a>
-
-        <div class="nav-collapse collapse navbar-responsive-collapse">
+        <div class=navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="{% url 'web.views.home' %}"><strong>UCLA Tau Beta Pi</strong></a>
+        </div>
+        <div class="navbar-collapse collapse navbar-responsive-collapse">
           <ul class="nav navbar-nav">
-            {% comment %}<li class="active"><a href="#">Home</a></li>{% endcomment %}
             <li class="dropdown">
             <a href="{% url 'event.views.events' %}">Events</a>
             <ul class="dropdown-menu">

@@ -4,14 +4,14 @@
 
 {% block content %}
 <h1>Faculty</h1>
-<div class="accordion" id="accordionf">
+<div class="panel-group" id="accordion">
   {% for f in faculty %}
-  <div class="accordion-group">
-    <div class="accordion-heading">
-      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionf" href="#collapse{{ f.0|slugify }}"><strong>{{ f.0 }}</strong></a>
+  <div class="panel">
+    <div class="panel-heading">
+      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse{{ f.0|slugify }}"><strong>{{ f.0 }}</strong></a>
     </div>
-    <div id="collapse{{ f.0|slugify }}" class="accordion-body collapse">
-      <div class="accordion-inner">
+    <div id="collapse{{ f.0|slugify }}" class="panel-collapse collapse{% if forloop.first %} in{% endif %}">
+      <div class="panel-body">
         <ul class="list-unstyled">
           {% for facultyInfo in f.1 %}
           <li>{% if facultyInfo.3 %}<a href="{{ facultyInfo.3 }}">{% endif %}{{ facultyInfo.0 }}, {{ facultyInfo.1 }}, {{ facultyInfo.2 }}{% if facultyInfo.0 == facultyAdvisor %} (Faculty Advisor){% endif %}{% if facultyInfo.3 %}</a>{% endif %}</li>
