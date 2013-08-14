@@ -326,21 +326,21 @@ th.visible-print,td.visible-print{display:none !important;}
 .navbar-nav>.open>a,.navbar-nav>.open>a:hover,.navbar-nav>.open>a:focus{background-color:#d5d5d5;color:#555555;}.navbar-nav>.open>a .caret,.navbar-nav>.open>a:hover .caret,.navbar-nav>.open>a:focus .caret{border-top-color:#555555;border-bottom-color:#555555;}
 .navbar-nav>.dropdown>a .caret{border-top-color:#777777;border-bottom-color:#777777;}
 .navbar-nav.pull-right>li>.dropdown-menu,.navbar-nav>li>.dropdown-menu.pull-right{left:auto;right:0;}
-.navbar-inverse{background-color:#333333;}.navbar-inverse .navbar-brand{color:#999999;}.navbar-inverse .navbar-brand:hover,.navbar-inverse .navbar-brand:focus{color:#ffffff;background-color:transparent;}
+.navbar-inverse{background-color:#357ebd;}.navbar-inverse .navbar-brand{color:#ffffff;}.navbar-inverse .navbar-brand:hover,.navbar-inverse .navbar-brand:focus{color:#ffffff;background-color:transparent;}
 .navbar-inverse .navbar-text{color:#ffffff;}
-.navbar-inverse .navbar-nav>li>a{color:#999999;}.navbar-inverse .navbar-nav>li>a:hover,.navbar-inverse .navbar-nav>li>a:focus{color:#ffffff;background-color:transparent;}
-.navbar-inverse .navbar-nav>.active>a,.navbar-inverse .navbar-nav>.active>a:hover,.navbar-inverse .navbar-nav>.active>a:focus{color:#ffffff;background-color:#1a1a1a;}
+.navbar-inverse .navbar-nav>li>a{color:#ffffff;}.navbar-inverse .navbar-nav>li>a:hover,.navbar-inverse .navbar-nav>li>a:focus{color:#ffffff;background-color:transparent;}
+.navbar-inverse .navbar-nav>.active>a,.navbar-inverse .navbar-nav>.active>a:hover,.navbar-inverse .navbar-nav>.active>a:focus{color:#ffffff;background-color:#2a6395;}
 .navbar-inverse .navbar-nav>.disabled>a,.navbar-inverse .navbar-nav>.disabled>a:hover,.navbar-inverse .navbar-nav>.disabled>a:focus{color:#444444;background-color:transparent;}
 .navbar-inverse .navbar-toggle{border-color:#333333;}.navbar-inverse .navbar-toggle:hover,.navbar-inverse .navbar-toggle:focus{background-color:#333333;}
 .navbar-inverse .navbar-toggle .icon-bar{background-color:#ffffff;}
-.navbar-inverse .navbar-nav>.open>a,.navbar-inverse .navbar-nav>.open>a:hover,.navbar-inverse .navbar-nav>.open>a:focus{background-color:#1a1a1a;color:#ffffff;}
+.navbar-inverse .navbar-nav>.open>a,.navbar-inverse .navbar-nav>.open>a:hover,.navbar-inverse .navbar-nav>.open>a:focus{background-color:#2a6395;color:#ffffff;}
 .navbar-inverse .navbar-nav>.dropdown>a:hover .caret{border-top-color:#ffffff;border-bottom-color:#ffffff;}
-.navbar-inverse .navbar-nav>.dropdown>a .caret{border-top-color:#999999;border-bottom-color:#999999;}
+.navbar-inverse .navbar-nav>.dropdown>a .caret{border-top-color:#ffffff;border-bottom-color:#ffffff;}
 .navbar-inverse .navbar-nav>.open>a .caret,.navbar-inverse .navbar-nav>.open>a:hover .caret,.navbar-inverse .navbar-nav>.open>a:focus .caret{border-top-color:#ffffff;border-bottom-color:#ffffff;}
 @media screen and (min-width:768px){.navbar-brand{float:left;margin-left:-15px;margin-right:5px;max-width:none;} .navbar-nav{float:left;margin-top:0;margin-bottom:0;}.navbar-nav>li{float:left;}.navbar-nav>li>a{border-radius:0;} .navbar-nav.pull-right{width:auto;} .navbar-toggle{position:relative;top:auto;left:auto;display:none;} .nav-collapse.collapse{display:block !important;height:auto !important;padding-bottom:0;overflow:visible !important;}}.navbar-btn{margin-top:8px;}
 .navbar-text{float:left;padding:0 15px;margin-top:15px;margin-bottom:15px;}
 .navbar-link{color:#777777;}.navbar-link:hover{color:#333333;}
-.navbar-inverse .navbar-link{color:#999999;}.navbar-inverse .navbar-link:hover{color:#ffffff;}
+.navbar-inverse .navbar-link{color:#ffffff;}.navbar-inverse .navbar-link:hover{color:#ffffff;}
 .pagination{display:inline-block;padding-left:0;margin:20px 0;border-radius:4px;}.pagination>li{display:inline;}.pagination>li>a,.pagination>li>span{float:left;padding:6px 12px;line-height:1.428571429;text-decoration:none;background-color:#ffffff;border:1px solid #dddddd;border-left-width:0;}
 .pagination>li:first-child>a,.pagination>li:first-child>span{border-left-width:1px;border-bottom-left-radius:4px;border-top-left-radius:4px;}
 .pagination>li:last-child>a,.pagination>li:last-child>span{border-bottom-right-radius:4px;border-top-right-radius:4px;}
