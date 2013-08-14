@@ -17,32 +17,35 @@
   </div>
   <div class="col-lg-4">
     <table class="table">
+      {% if event.is_same_day %}
       <tr>
-        {% if event.is_same_day %}
         <th>Date:</th>
         <td>
           {{ event.get_date }}
         </td>
-        {% else %}
-        <th>Start:</th>
-        <td>
-          {{ event.get_start }}
-        </td>
-        {% endif %}
       </tr>
+      {% if event.get_time %}
       <tr>
-        {% if event.is_same_day %}
         <th>Time:</th>
         <td>
           {{ event.get_time }}
         </td>
-        {% else %}
+      </tr>
+      {% endif %}
+      {% else %}
+      <tr>
+        <th>Start:</th>
+        <td>
+          {{ event.get_start }}
+        </td>
+      </tr>
+      <tr>
         <th>End:</th>
         <td>
           {{ event.get_end }}
         </td>
-        {% endif %}
       </tr>
+      {% endif %}
       <tr>
         <th>Location:</th>
         <td>{{ event.location }}</td>

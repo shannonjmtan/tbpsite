@@ -8,34 +8,18 @@
   <thead>
     <tr>
       <th>Name</th>
-      <th>Bent Polish</th>
-      <th>Candidate Quiz</th>
-      <th>Candidate Meet and Greet</th>
+      <th>Requirement</th>
+      <th>Requirement Complete</th>
       <th>Social Event</th>
-      <th>Signature Book</th>
-      <th>Community Service</th>
-      <th>Initation Fee</th>
-      <th>Tutoring</th>
-      <th>Engineering Futures</th>
-      <th>Resume Submission</th>
-      <th>Professor Interview</th>
     </tr>
   </thead>
   <tbody>
-    {% for candidate in candidate_list %}
+    {% for member in member_list %}
     <tr>
-      <td>{{ candidate }}</td>
-      <td>{% if candidate.bent_polish %}<i class="icon-ok"></i>{% endif %}</td>
-      <td>{% if candidate.candidate_quiz_complete %}<i class="icon-ok"></i>{% endif %}</td>
-      <td>{% if candidate.candidate_meet_and_greet %}<i class="icon-ok"></i>{% endif %}</td>
-      <td>{% if candidate.social_complete %}<i class="icon-ok"></i>{% endif %}</td>
-      <td>{% if candidate.signature_book_complete %}<i class="icon-ok"></i>{% endif %}</td>
-      <td>{% if candidate.community_service_complete %}<i class="icon-ok"></i>{% endif %}</td>
-      <td>{% if candidate.initation_fee %}<i class="icon-ok"></i>{% endif %}</td>
-      <td>{% if candidate.tutoring_complete %}<i class="icon-ok"></i>{% endif %}</td>
-      <td>{% if candidate.engineering_futures %}<i class="icon-ok"></i>{% endif %}</td>
-      <td>{% if candidate.resume %}<i class="icon-ok"></i>{% endif %}</td>
-      <td>{% if candidate.professor_interview %}<i class="icon-ok"></i>{% endif %}</td>
+      <td>{{ member }}</td>
+      <td>{{ member.get_requirement_choice_display }}</td>
+      <td>{% if member.requirement %}<i class="icon-ok"></i>{% endif %}</td>
+      <td>{% if member.social_complete %}<i class="icon-ok"></i>{% endif %}</td>
     </tr>
     {% endfor %}
   </tbody>

@@ -233,13 +233,13 @@ def candidates(request):
     if not request.user.is_authenticated() or not request.user.is_staff:
         return redirect_next(request)
 
-    return render(request, 'candidates.html', {'candidate_list': Candidate.default.order_by('profile')})
+    return render(request, 'candidates.html', {'candidate_list': Candidate.current.order_by('profile')})
 
 def active_members(request):
     if not request.user.is_authenticated() or not request.user.is_staff:
         return redirect_next(request)
 
-    return render(request, 'active_members.html', {'member_list': ActiveMember.default.order_by('profile')})
+    return render(request, 'active_members.html', {'member_list': ActiveMember.current.order_by('profile')})
 
 def tutoring_hours(request):
     if not request.user.is_authenticated() or not request.user.is_staff:

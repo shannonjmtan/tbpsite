@@ -16,6 +16,7 @@ class Event(models.Model):
     description = models.TextField(max_length=1000)
     start = models.DateTimeField()
     end = models.DateTimeField()
+    display_time = models.BooleanField(default=True)
     location = models.CharField(max_length=80)
     event_type = models.CharField(max_length=1, choices=EVENT_TYPE_CHOICES)
     image = models.ImageField(upload_to='events', blank=True, null=True)
@@ -39,21 +40,24 @@ class Event(models.Model):
         return self.end < datetime.datetime.today()
 
     def get_start(self):
-        return self.start.strftime("%a, %m/%d/%y %I:%M%p")
+        if self.display_time:
+            return self.start.strftime("%a, %m/%d/%y %I:%M%p")
+        return self.start.strftime("%a, %m/%d/%y")
 
     def get_end(self):
-        return self.end.strftime("%a, %m/%d/%y %I:%M%p")
+        if self.display_time:
+            return self.end.strftime("%a, %m/%d/%y %I:%M%p")
+        return self.end.strftime("%a, %m/%d/%y")
 
     def get_date(self):
-        return self.start.strftime("%a, %m/%d/%y") + (
-                '' if self.is_same_day() 
-                else self.end.strftime("-%a, %m/%d/%y"))
+        return '{}{}'.format(self.start.strftime("%a, %m/%d/%y"), '' if self.is_same_day() else self.end.strftime("-%a, %m/%d/%y"))
 
     def get_time(self):
-        return self.start.strftime("%I:%M%p") + self.end.strftime("-%I:%M%p")
+        if self.display_time:
+            return self.start.strftime("%I:%M%p") + self.end.strftime("-%I:%M%p")
+        return ''
 
-    def datetime(self):
-        return self.start.strftime("%a %m/%d %I:%M%p") + (
-                self.end.strftime("-%I:%M%p") 
-                if self.is_same_day() 
-                else self.end.strftime("-%a %m/%d %I:%M%p"))
+    def get_datetime(self):
+        if self.is_same_day():
+            return '{}{}'.format(self.get_start(), self.end.strftime("-%I:%M%p") if self.display_time else '')
+        return '{}-{}'.format(self.get_start(), self.get_end())

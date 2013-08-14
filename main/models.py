@@ -267,14 +267,15 @@ class ActiveMember(models.Model):
         ordering = ('term',)
 
     def requirement(self):
-        if self.requirement_choice == EMCC or self.requirement_choice == COMMITTEE:
-            return requirement_complete
+        if self.requirement_choice in (ActiveMember.EMCC, ActiveMember.COMMITTEE):
+            return self.requirement_complete
         if self.tutoring is None:
             self.tutoring, created = Tutoring.objects.get_or_create(profile=self.profile, term=self.term)
         return self.tutoring.complete()
 
     def social_complete(self):
-        return (Social.objects.filter(members=self).count() >= ACTIVE_MEMBER_SOCIAL)
+        from event.models import Event
+        return Event.objects.filter(attendees=self, term=self.term).count() >= ACTIVE_MEMBER_SOCIAL
 
     def complete(self):
         return self.requirement() and self.social_complete()
