@@ -16,6 +16,14 @@ MAJOR_CHOICES = (
         ('7', 'Materials Engineering'),
         ('8', 'Mechanical Engineering'),
         )
+DEPT_CHOICES = (
+        ('0', 'Bioengineering'),
+        ('1', 'Chemical Engineering'),
+        ('2', 'Civil and Environmental Engineering'),
+        ('3', 'Computer Science'),
+        ('4', 'Electrical Engineering'),
+        ('5', 'Mechanical and Aerospace Engineering'),
+        ('6', 'Materials Science and Engineering') )
 PLACE_CHOICES = (
         ('0', 'Not Completed'),
         ('1', 'Completed'),
@@ -287,7 +295,7 @@ class Officer(models.Model):
 
 class Faculty(models.Model):
     name = models.CharField(max_length=40)
-    major = models.CharField(max_length=1, choices=MAJOR_CHOICES)
+    dept = models.CharField(max_length=1, choices=DEPT_CHOICES)
     chapter = models.CharField(max_length=10)
     graduation = models.CharField(max_length=10)
     link = models.CharField(max_length=80)

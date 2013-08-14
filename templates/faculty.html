@@ -8,13 +8,13 @@
   {% for f in faculty %}
   <div class="accordion-group">
     <div class="accordion-heading">
-      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionf" href="#collapse{{ f.0|slugify }}">{{ f.0 }}</a>
+      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionf" href="#collapse{{ f.0|slugify }}"><strong>{{ f.0 }}</strong></a>
     </div>
     <div id="collapse{{ f.0|slugify }}" class="accordion-body collapse">
       <div class="accordion-inner">
         <ul class="list-unstyled">
           {% for facultyInfo in f.1 %}
-          <li><a href="{{ facultyInfo.3 }}">{{ facultyInfo.0 }}, {{ facultyInfo.1 }}, {{ facultyInfo.2 }}</a></li>
+          <li>{% if facultyInfo.3 %}<a href="{{ facultyInfo.3 }}">{% endif %}{{ facultyInfo.0 }}, {{ facultyInfo.1 }}, {{ facultyInfo.2 }}{% if facultyInfo.0 == facultyAdvisor %} (Faculty Advisor){% endif %}{% if facultyInfo.3 %}</a>{% endif %}</li>
           {% endfor %}
         </ul>
       </div>

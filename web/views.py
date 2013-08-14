@@ -57,15 +57,22 @@ def officers(request):
 
 def faculty(request):
     faculty = Faculty.objects.all()
-    facultyByMajor = {}
+    facultyByDept = {}
     for f in faculty:
-        facultyByMajor.setdefault(str(f.get_major_display()), []).append(
+        facultyByDept.setdefault(str(f.get_dept_display()), []).append(
                 (f.name, f.chapter, f.graduation, f.link))
-    facultyByMajor['Advisors'] = [
+    facultyByDept['Advisors'] = [
             ('William R. Goodin', 'CA E', "'75 (Chief Advisor)", ''),
-            ('Stacey Ross', 'CA K', "'06 (District 16 Director)", '')]
-    facultyByMajor = [(major, facultyByMajor[major]) for major in sorted(facultyByMajor)]
-    return render_next(request, 'faculty.html', {'faculty' : facultyByMajor})
+            ('Stacey Ross', 'CA K', "'06 (District 16 Director)", ''),
+            ('Neal Bussett', 'CA X', "'09 (District 16 Director)", ''),
+            ('Jason Corl', 'CA Q', "'06 (District 16 Director)", ''),
+            ('Scott Eckersall', 'CA I', "'96 (District 16 Director)", '')
+            ]
+    facultyByDept = [(dept, facultyByDept[dept]) for dept in sorted(facultyByDept)]
+    return render_next(request, 'faculty.html', {
+            'faculty' : facultyByDept,
+            'facultyAdvisor' : 'Ann R. Karagozian'
+        })
 
 def contact(request):
     return render_next(request, 'contact.html')

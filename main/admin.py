@@ -109,7 +109,7 @@ class ActiveMemberAdmin(admin.ModelAdmin):
     list_editable = ('requirement_choice', 'requirement_complete')
 
 class FacultyAdmin(admin.ModelAdmin):
-    list_display = ('name', 'major', 'chapter', 'graduation', 'link')
+    list_display = ('name', 'dept', 'chapter', 'graduation', 'link')
 
 class SettingsAdmin(admin.ModelAdmin):
     list_display = ('__unicode__', 'term', 'display_all_terms', 'display_tutoring')
