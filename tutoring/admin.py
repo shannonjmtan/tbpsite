@@ -15,12 +15,19 @@ class FeedbackAdmin(admin.ModelAdmin):
 class ClassAdmin(admin.ModelAdmin):
     list_display = ('__unicode__', 'display')
     list_editable = ('display',)
-    pass
 
 class TutoringAdmin(admin.ModelAdmin):
     fields = ('day_1', 'hour_1', 'day_2', 'hour_2')
     list_display = ('__unicode__', 'term', 'day_1', 'hour_1', 'day_2', 'hour_2')
     list_editable = ('day_1', 'hour_1', 'day_2', 'hour_2')
+    actions = ('import_tutoring_times',)
+
+    def import_tutoring_times(modeladmin, request, queryset):
+        for tutoring in queryset:
+            tutoring.day_1 = tutoring.day_2 = tutoring.profile.day_1
+            tutoring.hour_1 = tutoring.profile.hour_1
+            tutoring.hour_2 = str(int(tutoring.hour_1) + 1)
+            tutoring.save()
 
 class WeekAdmin(admin.ModelAdmin):
     list_display = ('__unicode__', 'term', 'day_1', 'hour_1', 'day_2', 'hour_2', 'hours', 'tutees')

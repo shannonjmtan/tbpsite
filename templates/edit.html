@@ -7,7 +7,7 @@
 <ul class="nav nav-tabs">
   <li><a href="{% url 'main.views.profile_view' %}">Profile</a></li>
   <li class="active"><a href="#">Edit</a></li>
-  <li><a href="{% url 'main.views.add' %}">Add Class</a></li>
+  <li><a href="{% url 'main.views.add' %}">Modify Classes</a></li>
 </ul>
 <div class="row">
   <div class="col-lg-6">
@@ -91,7 +91,35 @@
             <input type="text" class="form-control" name="last_name" {% if user.last_name %}placeholder="{{ user.last_name }}"{% else %}required{% endif %}>
           </div>
         </div>
-
+        <div class="form-group">
+          <label class="col-lg-4 control-label">Nickname (optional)</label>
+          <div class="col-lg-8">
+            <input type="text" class="form-control" name="nickname" value="{{ profile.nickname }}">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-lg-4 control-label">Gender</label>
+          <div class="col-lg-8">
+            <label class="radio-inline">
+              <input type="radio" name="gender" value="M"{% if not profile.gender or profile.gender == 'M' %} checked{% endif %}>Male
+            </label>
+            <label class="radio-inline">
+              <input type="radio" name="gender" value="F"{% if profile.gender == 'F' %} checked{% endif %}>Female
+            </label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-lg-4 control-label">Birthday</label>
+          <div class="col-lg-8">
+            <input type="date" class="form-control" name="birthday" {% if profile.birthday %}placeholder="{{ profile.birthday }}"{% else %}required{% endif %}>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-lg-4 control-label">Phone Number</label>
+          <div class="col-lg-8">
+            <input type="tel" class="form-control" name="phone_number" {% if profile.phone_number %}placeholder="{{ profile.phone_number }}"{% else %}required{% endif %}>
+          </div>
+        </div>
         <div class="form-group">
           <label class="col-lg-4 control-label">Major</label>
           <div class="col-lg-8">
@@ -137,6 +165,60 @@
           <label class="col-lg-4 control-label" for="professor_interview">Professor Interview (pdf)</label>
           <div class="col-lg-8">
             <input type="file" name="professor_interview">
+          </div>
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend>Tutoring Preferences</legend>
+        <div class="form-group">
+          <label class="col-lg-4 control-label">Best Day</label>
+          <div class="col-lg-4">
+            <select class="form-control" name="day_1">
+              {% for day in day_1 %}
+              <option{{ day.0 }}>{{ day.1 }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col-lg-4">
+            <select class="form-control" name="hour_1">
+              {% for hour in hour_1 %}
+              <option{{ hour.0 }}>{{ hour.1 }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-lg-4 control-label">Second Best Day</label>
+          <div class="col-lg-4">
+            <select class="form-control" name="day_2">
+              {% for day in day_2 %}
+              <option{{ day.0 }}>{{ day.1 }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col-lg-4">
+            <select class="form-control" name="hour_2">
+              {% for hour in hour_2 %}
+              <option{{ hour.0 }}>{{ hour.1 }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-lg-4 control-label">Third Best Day</label>
+          <div class="col-lg-4">
+            <select class="form-control" name="day_3">
+              {% for day in day_3 %}
+              <option{{ day.0 }}>{{ day.1 }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col-lg-4">
+            <select class="form-control" name="hour_3">
+              {% for hour in hour_3 %}
+              <option{{ hour.0 }}>{{ hour.1 }}</option>
+              {% endfor %}
+            </select>
           </div>
         </div>
         <div class="form-actions">

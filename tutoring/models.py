@@ -15,7 +15,7 @@ class Class(models.Model):
             ('CHEME', 'CHEME'),
             ('CS', 'CS'),
             ('EE', 'EE'),
-            ('ENG', 'ENG'),
+            ('ENGR', 'ENGR'),
             ('LS', 'LS'),
             ('MAE', 'MAE'),
             ('MATH', 'MATH'),

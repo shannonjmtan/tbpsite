@@ -38,6 +38,21 @@ PLACE_POINTS = {
         '3': 10,
         '4': 25,
         }
+DAY_CHOICES = (
+        ('0', 'Monday'),
+        ('1', 'Tuesday'),
+        ('2', 'Wednesday'),
+        ('3', 'Thursday'),
+        ('4', 'Friday'),
+        )
+HOUR_CHOICES = (
+        ('0', '10am-12pm'),
+        ('1', '11am-1pm'),
+        ('2', '12pm-2pm'),
+        ('3', '1pm-3pm'),
+        ('4', '2pm-4pm'),
+        ('5', '3pm-5pm'),
+        )
 
 class Term(models.Model):
     QUARTER_CHOICES = (
@@ -129,6 +144,14 @@ class HousePoints(models.Model):
 
 class Profile(models.Model):
     user = models.ForeignKey(User, unique=True)
+    nickname = models.CharField(max_length=30, blank=True)
+    GENDER_CHOICES = (
+            ('M', 'Male'),
+            ('F', 'Female'),
+            )
+    gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
+    birthday = models.DateField(blank=True, null=True)
+    phone_number = models.CharField(max_length=25)
 
     CANDIDATE = '0'
     MEMBER = '1'
@@ -146,11 +169,19 @@ class Profile(models.Model):
     professor_interview = models.DateTimeField(blank=True, null=True)
 
     classes = models.ManyToManyField('tutoring.Class', blank=True, null=True)
+    day_1 = models.CharField(max_length=1, choices=DAY_CHOICES, default='0')
+    hour_1 = models.CharField(max_length=1, choices=HOUR_CHOICES, default='0')
+    day_2 = models.CharField(max_length=1, choices=DAY_CHOICES, default='0')
+    hour_2 = models.CharField(max_length=1, choices=HOUR_CHOICES, default='2')
+    day_3 = models.CharField(max_length=1, choices=DAY_CHOICES, default='0')
+    hour_3 = models.CharField(max_length=1, choices=HOUR_CHOICES, default='4')
 
     class Meta:
         ordering = ('position', 'user__last_name', 'user__first_name')
 
     def __unicode__(self):
+        if self.nickname:
+            return '{} {}'.format(self.nickname, self.user.last_name)
         ret = self.user.get_full_name()
         return ret if ret else self.user.get_username()
 

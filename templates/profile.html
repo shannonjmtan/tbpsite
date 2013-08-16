@@ -7,7 +7,7 @@
 <ul class="nav nav-tabs">
   <li class="active"><a href="#">Profile</a></li>
   <li><a href="{% url 'main.views.edit' %}">Edit</a></li>
-  <li><a href="{% url 'main.views.add' %}">Add Class</a></li>
+  <li><a href="{% url 'main.views.add' %}">Modify Classes</a></li>
 </ul>
 <div class="row">
   <div class="col-lg-6">
@@ -30,6 +30,30 @@
           <label class="col-lg-4 control-label">Last Name</label>
           <div class="col-lg-8">
             <p class="form-control-static">{{ user.last_name }}</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-lg-4 control-label">Nickname</label>
+          <div class="col-lg-8">
+            <p class="form-control-static">{{ profile.nickname }}</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-lg-4 control-label">Gender</label>
+          <div class="col-lg-8">
+            <p class="form-control-static">{{ profile.get_gender_display }}</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-lg-4 control-label">Birthday</label>
+          <div class="col-lg-8">
+            <p class="form-control-static">{{ profile.birthday }}</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-lg-4 control-label">Phone Number</label>
+          <div class="col-lg-8">
+            <p class="form-control-static">{{ profile.phone_number }}</p>
           </div>
         </div>
         <div class="form-group">
@@ -79,12 +103,35 @@
         </div>
       </fieldset>
       <fieldset>
-        <legend>Tutoring Classes</legend>
-        <ul class="list-unstyled">
-          {% for class in profile.classes.all %}
-          <li>{{ class }}</li>
-          {% endfor %}
-        </ul>
+        <legend>Tutoring Preferences</legend>
+        <div class="form-group">
+          <label class="col-lg-4 control-label">Best Day</label>
+          <div class="col-lg-8">
+            <p class="form-control-static">{{ profile.get_day_1_display }} {{ profile.get_hour_1_display }}</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-lg-4 control-label">Second Best Day</label>
+          <div class="col-lg-8">
+            <p class="form-control-static">{{ profile.get_day_2_display }} {{ profile.get_hour_2_display }}</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-lg-4 control-label">Third Best Day</label>
+          <div class="col-lg-8">
+            <p class="form-control-static">{{ profile.get_day_3_display }} {{ profile.get_hour_3_display }}</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-lg-4 control-label">Classes</label>
+          <div class="col-lg-8">
+            <ul class="list-unstyled">
+              {% for class in profile.classes.all %}
+              <li>{{ class }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
       </fieldset>
     </form>
   </ul>

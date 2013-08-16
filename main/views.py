@@ -7,7 +7,7 @@ from django.core.servers.basehttp import FileWrapper
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
-from main.models import Profile, Term, Candidate, ActiveMember, MAJOR_CHOICES
+from main.models import Profile, Term, Candidate, ActiveMember, MAJOR_CHOICES, DAY_CHOICES, HOUR_CHOICES
 from tbpsite.settings import BASE_DIR
 from tutoring.models import Tutoring, Class
 from web.views import render_next
@@ -140,11 +140,25 @@ def edit(request, from_redirect=''):
         if last_name:
             user.last_name = last_name
 
+        profile.nickname = request.POST.get('nickname')
+        profile.gender = request.POST.get('gender')
+        birthday = request.POST.get('birthday')
+        if birthday:
+            profile.birthday = birthday
+        phone_number = request.POST.get('phone_number')
+        if phone_number:
+            profile.phone_number = phone_number
         profile.major = request.POST.get('major')
         graduation_quarter = request.POST.get('graduation_quarter')
         graduation_year = request.POST.get('graduation_year')
         if graduation_year:
             term, created = Term.objects.get_or_create(quarter=graduation_quarter, year=graduation_year)
+        profile.day_1 = request.POST.get('day_1')
+        profile.hour_1 = request.POST.get('hour_1')
+        profile.day_2 = request.POST.get('day_2')
+        profile.hour_2 = request.POST.get('hour_2')
+        profile.day_3 = request.POST.get('day_3')
+        profile.hour_3 = request.POST.get('hour_3')
 
         pdf = ('application/pdf', 'application/force-download')
         word = ('application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document')
@@ -172,10 +186,17 @@ def edit(request, from_redirect=''):
 
     majors = [(' value={}{}'.format(value, ' selected="selected"' if value == profile.major else ''), major) for value, major in MAJOR_CHOICES]
     quarters = [(' value={}{}'.format(value, ' selected="selected"' if term and value == term.quarter else ''), quarter) for value, quarter in Term.QUARTER_CHOICES]
+    day_1 = [(' value={}{}'.format(value, ' selected="selected"' if value == profile.day_1 else ''), day) for value, day in DAY_CHOICES]
+    hour_1 = [(' value={}{}'.format(value, ' selected="selected"' if value == profile.hour_1 else ''), hour) for value, hour in HOUR_CHOICES]
+    day_2 = [(' value={}{}'.format(value, ' selected="selected"' if value == profile.day_2 else ''), day) for value, day in DAY_CHOICES]
+    hour_2 = [(' value={}{}'.format(value, ' selected="selected"' if value == profile.hour_2 else ''), hour) for value, hour in HOUR_CHOICES]
+    day_3 = [(' value={}{}'.format(value, ' selected="selected"' if value == profile.day_3 else ''), day) for value, day in DAY_CHOICES]
+    hour_3 = [(' value={}{}'.format(value, ' selected="selected"' if value == profile.hour_3 else ''), hour) for value, hour in HOUR_CHOICES]
 
     classes = profile.classes.all()
 
-    return render(request, 'edit.html', {'from_redirect': from_redirect, 'user': user, 'profile': profile, 'term': term, 'majors': majors, 'quarters': quarters, 'error': error})
+    return render(request, 'edit.html', {'from_redirect': from_redirect, 'user': user, 'profile': profile, 'term': term, 'majors': majors, 'quarters': quarters, 'error': error,
+        'day_1': day_1, 'hour_1': hour_1, 'day_2': day_2, 'hour_2': hour_2, 'day_3': day_3, 'hour_3': hour_3})
 
 def add(request):
     departments = (department for department, _ in Class.DEPT_CHOICES)
@@ -184,8 +205,18 @@ def add(request):
     if request.method == "POST":
         dept = request.POST.get('dept')
         cnums = request.POST.get('cnum')
-        for cnum in cnums.split(','):
-            profile.classes.add(Class.objects.get_or_create(department=dept, course_number=cnum.strip())[0])
+        if cnums:
+            for cnum in cnums.split(','):
+                profile.classes.add(Class.objects.get_or_create(department=dept, course_number=cnum.strip())[0])
+        else:
+            for cls in request.POST:
+                if request.POST[cls] == 'on':
+                    dept, cnum = cls.split()
+                    try:
+                        cls = Class.objects.get(department=dept, course_number=cnum)
+                        profile.classes.remove(cls)
+                    except Class.DoesNotExist:
+                        pass
     
     return render(request, 'add.html', {'departments': departments, 'classes': profile.classes.all()})
 
