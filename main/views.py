@@ -199,6 +199,9 @@ def edit(request, from_redirect=''):
         'day_1': day_1, 'hour_1': hour_1, 'day_2': day_2, 'hour_2': hour_2, 'day_3': day_3, 'hour_3': hour_3})
 
 def add(request):
+    if not request.user.is_authenticated():
+        return redirect_next(request)
+
     departments = (department for department, _ in Class.DEPT_CHOICES)
     profile, created = Profile.objects.get_or_create(user=request.user)
 
