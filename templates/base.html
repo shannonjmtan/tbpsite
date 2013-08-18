@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}{% endblock %}</title>
+    <title>{% block title %}UCLA Tau Beta Pi{% endblock %}</title>
     <!-- Bootstrap -->
     <link href="/static/dist/css/bootstrap.min.css" rel="stylesheet" media="screen">
     <link href="/static/dist/css/bootstrap-glyphicons.css" rel="stylesheet" media="screen">
@@ -65,6 +65,7 @@
               <li><a href="{% url 'main.views.candidates' %}">Candidates</a></li>
               <li><a href="{% url 'main.views.active_members' %}">Active Members</a></li>
               <li><a href="{% url 'main.views.tutoring_hours' %}">Tutoring Hours</a></li>
+              <li><a href="{% url 'tutoring.views.preferences' %}">Tutoring Preferences</a></li>
             </ul>
             </li>
             {% endif %}

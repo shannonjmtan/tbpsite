@@ -22,21 +22,26 @@ urlpatterns = patterns('',
     url(r'^contact/$', 'web.views.contact'),
     url(r'^eligibility_list/$', 'web.views.eligibility_list'),
 
+    url(r'^tutoring_hours/$', 'main.views.tutoring_hours'),
+    url(r'^schedule/$', 'tutoring.views.schedule'),
     url(r'^houses/$', 'main.views.houses'),
+
+    url(r'^candidates/$', 'main.views.candidates'),
+    url(r'^active_members/$', 'main.views.active_members'),
+    url(r'^preferences/$', 'tutoring.views.preferences'),
+    url(r'^downloads/$', 'main.views.downloads'),
+    url(r'^spreadsheet/$', 'main.views.spreadsheet'),
+
     url(r'^logout/$', 'main.views.logout'),
     url(r'^login/$', 'main.views.login'),
     url(r'^profile/$', 'main.views.profile_view'),
     url(r'^edit/(?P<from_redirect>\w+?)$', 'main.views.edit'),
     url(r'^edit/$', 'main.views.edit'),
     url(r'^add/$', 'main.views.add'),
+
     url(r'^resume_pdf/$', 'main.views.resume_pdf'),
     url(r'^resume_word/$', 'main.views.resume_word'),
     url(r'^interview/$', 'main.views.interview'),
-    url(r'^candidates/$', 'main.views.candidates'),
-    url(r'^active_members/$', 'main.views.active_members'),
-
-    url(r'^tutoring_hours/$', 'main.views.tutoring_hours'),
-    url(r'^schedule/$', 'tutoring.views.schedule'),
 
     # url(r'^events/', include('event.site.urls')),
     url(r'^events/$', 'event.views.events'),

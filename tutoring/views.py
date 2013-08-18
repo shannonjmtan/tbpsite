@@ -28,6 +28,9 @@ def schedule(request):
                 key=lambda c: tuple(int(s) if s.isdigit() else s for s in re.search(r'(\d+)([ABCD]?L?)?', c.course_number).groups()))], 
             'collapse{}'.format(number)))
             
-    return render_next(request, 'schedule.html', 
-            {'term': term, 'classes': classes, 'tutors': tutors})
+    return render_next(request, 'schedule.html', {'term': term, 'classes': classes, 'tutors': tutors})
 
+def preferences(request):
+    term = Settings.objects.term()
+    tutors = (tutoring.profile for tutoring in Tutoring.objects.filter(term=term))
+    return render_next(request, 'preferences.html', {'tutors': tutors})
