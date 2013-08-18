@@ -117,8 +117,10 @@ class HousePoints(models.Model):
     house = models.ForeignKey('House')
     term = models.ForeignKey('Term')
     
-    resume = models.IntegerField(choices=PLACE_CHOICES, default=0)
-    professor_interview = models.IntegerField(choices=PLACE_CHOICES, default=0)
+    resume = models.CharField(max_length=1, choices=PLACE_CHOICES, default='0')
+    professor_interview = models.CharField(max_length=1, choices=PLACE_CHOICES, default='0')
+    signature_book = models.CharField(max_length=1, choices=PLACE_CHOICES, default='0')
+    candidate_quiz = models.CharField(max_length=1, choices=PLACE_CHOICES, default='0')
     other = models.IntegerField(default=0)
 
     objects = TermManager()
@@ -131,16 +133,36 @@ class HousePoints(models.Model):
     def __unicode__(self):
         return self.house.__unicode__()
 
-    def candidate_list(self):
-        return Candidate.objects.select_related().filter(
-                profile__house=self.house, term=self.term)
+    def resume_points(self):
+        return PLACE_POINTS[self.resume]
 
-    def candidate_points(self):
-        return sum(candidate.points() for candidate in self.candidate_list())
+    def professor_interview_points(self):
+        return PLACE_POINTS[self.professor_interview]
+
+    def signature_book_points(self):
+        return PLACE_POINTS[self.signature_book]
+
+    def candidate_quiz_points(self):
+        return PLACE_POINTS[self.candidate_quiz]
+
+    def candidate_list(self):
+        return Candidate.objects.select_related().filter(profile__house=self.house, term=self.term)
+
+    def social(self):
+        return sum(candidate.social_points() for candidate in self.candidate_list())
+
+    def tutoring(self):
+        return sum(candidate.tutoring_points() for candidate in self.candidate_list())
+
+    def community_service(self):
+        return sum(candidate.community_service_points() for candidate in self.candidate_list())
+
+    def other_points(self):
+        return sum(candidate.other for candidate in self.candidate_list()) + self.other
 
     def points(self):
-        return sum([PLACE_CHOICES[self.resume], 
-            PLACE_POINTS[self.professor_interview], self.candidate_points()])
+        return sum([self.resume_points(), self.professor_interview_points(), self.signature_book_points(), self.candidate_quiz_points(),
+            self.social(), self.tutoring(), self.community_service(), self.other_points()])
 
 class Profile(models.Model):
     user = models.ForeignKey(User, unique=True)
@@ -195,9 +217,9 @@ class Candidate(models.Model):
 
     tutoring = models.ForeignKey('tutoring.Tutoring')
     bent_polish = models.BooleanField(default=False)
-    candidate_quiz = models.CharField(max_length=1, choices=PLACE_CHOICES, default='0')
+    candidate_quiz = models.BooleanField(default=False)
     candidate_meet_and_greet = models.BooleanField(default=False)
-    signature_book = models.CharField(max_length=1, choices=PLACE_CHOICES, default='0')
+    signature_book = models.BooleanField(default=False)
     community_service = models.IntegerField(default=0)
     initiation_fee = models.BooleanField(default=False)
     engineering_futures = models.BooleanField(default=False)

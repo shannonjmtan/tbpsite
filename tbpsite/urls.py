@@ -22,7 +22,7 @@ urlpatterns = patterns('',
     url(r'^contact/$', 'web.views.contact'),
     url(r'^eligibility_list/$', 'web.views.eligibility_list'),
 
-    #url(r'^houses/$', 'web.views.houses'),
+    url(r'^houses/$', 'main.views.houses'),
     url(r'^logout/$', 'main.views.logout'),
     url(r'^login/$', 'main.views.login'),
     url(r'^profile/$', 'main.views.profile_view'),

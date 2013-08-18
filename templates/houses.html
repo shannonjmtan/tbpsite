@@ -21,4 +21,65 @@
   <li>Win games at social events (1st: 25, 2nd: 10, 3rd: 5)</li>
 </ul>
 
+<table class="table table-striped">
+  <th></th>
+  {% for house in houses %}
+  <th>{{ house }}</th>
+  {% endfor %}
+  <tr>
+    <td>Resume</td>
+    {% for house in houses %}
+    <td>{{ house.resume_points }}</td>
+    {% endfor %}
+  </tr>
+  <tr>
+    <td>Professor Interview</td>
+    {% for house in houses %}
+    <td>{{ house.professor_interview_points }}</td>
+    {% endfor %}
+  </tr>
+  <tr>
+    <td>Signature Book</td>
+    {% for house in houses %}
+    <td>{{ house.signature_book_points }}</td>
+    {% endfor %}
+  </tr>
+  <tr>
+    <td>Candidate Quiz</td>
+    {% for house in houses %}
+    <td>{{ house.candidate_quiz_points }}</td>
+    {% endfor %}
+  </tr>
+  <tr>
+    <td>Social</td>
+    {% for house in houses %}
+    <td>{{ house.social }}</td>
+    {% endfor %}
+  </tr>
+  <tr>
+    <td>Tutoring</td>
+    {% for house in houses %}
+    <td>{{ house.tutoring }}</td>
+    {% endfor %}
+  </tr>
+  <tr>
+    <td>Community Service</td>
+    {% for house in houses %}
+    <td>{{ house.community_service }}</td>
+    {% endfor %}
+  </tr>
+  <tr>
+    <td>Other</td>
+    {% for house in houses %}
+    <td>{{ house.other_points }}</td>
+    {% endfor %}
+  </tr>
+  <tr>
+    <td>Total</td>
+    {% for house in houses %}
+    <td>{{ house.points }}</td>
+    {% endfor %}
+  </tr>
+</table>
+
 {% endblock %}

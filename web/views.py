@@ -80,9 +80,6 @@ def contact(request):
 def eligibility_list(request):
     return render_next(request, 'eligibility_list.html')
 
-def houses(request):
-    return render_next(request, 'houses.html')
-
 def feedback(request):
     if request.method == "POST" and 'comment' in request.POST:
         Feedback(comment=request.POST.get('comment')).save()

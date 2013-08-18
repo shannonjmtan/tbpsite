@@ -7,7 +7,7 @@ from django.core.servers.basehttp import FileWrapper
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
-from main.models import Profile, Term, Candidate, ActiveMember, MAJOR_CHOICES, DAY_CHOICES, HOUR_CHOICES
+from main.models import Profile, Term, Candidate, ActiveMember, House, HousePoints, Settings, MAJOR_CHOICES, DAY_CHOICES, HOUR_CHOICES
 from tbpsite.settings import BASE_DIR
 from tutoring.models import Tutoring, Class
 from web.views import render_next
@@ -277,3 +277,9 @@ def tutoring_hours(request):
         return redirect_next(request)
 
     return render(request, 'tutoring_hours.html', {'tutoring_list': Tutoring.objects.order_by('profile')})
+
+def houses(request):
+    term = Settings.objects.term()
+    house_points = [HousePoints.objects.get_or_create(house=house, term=term)[0] for house in House.objects.all()]
+    return render(request, 'houses.html', {'houses': house_points})
+
