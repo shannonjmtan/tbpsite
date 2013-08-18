@@ -31,6 +31,9 @@ def schedule(request):
     return render_next(request, 'schedule.html', {'term': term, 'classes': classes, 'tutors': tutors})
 
 def preferences(request):
+    if not request.user.is_authenticated():
+        return redirect_next(request)
+
     term = Settings.objects.term()
     tutors = (tutoring.profile for tutoring in Tutoring.objects.filter(term=term))
     return render_next(request, 'preferences.html', {'tutors': tutors})
