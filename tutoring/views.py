@@ -1,6 +1,7 @@
 import re
 
 from main.models import Settings
+from main.views import redirect_next
 from tutoring.models import Tutoring, Class 
 from web.views import render_next
 
