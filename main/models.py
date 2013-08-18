@@ -285,7 +285,8 @@ class Candidate(models.Model):
         return (
                 ('Tutoring', self.tutoring.complete()),
                 ('Bent Polish', self.bent_polish),
-                ('Candidate Quiz', self.candidate_quiz != '0'),
+                ('Candidate Quiz', self.candidate_quiz),
+                ('Signature Book', self.signature_book),
                 ('Community Service', self.community_service_complete()),
                 ('Initiation Fee', self.initiation_fee),
                 ('Engineering Futures', self.engineering_futures),
