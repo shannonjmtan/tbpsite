@@ -210,6 +210,11 @@ class Profile(models.Model):
     def resume(self):
         return self.resume_pdf or self.resume_word
 
+    def dump(self):
+        return ','.join(thing for thing in [self.user.first_name, self.user.last_name, self.user.email, self.nickname, self.gender, 
+            self.birthday.strftime('%x') if self.birthday else '', self.phone_number, self.get_major_display(), 
+            self.initiation_term.__unicode__() if self.initiation_term else '', self.graduation_term.__unicode__() if self.graduation_term else ''])
+
 class Candidate(models.Model):
     profile = models.ForeignKey('Profile', unique=True)
     term = models.ForeignKey('Term')

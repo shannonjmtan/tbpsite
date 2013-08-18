@@ -283,3 +283,12 @@ def houses(request):
     house_points = [HousePoints.objects.get_or_create(house=house, term=term)[0] for house in House.objects.all()]
     return render(request, 'houses.html', {'houses': house_points})
 
+def downloads(request):
+    return render(request, 'downloads.html')
+
+def spreadsheet(request):
+    data = '\n'.join(['First Name,Last Name,Email,Nickname,Gender,Birthday,Phone Number,Major,Initiation Term,Graduation Term'] + 
+            [profile.dump() for profile in Profile.objects.all() if profile.user.id != 1])
+    response = HttpResponse(data, content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename=spreadsheet.csv'
+    return response
