@@ -4,14 +4,14 @@
 
 {% block content %}
 
-<script src="/static/schedule/application-54517505e0a0174cf744e6233ecb2ba5.js" type="text/javascript"></script>
-<script src="/static/schedule/tutor-a971345e76b4ad2f8951bcb4126eea10.js" type="text/javascript"></script><style></style>
+<script src="/static/js/application.js" type="text/javascript"></script>
+<script src="/static/js/tutor.js" type="text/javascript"></script><style></style>
 <h1>TBP {{ term }} Tutoring Schedule</h1>
 <div class="row">
   <div class="col-lg-3">
     <div class="panel-group" id="accordion">
       {% for item in classes %}
-      <div class="panel">
+      <div class="panel panel-default">
         <div class="panel-heading">
           <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#{{ item.2 }}">
             {{ item.0 }}
