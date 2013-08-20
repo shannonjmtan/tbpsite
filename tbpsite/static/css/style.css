@@ -15,6 +15,15 @@ footer {
 }
 
 /* preferences */
+.navbar .nav > li > a, .navbar-inverse .navbar-brand {
+  color: #FFFFFF;
+}
+.navbar-inverse {
+  background-color:rgb(53, 126, 189);
+}
+body {
+  background-color:#FBFBFB;
+}
 textarea {
   width:40%;
 }
