@@ -166,6 +166,7 @@ class HousePoints(models.Model):
 
 class Profile(models.Model):
     user = models.ForeignKey(User, unique=True)
+    middle_name = models.CharField(max_length=30, blank=True)
     nickname = models.CharField(max_length=30, blank=True)
     GENDER_CHOICES = (
             ('M', 'Male'),
@@ -211,7 +212,7 @@ class Profile(models.Model):
         return self.resume_pdf or self.resume_word
 
     def dump(self):
-        return ','.join(thing for thing in [self.user.first_name, self.user.last_name, self.user.email, self.nickname, self.gender, 
+        return ','.join(thing for thing in [self.user.first_name, self.middle_name, self.user.last_name, self.user.email, self.nickname, self.gender, 
             self.birthday.strftime('%x') if self.birthday else '', self.phone_number, self.get_major_display(), 
             self.initiation_term.__unicode__() if self.initiation_term else '', self.graduation_term.__unicode__() if self.graduation_term else ''])
 

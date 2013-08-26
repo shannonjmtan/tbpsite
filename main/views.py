@@ -140,6 +140,7 @@ def edit(request, from_redirect=''):
         if last_name:
             user.last_name = last_name
 
+        profile.middle_name = request.POST.get('middle_name')
         profile.nickname = request.POST.get('nickname')
         profile.gender = request.POST.get('gender')
         birthday = request.POST.get('birthday')
@@ -296,7 +297,7 @@ def spreadsheet(request):
     if not request.user.is_authenticated():
         return redirect_next(request)
 
-    data = '\n'.join(['First Name,Last Name,Email,Nickname,Gender,Birthday,Phone Number,Major,Initiation Term,Graduation Term'] + 
+    data = '\n'.join(['First Name,Middle Name,Last Name,Email,Nickname,Gender,Birthday,Phone Number,Major,Initiation Term,Graduation Term'] + 
             [profile.dump() for profile in Profile.objects.all() if profile.user.id != 1])
     response = HttpResponse(data, content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename=spreadsheet.csv'
