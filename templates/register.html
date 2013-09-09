@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Profile{% endblock %}
+
+{% block content %}
+
+<div class="row">
+  <div class="col-lg-6">
+    <form class="form-horizontal" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <fieldset>  
+        {% if error.incorrect_password %}
+        <div class="form-group has-error">
+          <label class="col-lg-4 control-label" for="inputError">Current Password</label>
+          <div class="col-lg-8">
+            <input type="password" class="form-control" name="current_password">
+            <span class="help-block">Incorrect password</span>
+        {% else %}
+        <div class="form-group">
+          <label class="col-lg-4 control-label">Current Password</label>
+          <div class="col-lg-8">
+            <input type="password" class="form-control" name="current_password">
+        {% endif %}
+          </div>
+        </div>
+
+        {% if error.username_taken %}
+        <div class="form-group has-error">
+          <label class="col-lg-4 control-label" for="username">Username</label>
+          <div class="col-lg-8">
+            <input type="text" class="form-control" name="username" required>
+            <span class="help-block">Username has already been taken</span>
+        {% else %}
+        <div class="form-group">
+          <label class="col-lg-4 control-label">Username</label>
+          <div class="col-lg-8">
+            <input type="text" class="form-control" name="username" required>
+        {% endif %}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-lg-4 control-label">New Password</label>
+          <div class="col-lg-8">
+            <input type="password" class="form-control" name="new_password">
+          </div>
+        </div>
+
+        {% if error.non_matching_password %}
+        <div class="form-group has-error">
+          <label class="col-lg-4 control-label" for="confirm_password">Confirm Password</label>
+          <div class="col-lg-8">
+            <input type="password" class="form-control" name="confirm_password">
+            <span class="help-block">Passwords do not match</span>
+        {% else %}
+        <div class="form-group">
+          <label class="col-lg-4 control-label">Confirm Password</label>
+          <div class="col-lg-8">
+            <input type="password" class="form-control" name="confirm_password">
+        {% endif %}
+          </div>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+</div>
+
+{% endblock %}

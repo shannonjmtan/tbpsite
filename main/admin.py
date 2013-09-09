@@ -126,8 +126,8 @@ class FacultyAdmin(admin.ModelAdmin):
     list_display = ('name', 'dept', 'chapter', 'graduation', 'link')
 
 class SettingsAdmin(admin.ModelAdmin):
-    list_display = ('__unicode__', 'term', 'display_all_terms', 'display_tutoring')
-    list_editable = ('term', 'display_all_terms', 'display_tutoring')
+    list_display = ('__unicode__', 'term', 'display_all_terms', 'display_tutoring', 'registration_password')
+    list_editable = ('term', 'display_all_terms', 'display_tutoring', 'registration_password')
 
 class OfficerAdmin( admin.ModelAdmin ):
     list_display = ( 'position', 'rank', 'list_profiles' )

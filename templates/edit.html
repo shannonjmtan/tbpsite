@@ -153,6 +153,10 @@
       <fieldset>
         <legend>Documents</legend>
         <div class="form-group">
+          {% if error.file_type %}
+          <p class="text-danger">{% for file_type in error.file_type %}{% if not forloop.last %}{{ file_type }}, {% else %}{{ file_type }}{% endif %}{% endfor %} have one of these errors:
+          {% if error.wrong_file_type %}wrong file type{% endif %}{% if error.wrong_file_type and error.file_too_big %}, {% endif %}{% if error.file_too_big %}file is too big{% endif %}.</p>
+          {% endif %}
           <span class="help-inline">Submitting resumes in both formats is highly suggested for more opportunities.</span>
         </div>
         <div class="form-group">

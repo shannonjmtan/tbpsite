@@ -38,6 +38,7 @@ urlpatterns = patterns('',
     url(r'^edit/(?P<from_redirect>\w+?)$', 'main.views.edit'),
     url(r'^edit/$', 'main.views.edit'),
     url(r'^add/$', 'main.views.add'),
+    url(r'^register/$', 'main.views.register'),
 
     url(r'^resume_pdf/$', 'main.views.resume_pdf'),
     url(r'^resume_word/$', 'main.views.resume_word'),

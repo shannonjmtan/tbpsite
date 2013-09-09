@@ -17,14 +17,16 @@ class Error:
         self.incorrect_password = False
         self.username_taken = False
         self.non_matching_password = False
-        self.resume_too_big = False
-        self.wrong_resume_type = False
-        self.interview_too_big = False
-        self.wrong_interview_type = False
+        self.file_too_big = False
+        self.wrong_file_type = False
+        self.file_type = []
+
+    def errors(self):
+        return [self.incorrect_password, self.username_taken, self.non_matching_password, 
+                self.file_too_big, self.wrong_file_type]
 
     def error(self):
-        return any([self.incorrect_password, self.username_taken, self.non_matching_password, self.resume_too_big,
-                self.wrong_resume_type, self.interview_too_big, self.wrong_interview_type])
+        return any(self.errors())
 
 def get_next(request):
     """ Return the next parameter from get.
@@ -42,12 +44,15 @@ def redirect_next(request, query=''):
 
 def validate_file(f, mime_types, error):
     ret = True
+
     if f.size > 2621440: # 2.5 MB
-        error.resume_too_big = True
+        error.file_too_big = True
         ret = False
+
     if f.content_type not in mime_types:
-        error.wrong_resume_type = f.content_type
+        error.wrong_file_type = True
         ret = False
+
     return ret
 
 def write_file(upload, save_path):
@@ -60,6 +65,7 @@ def login(request):
     username = request.POST.get('username', False)
     password = request.POST.get('password', False)
     error = True
+
     if username and password:
         user = auth.authenticate(username=username, password=password)
         if user is not None:
@@ -90,6 +96,32 @@ def profile_view(request):
 
     return render(request, 'profile.html', {'user': user, 'profile': profile, 'details': details})
 
+def register(request):
+    if request.user.is_authenticated():
+        return redirect_next(request)
+
+    error = Error()
+    if request.method == "POST":
+        current_password = request.POST.get('current_password')
+        if current_password != Settings.objects.get_password():
+            error.incorrect_password = True
+
+        username = request.POST.get('username')
+        error.username_taken = User.objects.filter(username=username).count()
+
+        new_password = request.POST.get('new_password')
+        confirm_password = request.POST.get('confirm_password')
+        if new_password != confirm_password:
+            error.non_matching_password = True
+
+        if not error.error():
+            User.objects.create_user(username, password=new_password)
+            user = auth.authenticate(username=username, password=new_password)
+            auth.login(request, user)
+            return redirect(edit, from_redirect='redirect')
+    
+    return render(request, 'register.html', {'error': error})
+
 def edit(request, from_redirect=''):
     if not request.user.is_authenticated():
         return redirect_next(request)
@@ -111,12 +143,7 @@ def edit(request, from_redirect=''):
 
             if not user.check_password(current_password):
                 error.incorrect_password = True
-
-            try:
-                User.objects.get(username=username)
-                error.username_taken = True
-            except ObjectDoesNotExist:
-                pass
+            error.username_taken = User.objects.filter(username=username).count()
 
         new_password = request.POST.get('new_password')
         confirm_password = request.POST.get('confirm_password')
@@ -168,16 +195,22 @@ def edit(request, from_redirect=''):
             resume_pdf = request.FILES['resume_pdf']
             if validate_file(resume_pdf, pdf, error):
                 profile.resume_pdf = write_file(resume_pdf, '{}/resumes_pdf/{}'.format(BASE_DIR, user.id))
+            else:
+                error.file_type.append('Resume (pdf)')
 
         if 'resume_word' in request.FILES:
             resume_word = request.FILES['resume_word']
             if validate_file(resume_word, word, error):
                 profile.resume_word = write_file(resume_word, '{}/resumes_word/{}'.format(BASE_DIR, user.id))
+            else:
+                error.file_type.append('Resume (word)')
 
         if 'professor_interview' in request.FILES:
             professor_interview = request.FILES['professor_interview']
             if validate_file(professor_interview, pdf, error):
                 profile.professor_interview = write_file(professor_interview, '{}/professor_interview/{}'.format(BASE_DIR, user.id))
+            else:
+                error.file_type.append('Professor Interview')
 
         if not error.error():
             user.save()
