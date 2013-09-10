@@ -1,4 +1,5 @@
 import datetime
+import re
 
 from django.contrib import auth
 from django.contrib.auth.models import User
@@ -12,6 +13,8 @@ from tbpsite.settings import BASE_DIR
 from tutoring.models import Tutoring, Class
 from web.views import render_next
 
+DATE_RE = re.compile(r'\d{4}-\d{2}-\d{2}')
+
 class Error:
     def __init__(self):
         self.incorrect_password = False
@@ -20,10 +23,11 @@ class Error:
         self.file_too_big = False
         self.wrong_file_type = False
         self.file_type = []
+        self.bad_birthday = False
 
     def errors(self):
         return [self.incorrect_password, self.username_taken, self.non_matching_password, 
-                self.file_too_big, self.wrong_file_type]
+                self.file_too_big, self.wrong_file_type, self.bad_birthday]
 
     def error(self):
         return any(self.errors())
@@ -172,6 +176,8 @@ def edit(request, from_redirect=''):
         profile.gender = request.POST.get('gender')
         birthday = request.POST.get('birthday')
         if birthday:
+            if not DATE_RE.match(birthday):
+                error.bad_birthday = True
             profile.birthday = birthday
         phone_number = request.POST.get('phone_number')
         if phone_number:
