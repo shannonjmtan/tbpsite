@@ -8,6 +8,7 @@ class Event(models.Model):
             ('1', 'Project'),
             ('2', 'Mentorship'),
             ('3', 'House'),
+            ('4', 'Infosession'),
             )
 
     term = models.ForeignKey('main.Term', default=Settings.objects.term)
