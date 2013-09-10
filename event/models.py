@@ -55,7 +55,7 @@ class Event(models.Model):
 
     def get_time(self):
         if self.display_time:
-            return self.start.strftime("%I:%M%p") + self.end.strftime("-%I:%M%p")
+            return "%s - %s" % (self.start.strftime("%I:%M %p"), self.end.strftime("%I:%M %p"))
         return ''
 
     def get_datetime(self):

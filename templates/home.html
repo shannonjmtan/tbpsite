@@ -59,10 +59,11 @@
     <h4>Announcements</h4>
     <a href="http://bit.ly/TBPtutoring" class="btn btn-large btn-primary">The Tutoring Schedule is Up!</a>
     <h4>Upcoming Events</h4> 
-    {% for event in events %}
+    {% for event in upcomingEvents %}
     <dl><a href="/events/{{ event.url }}">{{ event.name }}</a>
       <dd>{{ event.location }}</dd>
-      <dd>{{ event.datetime }}</dd>
+      <dd>{{ event.get_date }}</dd>
+      <dd>{{ event.get_time }}</dd>
     </dl>
     {% endfor %}
   </div>

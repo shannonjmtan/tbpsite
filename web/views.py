@@ -12,7 +12,9 @@ def render_next(request, template_name, additional=None):
     return render(request, template_name, dictionary)
 
 def home(request):
-    return render_next(request, 'home.html')
+    return render_next(request, 'home.html',
+            { 'upcomingEvents': sorted( Event.objects.filter(dropdown=True), 
+                key=lambda event: event.start ) } )
 
 def requirements(request):
     return render_next(request, 'requirements.html')
