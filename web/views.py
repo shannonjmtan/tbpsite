@@ -1,41 +1,35 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
+from common import render
 from event.models import Event
 from tutoring.models import Feedback
 from main.models import Candidate, Faculty, Officer
 import re
 
-def render_next(request, template_name, additional=None):
-    dictionary = {'user': request.user, 'next': request.path, 
-            'events': Event.objects.filter(dropdown=True)}
-    if additional is not None:
-        dictionary.update(additional)
-    return render(request, template_name, dictionary)
-
 def home(request):
-    return render_next(request, 'home.html',
+    return render(request, 'home.html',
             { 'upcomingEvents': sorted( Event.objects.filter(dropdown=True), 
                 key=lambda event: event.start ) } )
 
 def requirements(request):
-    return render_next(request, 'requirements.html')
+    return render(request, 'requirements.html')
 
 def tutoring(request):
-    return render_next(request, 'tutoring.html')
+    return render(request, 'tutoring.html')
 
 def programs(request):
-    return render_next(request, 'programs.html')
+    return render(request, 'programs.html')
 
 def emcc(request):
-    return render_next(request, 'emcc.html')
+    return render(request, 'emcc.html')
 
 def fe(request):
-    return render_next(request, 'fe.html')
+    return render(request, 'fe.html')
 
 def about(request):
-    return render_next(request, 'about.html')
+    return render(request, 'about.html')
 
 def awards(request):
-    return render_next(request, 'awards.html')
+    return render(request, 'awards.html')
 
 def officers(request):
     positionRe = re.compile( r'Club Liaison (\([^)]*\))' )
@@ -53,7 +47,7 @@ def officers(request):
     positions.append( ( 'Faculty Advisor', [ 'Bill Goodin' ] ) )
     positions.append( ( 'Club Liaison', liaisons ) )
 
-    return render_next(request, 'officers.html', {
+    return render(request, 'officers.html', {
             'term' : 'Summer - Fall 2013',
             'positions' : positions } )
 
@@ -71,16 +65,16 @@ def faculty(request):
             ('Scott Eckersall', 'CA I', "'96 (District 16 Director)", '')
             ]
     facultyByDept = [(dept, facultyByDept[dept]) for dept in sorted(facultyByDept)]
-    return render_next(request, 'faculty.html', {
+    return render(request, 'faculty.html', {
             'faculty' : facultyByDept,
             'facultyAdvisor' : 'Ann R. Karagozian'
         })
 
 def contact(request):
-    return render_next(request, 'contact.html')
+    return render(request, 'contact.html')
 
 def eligibility_list(request):
-    return render_next(request, 'eligibility_list.html')
+    return render(request, 'eligibility_list.html')
 
 def feedback(request):
     if request.method == "POST" and 'comment' in request.POST:

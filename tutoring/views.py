@@ -3,7 +3,7 @@ import re
 from main.models import Settings
 from main.views import redirect_next
 from tutoring.models import Tutoring, Class 
-from web.views import render_next
+from common import render
 
 number = re.compile(r'\d+')
 numbers = ['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen']
@@ -29,7 +29,7 @@ def schedule(request):
                 key=lambda c: tuple(int(s) if s.isdigit() else s for s in re.search(r'(\d+)([ABCD]?L?)?', c.course_number).groups()))], 
             'collapse{}'.format(number)))
             
-    return render_next(request, 'schedule.html', {'term': term, 'classes': classes, 'tutors': tutors})
+    return render(request, 'schedule.html', {'term': term, 'classes': classes, 'tutors': tutors})
 
 def preferences(request):
     if not request.user.is_authenticated():
@@ -37,4 +37,4 @@ def preferences(request):
 
     term = Settings.objects.term()
     tutors = (tutoring.profile for tutoring in Tutoring.objects.filter(term=term))
-    return render_next(request, 'preferences.html', {'tutors': tutors})
+    return render(request, 'preferences.html', {'tutors': tutors})
